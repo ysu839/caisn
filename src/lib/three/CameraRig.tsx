@@ -11,16 +11,19 @@ type Keyframe = { at: number; position: [number, number, number]; fov: number };
 /**
  * Camera choreography for the exploded sequence — subtle, intentional
  * moves keyed to the same `progress` value driving the garment nodes.
- * 0%: normal framing. 40-60%: pushes toward the structure as it
- * separates. 100%: pulls back to read the full decomposition.
+ * The garment nodes fan out along one shared diagonal axis (see
+ * garmentModel's layerOffset); the camera drifts up and to the side
+ * along a roughly parallel arc so that diagonal spread reads as
+ * staggered depth rather than head-on overlap, and never dollies in
+ * tight enough to crop the layers it's meant to be revealing.
  */
 const KEYFRAMES: Keyframe[] = [
   { at: 0, position: [0, 0, 5.5], fov: 32 },
-  { at: 0.2, position: [0.3, 0.1, 4.6], fov: 30 },
-  { at: 0.4, position: [0.6, 0.3, 3.4], fov: 28 },
-  { at: 0.6, position: [0.2, 0.1, 2.6], fov: 26 },
-  { at: 0.8, position: [-0.4, 0.2, 3.6], fov: 30 },
-  { at: 1, position: [0, 0.4, 7], fov: 34 },
+  { at: 0.2, position: [0.35, 0.15, 5.2], fov: 31 },
+  { at: 0.4, position: [0.75, 0.4, 4.8], fov: 30 },
+  { at: 0.6, position: [1.05, 0.6, 4.6], fov: 29 },
+  { at: 0.8, position: [1.0, 0.75, 5.4], fov: 31 },
+  { at: 1, position: [0.55, 0.95, 7.2], fov: 34 },
 ];
 
 function sampleKeyframes(progress: number): { position: THREE.Vector3; fov: number } {
