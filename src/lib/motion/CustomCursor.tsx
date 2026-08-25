@@ -1,7 +1,21 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import gsap from "gsap";
+
+function subscribeNoop() {
+  return () => {};
+}
+
+function useFinePointerAndMotionEnabled() {
+  return useSyncExternalStore(
+    subscribeNoop,
+    () =>
+      window.matchMedia("(pointer: fine)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () => false
+  );
+}
 
 type CursorLabel = "" | "VIEW" | "DRAG" | "EXPLORE" | "ADD";
 
@@ -21,13 +35,7 @@ export function useCursor() {
 export function CustomCursorProvider({ children }: { children: React.ReactNode }) {
   const dotRef = useRef<HTMLDivElement>(null);
   const [label, setLabel] = useState<CursorLabel>("");
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    const fine = window.matchMedia("(pointer: fine)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setEnabled(fine && !reduced);
-  }, []);
+  const enabled = useFinePointerAndMotionEnabled();
 
   useEffect(() => {
     if (!enabled) return;
