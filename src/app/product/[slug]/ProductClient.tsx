@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Product } from "@/lib/commerce/types";
 import { ProductPlate } from "@/components/ProductPlate";
+import { ProductViewer } from "@/components/ProductViewer";
+import { ProductExplodedSection } from "@/components/ProductExplodedSection";
 import { AnimatedPrice } from "@/components/AnimatedPrice";
 import { VariantSelector } from "@/components/VariantSelector";
 import { StockIndicator } from "@/components/StockIndicator";
@@ -27,7 +29,7 @@ export function ProductClient({
 
       {/* HERO */}
       <section className="grid grid-cols-1 gap-10 px-[var(--gutter)] py-10 md:grid-cols-2 md:items-center">
-        <ProductPlate label={product.name} spec={product.spec} index={product.id} />
+        <ProductViewer label={product.name} spec={product.spec} index={product.id} />
         <div>
           <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">
             {product.edition}
@@ -63,6 +65,9 @@ export function ProductClient({
           ))}
         </div>
       </section>
+
+      {/* SCROLL UNBOXING — signature exploded-view sequence */}
+      <ProductExplodedSection spec={product.spec} name={product.name} />
 
       {/* PRODUCT STORY */}
       <section className="mx-auto max-w-2xl px-[var(--gutter)] py-16">
