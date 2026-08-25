@@ -6,11 +6,15 @@ import { HorizontalShowcase } from "@/components/HorizontalShowcase";
 
 export default async function Home() {
   const products = await getProducts();
+  // Featured hero product is the catalog's first entry — reorder or
+  // edit data.ts to change what the homepage leads with; no component
+  // change required.
+  const featured = products[0];
 
   return (
     <main className="relative">
       <Navbar />
-      <HomeHero />
+      <HomeHero product={featured} />
 
       <HorizontalShowcase products={products} />
 

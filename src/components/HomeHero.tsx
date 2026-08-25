@@ -4,8 +4,15 @@ import Link from "next/link";
 import { useMagnetic } from "@/lib/motion/useMagnetic";
 import { useKineticType } from "@/lib/motion/useKineticType";
 import { CursorTarget } from "@/lib/motion/CustomCursor";
+import { Product } from "@/lib/commerce/types";
 
-export function HomeHero() {
+/**
+ * Featured product is passed in from the data layer (the catalog's
+ * first entry — see page.tsx) rather than hard-coded here, so
+ * changing what the homepage leads with is a data edit, not a
+ * component edit.
+ */
+export function HomeHero({ product }: { product?: Product }) {
   const ctaRef = useMagnetic<HTMLAnchorElement>();
   const kineticRef = useKineticType<HTMLHeadingElement>();
 
@@ -29,19 +36,23 @@ export function HomeHero() {
         <p className="mt-6 text-sm tracking-[0.1em] text-[var(--color-fg-soft)]">built, not printed.</p>
       </div>
 
-      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <span className="tnum text-xs text-[var(--color-fg-soft)]">EDITION 04 / 620G RAW WOOL</span>
-        <CursorTarget label="VIEW">
-          <Link
-            ref={ctaRef}
-            href="/product/shell-04"
-            className="whitespace-nowrap rounded-[var(--radius)] border border-[var(--color-fg)] px-6 py-3 text-xs font-medium tracking-[0.15em] transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
-            style={{ transitionDuration: "var(--dur-snap)" }}
-          >
-            VIEW SHELL 04
-          </Link>
-        </CursorTarget>
-      </div>
+      {product && (
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <span className="tnum text-xs text-[var(--color-fg-soft)]">
+            {product.edition} / {product.spec}
+          </span>
+          <CursorTarget label="VIEW">
+            <Link
+              ref={ctaRef}
+              href={`/product/${product.slug}`}
+              className="whitespace-nowrap rounded-[var(--radius)] border border-[var(--color-fg)] px-6 py-3 text-xs font-medium tracking-[0.15em] transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
+              style={{ transitionDuration: "var(--dur-snap)" }}
+            >
+              VIEW {product.name}
+            </Link>
+          </CursorTarget>
+        </div>
+      )}
     </section>
   );
 }

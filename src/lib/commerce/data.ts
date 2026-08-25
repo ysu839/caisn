@@ -1,10 +1,20 @@
 import { Product } from "./types";
 
 /**
+ * Single source of truth for whether inventory numbers below are real.
+ * UI components that display stock (see StockIndicator) must check
+ * this and show a non-live "DATA PENDING" state instead of the
+ * numbers when false — flip this once a real commerce backend is
+ * wired in behind this adapter.
+ */
+export const LIVE_INVENTORY = false;
+
+/**
  * Mock commerce data behind the adapter boundary. Swappable for a
  * Shopify Storefront API-backed implementation without touching UI.
  * Stock numbers here are seed/placeholder data — never presented as
- * live inventory until a real backend is wired in.
+ * live inventory until a real backend is wired in (LIVE_INVENTORY
+ * above gates that in the UI).
  */
 const products: Product[] = [
   {
