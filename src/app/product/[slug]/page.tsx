@@ -28,6 +28,34 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   if (!product) notFound();
 
   const related = (await getProducts()).filter((p) => p.id !== product.id).slice(0, 3);
+  const stock = totalStock(product);
 
-  return <ProductClient product={product} related={related} total={totalStock(product)} />;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.story.join(" "),
+    sku: product.id,
+    material: product.materials.join(", "),
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "EUR",
+      price: product.price,
+      availability:
+        stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+  };
+
+  return (
+    <>
+      {/* Escape "<" so this can never be interpreted as closing the script tag
+          early — this is our own commerce data, not user input, but the habit
+          is cheap and the failure mode (broken page) isn't worth risking. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
+      <ProductClient product={product} related={related} total={stock} />
+    </>
+  );
 }
