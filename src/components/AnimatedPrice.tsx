@@ -25,22 +25,28 @@ export function AnimatedPrice({
       </span>
       <span aria-hidden className="inline-flex">
         <span className="inline-block">{currency}</span>
-        {digits.map((d, i) => (
-          <span key={`${i}-slot`} className="relative inline-block h-[1.2em] w-[0.62em] overflow-hidden">
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={d + i}
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                exit={{ y: "-100%", opacity: 0 }}
-                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0 inline-block"
-              >
-                {d}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-        ))}
+        {digits.map((d, i) => {
+          const isDigit = /[0-9]/.test(d);
+          return (
+            <span
+              key={`${i}-slot`}
+              className={`relative inline-block h-[1.2em] overflow-hidden ${isDigit ? "w-[0.62em]" : "w-[0.28em]"}`}
+            >
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.span
+                  key={d + i}
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  exit={{ y: "-100%", opacity: 0 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0 inline-block"
+                >
+                  {d}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          );
+        })}
       </span>
     </span>
   );

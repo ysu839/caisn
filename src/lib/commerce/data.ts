@@ -18,27 +18,43 @@ export const LIVE_INVENTORY = false;
  */
 const products: Product[] = [
   {
+    // CAISN's first real product — replaces the SHELL 04 mock. Real
+    // facts only below; anything the brand hasn't confirmed yet
+    // (rib composition, real photography, 3D asset, live inventory)
+    // is left pending rather than invented. See git history for the
+    // SHELL 04 placeholder this replaced.
     id: "01",
-    slug: "shell-04",
-    name: "SHELL 04",
-    price: 420,
-    edition: "EDITION 04",
-    spec: "620G RAW WOOL",
+    slug: "echo-zip-hoodie",
+    name: "CAISN ECHO ZIP HOODIE",
+    price: 119.95,
+    edition: "FIRST EDITION",
+    spec: "420G LOOPBACK TERRY",
     story: [
-      "A single bolt of raw wool, cut on the architectural bias to hold its own shape without lining.",
-      "Seams are left exposed on the interior — the construction is the finish.",
-      "Hardware is machined, not stamped: solid brass, cold to the touch, built to outlast the garment.",
+      "ECHO is built around contrast without relying on colour. Its washed graphite shell is interrupted by a darker lower panel, creating a subtle division between fading, texture and structure.",
+      "A raised tonal CAISN appliqué spans the chest and aligns across the two-way zipper. Raw finishing and natural wash variation make every garment slightly different, while the heavyweight cotton construction maintains its boxy silhouette.",
+      "Designed as the first expression of CAISN's visual language: bold from a distance, detailed up close.",
     ],
-    materials: ["620g raw wool", "brass hardware", "unlined shell", "raw-edge seams"],
-    media: [
-      { type: "image", url: "plate:shell", alt: "SHELL 04 studio plate" },
-      { type: "image", url: "plate:seam", alt: "Seam construction detail" },
+    materials: [
+      "100% cotton loopback french terry",
+      "420gsm heavyweight construction",
+      "antique-silver two-way zipper",
+      "rib trim — composition pending factory confirmation",
     ],
+    // Front/back photography not yet uploaded to the repo — keep the
+    // placeholder plate until real files arrive (see ProductPlate).
+    // "plate:echo" is a sentinel only; see the note on ProductMedia
+    // in types.ts before assuming this drives any rendering.
+    media: [{ type: "image", url: "plate:echo", alt: "CAISN ECHO ZIP HOODIE — pending real photography" }],
+    // Launch run: limited initial run of 50 pieces, not individually
+    // numbered; restock depends on demand. Real per-size stock is
+    // unconfirmed (LIVE_INVENTORY gates display) — the numbers below
+    // are inert placeholders, not a claim.
     variants: [
-      { color: "Ink", colorHex: "#0a0a0a", size: "S", stock: 4 },
-      { color: "Ink", colorHex: "#0a0a0a", size: "M", stock: 9 },
-      { color: "Ink", colorHex: "#0a0a0a", size: "L", stock: 3 },
-      { color: "Raw", colorHex: "#b5651d", size: "M", stock: 12 },
+      { color: "Washed Graphite", colorHex: "#3f3f40", size: "XS", stock: 1 },
+      { color: "Washed Graphite", colorHex: "#3f3f40", size: "S", stock: 1 },
+      { color: "Washed Graphite", colorHex: "#3f3f40", size: "M", stock: 1 },
+      { color: "Washed Graphite", colorHex: "#3f3f40", size: "L", stock: 1 },
+      { color: "Washed Graphite", colorHex: "#3f3f40", size: "XL", stock: 1 },
     ],
     model3dUrl: undefined,
   },
