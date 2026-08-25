@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Product } from "@/lib/commerce/types";
 import { ProductPlate } from "@/components/ProductPlate";
@@ -18,8 +19,19 @@ const spanClasses: Record<Span, string> = {
 export function BentoGrid({ products }: { products: Product[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const active = products.find((p) => p.id === activeId) ?? null;
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const spans: Span[] = ["lg", "md", "sm", "sm"];
+
+  useEffect(() => {
+    if (!active) return;
+    closeRef.current?.focus();
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveId(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [active]);
 
   return (
     <div className="relative">
@@ -29,6 +41,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
             key={p.id}
             layoutId={`bento-${p.id}`}
             onClick={() => setActiveId(p.id)}
+            aria-label={`View ${p.name}`}
             className={`group relative overflow-hidden border border-[var(--color-line)] text-left ${spanClasses[spans[i % spans.length]]}`}
           >
             <CursorTarget label="VIEW" className="h-full w-full">
@@ -52,15 +65,20 @@ export function BentoGrid({ products }: { products: Product[] }) {
       <AnimatePresence>
         {active && (
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="bento-overlay-heading"
             className="fixed inset-0 z-50 bg-[var(--color-bg)]"
             layoutId={`bento-${active.id}`}
           >
             <motion.button
+              ref={closeRef}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { delay: 0.3 } }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveId(null)}
-              className="absolute right-6 top-6 z-10 text-xs tracking-[0.15em]"
+              aria-label="Close"
+              className="absolute right-4 top-4 z-10 p-3 text-xs tracking-[0.15em]"
             >
               CLOSE
             </motion.button>
@@ -76,16 +94,18 @@ export function BentoGrid({ products }: { products: Product[] }) {
                 <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">
                   {active.edition}
                 </span>
-                <h3 className="font-display mt-2 text-4xl font-semibold">{active.name}</h3>
+                <h3 id="bento-overlay-heading" className="font-display mt-2 text-4xl font-semibold">
+                  {active.name}
+                </h3>
                 <p className="mt-4 text-sm text-[var(--color-fg-soft)]">{active.story[0]}</p>
                 <div className="mt-6 flex items-center gap-4">
                   <AnimatedPrice value={active.price} className="font-display text-2xl" />
-                  <a
+                  <Link
                     href={`/product/${active.slug}`}
                     className="border border-[var(--color-fg)] px-5 py-2.5 text-xs tracking-[0.15em] transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
                   >
                     VIEW PRODUCT
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>

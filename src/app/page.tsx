@@ -15,12 +15,16 @@ export default async function Home() {
       <HorizontalShowcase products={products} />
 
       <section id="collection" className="px-[var(--gutter)] py-16">
-        <p className="mb-6 text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">03 / 06 — INDEX</p>
+        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
+          03 / 06 — INDEX
+        </h2>
         <BentoGrid products={products} />
       </section>
 
       <section id="about" className="px-[var(--gutter)] py-24 text-center">
-        <p className="mb-6 text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">04 / 06 — STATEMENT</p>
+        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
+          04 / 06 — STATEMENT
+        </h2>
         <p className="font-display mx-auto max-w-2xl text-3xl font-medium leading-tight md:text-4xl">
           Every seam is a decision. We show you all of them.
         </p>

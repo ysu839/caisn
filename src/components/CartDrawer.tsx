@@ -1,11 +1,23 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "@/lib/cart/CartContext";
 import { AnimatedPrice } from "@/components/AnimatedPrice";
 
 export function CartDrawer() {
   const { isOpen, close, lines, total } = useCart();
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    closeRef.current?.focus();
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isOpen, close]);
 
   return (
     <AnimatePresence>
@@ -16,9 +28,13 @@ export function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={close}
+            aria-hidden
             className="fixed inset-0 z-40 bg-black/40"
           />
           <motion.aside
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cart-drawer-heading"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -26,8 +42,15 @@ export function CartDrawer() {
             className="fixed right-0 top-0 z-50 flex h-full w-full max-w-sm flex-col border-l border-[var(--color-line)] bg-[var(--color-bg)] p-6"
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-xs tracking-[0.15em]">CART ({lines.length})</h2>
-              <button onClick={close} className="text-xs tracking-[0.15em]">
+              <h2 id="cart-drawer-heading" className="text-xs tracking-[0.15em]">
+                CART ({lines.length})
+              </h2>
+              <button
+                ref={closeRef}
+                onClick={close}
+                className="-m-2.5 p-2.5 text-xs tracking-[0.15em]"
+                aria-label="Close cart"
+              >
                 CLOSE
               </button>
             </div>

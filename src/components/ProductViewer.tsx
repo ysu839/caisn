@@ -70,6 +70,7 @@ export function ProductViewer({
           {visible && capable !== null && (
             <Suspense fallback={<Loading />}>
               <Canvas
+                frameloop="demand"
                 dpr={[1, 1.75]}
                 camera={{ position: [0, 0, 5.5], fov: 32 }}
                 gl={{ antialias: true, alpha: true }}

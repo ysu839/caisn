@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductBySlug, getProducts, totalStock } from "@/lib/commerce/data";
 import { ProductClient } from "./ProductClient";
@@ -5,6 +6,20 @@ import { ProductClient } from "./ProductClient";
 export async function generateStaticParams() {
   const products = await getProducts();
   return products.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+  if (!product) return { title: "CAISN" };
+  return {
+    title: `${product.name} — CAISN`,
+    description: `${product.edition} / ${product.spec}. €${product.price}.`,
+  };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {

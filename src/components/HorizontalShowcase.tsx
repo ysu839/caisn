@@ -66,7 +66,7 @@ export function HorizontalShowcase({ products }: { products: Product[] }) {
   return (
     <section ref={containerRef} className="relative overflow-hidden md:h-svh">
       <div className="flex items-center justify-between px-[var(--gutter)] pt-10 md:absolute md:inset-x-0 md:top-10 md:z-10 md:pt-0">
-        <span className="text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">02 / 06 — THE LINEUP</span>
+        <h2 className="text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">02 / 06 — THE LINEUP</h2>
         <span className="hidden text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)] md:inline">
           SCROLL TO ADVANCE
         </span>

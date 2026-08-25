@@ -24,13 +24,13 @@ export function HomeHero() {
         <p className="mt-6 text-sm tracking-[0.1em] text-[var(--color-fg-soft)]">built, not printed.</p>
       </div>
 
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between">
         <span className="tnum text-xs text-[var(--color-fg-soft)]">EDITION 04 / 620G RAW WOOL</span>
         <CursorTarget label="VIEW">
           <Link
             ref={ctaRef}
             href="/product/shell-04"
-            className="rounded-[var(--radius)] border border-[var(--color-fg)] px-6 py-3 text-xs font-medium tracking-[0.15em] transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
+            className="whitespace-nowrap rounded-[var(--radius)] border border-[var(--color-fg)] px-6 py-3 text-xs font-medium tracking-[0.15em] transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
             style={{ transitionDuration: "var(--dur-snap)" }}
           >
             VIEW SHELL 04

@@ -49,8 +49,10 @@ function sampleKeyframes(progress: number): { position: THREE.Vector3; fov: numb
   };
 }
 
+const SETTLE_EPSILON = 0.002;
+
 export function CameraRig({ progress }: { progress: number }) {
-  const { camera } = useThree();
+  const { camera, invalidate } = useThree();
   const target = useRef(new THREE.Vector3());
   const targetFov = useRef(32);
 
@@ -59,11 +61,23 @@ export function CameraRig({ progress }: { progress: number }) {
     target.current.copy(sample.position);
     targetFov.current = sample.fov;
 
+    const positionDelta = camera.position.distanceTo(target.current);
+    const fovDelta =
+      camera instanceof THREE.PerspectiveCamera ? Math.abs(targetFov.current - camera.fov) : 0;
+
     camera.position.lerp(target.current, 0.08);
     camera.lookAt(0, 0, 0);
     if (camera instanceof THREE.PerspectiveCamera) {
       camera.fov += (targetFov.current - camera.fov) * 0.08;
       camera.updateProjectionMatrix();
+    }
+
+    // frameloop="demand" only renders on invalidation. Scroll-driven
+    // progress changes already trigger one via the prop update; this
+    // keeps the ease-out settling smooth for the few frames after
+    // scrolling stops, then goes idle again instead of rendering forever.
+    if (positionDelta > SETTLE_EPSILON || fovDelta > 0.02) {
+      invalidate();
     }
   });
 

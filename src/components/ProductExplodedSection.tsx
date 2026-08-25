@@ -118,6 +118,7 @@ export function ProductExplodedSection({ spec, name }: { spec: string; name: str
           {visible && capable !== null && (
             <Suspense fallback={null}>
               <Canvas
+                frameloop="demand"
                 dpr={lowPower ? [1, 1.25] : [1, 1.75]}
                 camera={{ position: [0, 0, 5.5], fov: 32 }}
                 gl={{ antialias: true, alpha: true }}

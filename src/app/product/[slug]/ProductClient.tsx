@@ -2,15 +2,32 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Product } from "@/lib/commerce/types";
 import { ProductPlate } from "@/components/ProductPlate";
-import { ProductViewer } from "@/components/ProductViewer";
-import { ProductExplodedSection } from "@/components/ProductExplodedSection";
 import { AnimatedPrice } from "@/components/AnimatedPrice";
 import { VariantSelector } from "@/components/VariantSelector";
 import { StockIndicator } from "@/components/StockIndicator";
 import { AddToCart } from "@/components/AddToCart";
 import { Navbar } from "@/components/Navbar";
+import { StickyAddToCart } from "@/components/StickyAddToCart";
+
+// Code-split the 3D layer (three.js + r3f + gsap) out of the initial PDP
+// bundle so price/variant/cart interactivity doesn't wait on it — commerce
+// stays fast even before the experimental layer has finished loading.
+const ProductViewer = dynamic(() => import("@/components/ProductViewer").then((m) => m.ProductViewer), {
+  ssr: false,
+  loading: () => (
+    <div className="flex aspect-[4/5] w-full items-center justify-center border border-[var(--color-line)]">
+      <span className="tnum text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">LOADING PLATE…</span>
+    </div>
+  ),
+});
+
+const ProductExplodedSection = dynamic(
+  () => import("@/components/ProductExplodedSection").then((m) => m.ProductExplodedSection),
+  { ssr: false }
+);
 
 export function ProductClient({
   product,
@@ -47,7 +64,7 @@ export function ProductClient({
             <StockIndicator stock={variant.stock} total={total} />
           </div>
 
-          <div className="mt-6 max-w-xs">
+          <div id="primary-add-to-cart" className="mt-6 max-w-xs">
             <AddToCart product={product} variant={variant} />
           </div>
         </div>
@@ -55,7 +72,7 @@ export function ProductClient({
 
       {/* PRODUCT BENTO — material / fit / construction */}
       <section className="px-[var(--gutter)] py-16">
-        <p className="mb-6 text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">CONSTRUCTION</p>
+        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">CONSTRUCTION</h2>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {product.materials.map((m, i) => (
             <div key={i} className="border border-[var(--color-line)] p-4">
@@ -71,7 +88,7 @@ export function ProductClient({
 
       {/* PRODUCT STORY */}
       <section className="mx-auto max-w-2xl px-[var(--gutter)] py-16">
-        <p className="mb-6 text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">STORY</p>
+        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">STORY</h2>
         <div className="space-y-6">
           {product.story.map((p, i) => (
             <p key={i} className="text-lg leading-relaxed text-[var(--color-fg-soft)]">
@@ -83,7 +100,7 @@ export function ProductClient({
 
       {/* RELATED */}
       <section className="px-[var(--gutter)] py-16">
-        <p className="mb-6 text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">RELATED</p>
+        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">RELATED</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {related.map((p) => (
             <Link key={p.id} href={`/product/${p.slug}`}>
@@ -92,6 +109,8 @@ export function ProductClient({
           ))}
         </div>
       </section>
+
+      <StickyAddToCart product={product} variant={variant} />
     </main>
   );
 }
