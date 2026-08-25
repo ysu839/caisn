@@ -79,11 +79,16 @@ export function CartDrawer() {
               </div>
               <button
                 disabled={lines.length === 0}
+                title="Prototype — checkout is not yet connected to a payment provider"
+                onClick={() => alert("CAISN is still in prototype — checkout isn't connected yet.")}
                 className="w-full border border-[var(--color-fg)] py-3.5 text-xs tracking-[0.15em] transition-colors disabled:opacity-30 hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
                 style={{ transitionDuration: "var(--dur-snap)" }}
               >
                 CHECKOUT
               </button>
+              <p className="text-center text-[10px] tracking-[0.1em] text-[var(--color-fg-soft)]">
+                PROTOTYPE — CHECKOUT NOT YET LIVE
+              </p>
             </div>
           </motion.aside>
         </>

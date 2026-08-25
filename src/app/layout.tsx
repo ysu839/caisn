@@ -6,10 +6,12 @@ import { CartProvider } from "@/lib/cart/CartContext";
 import { CartDrawer } from "@/components/CartDrawer";
 import "./globals.css";
 
+// No fixed `weight` array — this loads Archivo's actual variable font file
+// (wght axis) rather than a set of static instances, so `font-variation-
+// settings: 'wght' N` can be animated at runtime (needed for kinetic type).
 const archivo = Archivo({
   variable: "--font-archivo",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 const inter = Inter({

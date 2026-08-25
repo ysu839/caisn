@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useMagnetic } from "@/lib/motion/useMagnetic";
+import { useKineticType } from "@/lib/motion/useKineticType";
 import { CursorTarget } from "@/lib/motion/CustomCursor";
 
 export function HomeHero() {
   const ctaRef = useMagnetic<HTMLAnchorElement>();
+  const kineticRef = useKineticType<HTMLHeadingElement>();
 
   return (
     <section className="relative flex min-h-[85svh] flex-col justify-between overflow-hidden px-[var(--gutter)] pb-8">
@@ -17,7 +19,10 @@ export function HomeHero() {
 
       <div className="flex flex-1 flex-col items-center justify-center text-center">
         <CursorTarget label="EXPLORE">
-          <h1 className="font-display select-none text-[18vw] font-semibold leading-[0.82] tracking-tight md:text-[11vw]">
+          <h1
+            ref={kineticRef}
+            className="font-display select-none text-[18vw] font-semibold leading-[0.82] tracking-tight md:text-[11vw]"
+          >
             CAISN
           </h1>
         </CursorTarget>
