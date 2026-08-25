@@ -39,6 +39,12 @@ export function ProductClient({
   total: number;
 }) {
   const [variant, setVariant] = useState(product.variants[0]);
+  // Real photography beats the procedural 3D placeholder in the hero —
+  // that placeholder stands in for a real *3D asset* that doesn't exist
+  // yet, not for real photography that already does. Once a product
+  // has a real model3dUrl, this should prefer the interactive viewer
+  // again; no product has one yet, so that case isn't handled here.
+  const hasRealMedia = product.media.some((m) => m.type === "image" && !m.url.startsWith("plate:"));
 
   return (
     <main>
@@ -46,7 +52,11 @@ export function ProductClient({
 
       {/* HERO */}
       <section className="grid grid-cols-1 gap-10 px-[var(--gutter)] py-10 md:grid-cols-2 md:items-center">
-        <ProductViewer label={product.name} spec={product.spec} index={product.id} />
+        {hasRealMedia ? (
+          <ProductVisual product={product} priority />
+        ) : (
+          <ProductViewer label={product.name} spec={product.spec} index={product.id} />
+        )}
         <div>
           <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">
             {product.edition}
