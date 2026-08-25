@@ -40,11 +40,12 @@ const products: Product[] = [
       "antique-silver two-way zipper",
       "rib trim — composition pending factory confirmation",
     ],
-    // Front/back photography not yet uploaded to the repo — keep the
-    // placeholder plate until real files arrive (see ProductPlate).
-    // "plate:echo" is a sentinel only; see the note on ProductMedia
-    // in types.ts before assuming this drives any rendering.
-    media: [{ type: "image", url: "plate:echo", alt: "CAISN ECHO ZIP HOODIE — pending real photography" }],
+    // Real studio photography — rendered via ProductVisual wherever a
+    // flat product image is shown. See public/products/echo/.
+    media: [
+      { type: "image", url: "/products/echo/front.png", alt: "CAISN ECHO ZIP HOODIE — front" },
+      { type: "image", url: "/products/echo/back.png", alt: "CAISN ECHO ZIP HOODIE — back" },
+    ],
     // Launch run: limited initial run of 50 pieces, not individually
     // numbered; restock depends on demand. Real per-size stock is
     // unconfirmed (LIVE_INVENTORY gates display) — the numbers below

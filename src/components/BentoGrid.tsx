@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Product } from "@/lib/commerce/types";
-import { ProductPlate } from "@/components/ProductPlate";
+import { ProductVisual } from "@/components/ProductVisual";
 import { CursorTarget } from "@/lib/motion/CustomCursor";
 import { AnimatedPrice } from "@/components/AnimatedPrice";
 
@@ -89,7 +89,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
               className="mx-auto flex h-full max-w-5xl flex-col items-center justify-center gap-8 px-[var(--gutter)] md:flex-row"
             >
-              <ProductPlate label={active.name} spec={active.spec} index={active.id} className="max-w-sm" />
+              <ProductVisual product={active} className="max-w-sm" />
               <div className="max-w-sm">
                 <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">
                   {active.edition}

@@ -5,7 +5,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Product } from "@/lib/commerce/types";
-import { ProductPlate } from "@/components/ProductPlate";
+import { ProductVisual } from "@/components/ProductVisual";
 import { CursorTarget } from "@/lib/motion/CustomCursor";
 
 if (typeof window !== "undefined") {
@@ -87,7 +87,7 @@ export function HorizontalShowcase({ products }: { products: Product[] }) {
           >
             <CursorTarget label="VIEW">
               <div>
-                <ProductPlate label={p.name} spec={p.spec} index={p.id} />
+                <ProductVisual product={p} />
                 <div className="mt-3 flex items-center justify-between text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">
                   <span className="tnum">
                     {String(i + 1).padStart(2, "0")} / {String(products.length).padStart(2, "0")}

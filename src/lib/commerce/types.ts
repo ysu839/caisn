@@ -23,13 +23,15 @@ export type Product = {
   story: string[];
   materials: string[];
   /**
-   * NOT YET WIRED TO ANY RENDERER. Reserved for a future product
-   * gallery component; the "plate:*" URLs in the mock data are
-   * placeholder sentinels, not resolvable asset paths. The actual
-   * swap points in use today are ProductPlate's `label`/`spec`/
-   * `index` props (art-directed placeholder graphic) and
-   * `model3dUrl` below (real 3D asset). Don't assume setting this
-   * field changes what's displayed until a gallery consumer exists.
+   * Consumed by ProductVisual (components/ProductVisual.tsx), used
+   * anywhere a flat product image is shown (shop grid, horizontal
+   * showcase, related products, bento fullscreen). A "plate:*" URL
+   * is a placeholder sentinel — ProductVisual falls back to the
+   * art-directed ProductPlate graphic for those. Any other `type:
+   * "image"` entry is treated as a real, resolvable path under
+   * /public and rendered directly (see ECHO for the first real
+   * example). The interactive 3D viewer/hero is separate — that
+   * reads `model3dUrl` below, not this field.
    */
   media: ProductMedia[];
   variants: Variant[];

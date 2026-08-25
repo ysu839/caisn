@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
-import { ProductPlate } from "@/components/ProductPlate";
+import { ProductVisual } from "@/components/ProductVisual";
 import { AnimatedPrice } from "@/components/AnimatedPrice";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default async function ShopPage() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           {products.map((p) => (
             <Link key={p.id} href={`/product/${p.slug}`} className="group">
-              <ProductPlate label={p.name} spec={p.spec} index={p.id} />
+              <ProductVisual product={p} />
               <div className="mt-3 flex items-center justify-between">
                 <span className="font-display text-sm font-medium">{p.name}</span>
                 <AnimatedPrice value={p.price} className="text-sm" />

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Product } from "@/lib/commerce/types";
-import { ProductPlate } from "@/components/ProductPlate";
+import { ProductVisual } from "@/components/ProductVisual";
 import { AnimatedPrice } from "@/components/AnimatedPrice";
 import { VariantSelector } from "@/components/VariantSelector";
 import { StockIndicator } from "@/components/StockIndicator";
@@ -104,7 +104,7 @@ export function ProductClient({
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {related.map((p) => (
             <Link key={p.id} href={`/product/${p.slug}`}>
-              <ProductPlate label={p.name} spec={p.spec} index={p.id} />
+              <ProductVisual product={p} />
             </Link>
           ))}
         </div>
