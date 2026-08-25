@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* ============================================================
+   CAISN DESIGN TOKENS
+   Structural fashion — garment as architecture.
+   ============================================================ */
+
+:root {
+  /* Color */
+  --ink: #0a0a0a;
+  --paper: #f6f5f2;
+  --accent: #b5651d;
+  --line: #d8d6d0;
+  --ink-soft: #4a4a46;
+
+  /* Color roles (light default) */
+  --color-bg: var(--paper);
+  --color-fg: var(--ink);
+  --color-fg-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+
+  /* Type */
+  --font-display: var(--font-archivo);
+  --font-body: var(--font-inter);
+
+  /* Spacing / structure */
+  --rail-width: 3.5rem;
+  --gutter: clamp(1rem, 3vw, 2.5rem);
+  --radius: 2px;
+
+  /* Motion */
+  --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-drift: cubic-bezier(0.16, 0.9, 0.2, 1.02);
+  --dur-snap: 200ms;
+  --dur-drift: 1100ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #111110;
+    --color-fg: #ede9e6;
+    --color-fg-soft: #a19d97;
+    --color-line: #2a2a28;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #111110;
+  --color-fg: #ede9e6;
+  --color-fg-soft: #a19d97;
+  --color-line: #2a2a28;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-fg: var(--color-fg);
+  --color-fg-soft: var(--color-fg-soft);
+  --color-line: var(--color-line);
+  --color-accent: var(--color-accent);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+body {
+  font-family: var(--font-body);
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* tabular numerals utility for price / stock / index */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* hairline seam-line divider */
+.seam {
+  border-color: var(--color-line);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--paper);
+}
+
+/* custom cursor: hide native cursor only where supported (fine pointer) */
+@media (pointer: fine) {
+  .cursor-none-fine {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
