@@ -2,6 +2,7 @@ import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
 import { BentoGrid } from "@/components/BentoGrid";
 import { HomeHero } from "@/components/HomeHero";
+import { HorizontalShowcase } from "@/components/HorizontalShowcase";
 
 export default async function Home() {
   const products = await getProducts();
@@ -11,12 +12,15 @@ export default async function Home() {
       <Navbar />
       <HomeHero />
 
+      <HorizontalShowcase products={products} />
+
       <section id="collection" className="px-[var(--gutter)] py-16">
-        <p className="mb-6 text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">05 / 06 — INDEX</p>
+        <p className="mb-6 text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">03 / 06 — INDEX</p>
         <BentoGrid products={products} />
       </section>
 
       <section id="about" className="px-[var(--gutter)] py-24 text-center">
+        <p className="mb-6 text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">04 / 06 — STATEMENT</p>
         <p className="font-display mx-auto max-w-2xl text-3xl font-medium leading-tight md:text-4xl">
           Every seam is a decision. We show you all of them.
         </p>
