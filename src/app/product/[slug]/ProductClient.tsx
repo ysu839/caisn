@@ -5,6 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Product } from "@/lib/commerce/types";
 import { ProductVisual } from "@/components/ProductVisual";
+import { ProductGallery } from "@/components/ProductGallery";
 import { AnimatedPrice } from "@/components/AnimatedPrice";
 import { VariantSelector } from "@/components/VariantSelector";
 import { StockIndicator } from "@/components/StockIndicator";
@@ -53,7 +54,7 @@ export function ProductClient({
       {/* HERO */}
       <section className="grid grid-cols-1 gap-10 px-[var(--gutter)] py-10 md:grid-cols-2 md:items-center">
         {hasRealMedia ? (
-          <ProductVisual product={product} priority />
+          <ProductGallery product={product} />
         ) : (
           <ProductViewer label={product.name} spec={product.spec} index={product.id} />
         )}

@@ -1,0 +1,79 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { Product } from "@/lib/commerce/types";
+import { ProductVisual } from "@/components/ProductVisual";
+
+/**
+ * PDP hero image. With one real photo it behaves exactly like
+ * ProductVisual (no thumbnails). With more than one, a thumbnail
+ * strip lets the shopper switch the main image — reuses assets
+ * already in product.media rather than any new asset type. Caption
+ * per thumbnail is derived from its alt text (the part after the
+ * em-dash, e.g. "front"/"back"), so this works for any future
+ * product's angle set without hardcoding labels.
+ */
+export function ProductGallery({ product }: { product: Product }) {
+  const images = product.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"));
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  if (images.length === 0) {
+    return <ProductVisual product={product} />;
+  }
+
+  if (images.length === 1) {
+    return <ProductVisual product={product} priority />;
+  }
+
+  const active = images[activeIndex];
+  const captionFor = (alt: string) => (alt.includes("—") ? alt.split("—").pop()?.trim().toUpperCase() : null);
+
+  return (
+    <div>
+      <div className="relative aspect-[4/5] w-full overflow-hidden border border-[var(--color-line)] bg-[var(--color-bg)]">
+        <Image
+          key={active.url}
+          src={active.url}
+          alt={active.alt}
+          fill
+          priority
+          sizes="(min-width: 768px) 45vw, 90vw"
+          className="object-contain p-4"
+        />
+      </div>
+      <div className="mt-3 flex gap-2">
+        {images.map((img, i) => (
+          <button
+            key={img.url}
+            onClick={() => setActiveIndex(i)}
+            aria-label={img.alt}
+            aria-current={i === activeIndex}
+            className="group flex flex-col items-center gap-1.5"
+          >
+            <span
+              className="relative block h-16 w-14 overflow-hidden border bg-[var(--color-bg)] transition-colors"
+              style={{
+                borderColor: i === activeIndex ? "var(--color-fg)" : "var(--color-line)",
+                transitionDuration: "var(--dur-snap)",
+              }}
+            >
+              <Image src={img.url} alt="" aria-hidden fill sizes="56px" className="object-contain p-1" />
+            </span>
+            {captionFor(img.alt) && (
+              <span
+                className="text-[9px] tracking-[0.1em] transition-colors"
+                style={{
+                  color: i === activeIndex ? "var(--color-fg)" : "var(--color-fg-soft)",
+                  transitionDuration: "var(--dur-snap)",
+                }}
+              >
+                {captionFor(img.alt)}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
