@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Product } from "@/lib/commerce/types";
 import { ProductVisual } from "@/components/ProductVisual";
@@ -15,6 +16,56 @@ const spanClasses: Record<Span, string> = {
   md: "col-span-1 row-span-2 md:col-span-2 md:row-span-1",
   lg: "col-span-1 row-span-2 md:col-span-2 md:row-span-2",
 };
+
+function BentoCardBody({ product }: { product: Product }) {
+  const image = product.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
+
+  if (!image) {
+    // No real photography yet — the existing pure spec-sheet treatment,
+    // unchanged for the three placeholder products.
+    return (
+      <div className="flex h-full flex-col justify-between p-4">
+        <div className="flex justify-between text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">
+          <span className="tnum">{product.id}</span>
+          <span>{product.edition}</span>
+        </div>
+        <div>
+          <p className="font-display text-xl font-semibold leading-none transition-transform duration-200 group-hover:-translate-y-0.5">
+            {product.name}
+          </p>
+          <p className="tnum mt-1 text-xs text-[var(--color-fg-soft)]">{product.spec}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Real photography leads — the product itself carries the visual
+  // weight instead of a text-only spec card, same reasoning as
+  // ProductVisual elsewhere.
+  return (
+    <div className="flex h-full flex-col p-4">
+      <div className="flex justify-between text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">
+        <span className="tnum">{product.id}</span>
+        <span>{product.edition}</span>
+      </div>
+      <div className="relative my-2 min-h-0 flex-1">
+        <Image
+          src={image.url}
+          alt=""
+          aria-hidden
+          fill
+          sizes="(min-width: 768px) 320px, 45vw"
+          className="object-contain transition-transform duration-200 group-hover:scale-[1.03]"
+          style={{ transitionDuration: "var(--dur-drift)" }}
+        />
+      </div>
+      <div>
+        <p className="font-display text-xl font-semibold leading-none">{product.name}</p>
+        <p className="tnum mt-1 text-xs text-[var(--color-fg-soft)]">{product.spec}</p>
+      </div>
+    </div>
+  );
+}
 
 export function BentoGrid({ products }: { products: Product[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -35,7 +86,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
 
   return (
     <div className="relative">
-      <div className="grid auto-rows-[220px] grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid auto-rows-[240px] grid-cols-2 gap-4 md:grid-cols-4">
         {products.map((p, i) => (
           <motion.button
             key={p.id}
@@ -45,18 +96,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
             className={`group relative overflow-hidden border border-[var(--color-line)] text-left ${spanClasses[spans[i % spans.length]]}`}
           >
             <CursorTarget label="VIEW" className="h-full w-full">
-              <div className="flex h-full flex-col justify-between p-4">
-                <div className="flex justify-between text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">
-                  <span className="tnum">{p.id}</span>
-                  <span>{p.edition}</span>
-                </div>
-                <div>
-                  <p className="font-display text-xl font-semibold leading-none transition-transform duration-200 group-hover:-translate-y-0.5">
-                    {p.name}
-                  </p>
-                  <p className="tnum mt-1 text-xs text-[var(--color-fg-soft)]">{p.spec}</p>
-                </div>
-              </div>
+              <BentoCardBody product={p} />
             </CursorTarget>
           </motion.button>
         ))}
