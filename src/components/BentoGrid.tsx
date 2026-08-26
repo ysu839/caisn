@@ -55,8 +55,8 @@ function BentoCardBody({ product }: { product: Product }) {
           aria-hidden
           fill
           sizes="(min-width: 768px) 320px, 45vw"
-          className="object-contain transition-transform duration-200 group-hover:scale-[1.03]"
-          style={{ transitionDuration: "var(--dur-drift)" }}
+          className="object-contain transition-transform group-hover:scale-[1.03]"
+          style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
         />
       </div>
       <div>
