@@ -120,3 +120,15 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
 export function totalStock(p: Product): number {
   return p.variants.reduce((sum, v) => sum + v.stock, 0);
 }
+
+/**
+ * True once a product has at least one real, resolvable image (not a
+ * "plate:*" sentinel). Single source of truth for "this product has
+ * real photography" — used to prefer real media over the procedural
+ * 3D placeholder system (viewer hero, and the exploded/unboxing
+ * sequence, whose construction labels are generic and would misstate
+ * a real product's actual materials/hardware).
+ */
+export function hasRealMedia(p: Product): boolean {
+  return p.media.some((m) => m.type === "image" && !m.url.startsWith("plate:"));
+}

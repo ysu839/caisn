@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Product } from "@/lib/commerce/types";
+import { hasRealMedia } from "@/lib/commerce/data";
 import { ProductVisual } from "@/components/ProductVisual";
 import { ProductGallery } from "@/components/ProductGallery";
 import { AnimatedPrice } from "@/components/AnimatedPrice";
@@ -40,12 +41,13 @@ export function ProductClient({
   total: number;
 }) {
   const [variant, setVariant] = useState(product.variants[0]);
-  // Real photography beats the procedural 3D placeholder in the hero —
-  // that placeholder stands in for a real *3D asset* that doesn't exist
-  // yet, not for real photography that already does. Once a product
-  // has a real model3dUrl, this should prefer the interactive viewer
-  // again; no product has one yet, so that case isn't handled here.
-  const hasRealMedia = product.media.some((m) => m.type === "image" && !m.url.startsWith("plate:"));
+  // Real photography beats the procedural 3D placeholder system — it
+  // stands in for a real *3D asset*/construction breakdown that
+  // doesn't exist yet, not for real photography that already does.
+  // Once a product has a real model3dUrl this should prefer the
+  // interactive systems again; no product has one yet, so that case
+  // isn't handled here.
+  const realMedia = hasRealMedia(product);
 
   return (
     <main>
@@ -53,7 +55,7 @@ export function ProductClient({
 
       {/* HERO */}
       <section className="grid grid-cols-1 gap-10 px-[var(--gutter)] py-10 md:grid-cols-2 md:items-center">
-        {hasRealMedia ? (
+        {realMedia ? (
           <ProductGallery product={product} />
         ) : (
           <ProductViewer label={product.name} spec={product.spec} index={product.id} />
@@ -94,8 +96,12 @@ export function ProductClient({
         </div>
       </section>
 
-      {/* SCROLL UNBOXING — signature exploded-view sequence */}
-      <ProductExplodedSection spec={product.spec} name={product.name} />
+      {/* SCROLL UNBOXING — signature exploded-view sequence. Its
+          construction labels are generic (SOLID BRASS, STRUCTURAL
+          FRAME, etc.) and would misstate a real product's actual
+          materials/hardware, so it's skipped once real photography
+          exists — same reasoning as the hero above. */}
+      {!realMedia && <ProductExplodedSection spec={product.spec} name={product.name} />}
 
       {/* PRODUCT STORY */}
       <section className="mx-auto max-w-2xl px-[var(--gutter)] py-16">
