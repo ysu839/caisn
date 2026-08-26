@@ -53,21 +53,25 @@ export function ProductClient({
     <main>
       <Navbar />
 
-      {/* HERO */}
-      <section className="grid grid-cols-1 gap-10 px-[var(--gutter)] py-10 md:grid-cols-2 md:items-center">
-        {realMedia ? (
-          <ProductGallery product={product} />
-        ) : (
-          <ProductViewer label={product.name} spec={product.spec} index={product.id} />
-        )}
-        <div>
+      {/* HERO — image-forward 3:2 split (not a dead 50/50), and a much
+          larger display headline against unchanged small info text:
+          the contrast itself is the point, not just bigger type. */}
+      <section className="grid grid-cols-1 gap-10 px-[var(--gutter)] py-12 md:grid-cols-5 md:items-center md:gap-12 md:py-20">
+        <div className="md:col-span-3">
+          {realMedia ? (
+            <ProductGallery product={product} />
+          ) : (
+            <ProductViewer label={product.name} spec={product.spec} index={product.id} />
+          )}
+        </div>
+        <div className="md:col-span-2">
           <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">
             {product.edition}
           </span>
-          <h1 className="font-display mt-2 text-5xl font-semibold leading-[0.95] md:text-6xl">
+          <h1 className="font-display mt-3 text-6xl font-semibold leading-[0.92] md:text-7xl">
             {product.name}
           </h1>
-          <AnimatedPrice value={product.price} className="font-display mt-4 block text-2xl" />
+          <AnimatedPrice value={product.price} className="font-display mt-5 block text-2xl" />
 
           <div className="mt-8">
             <VariantSelector variants={product.variants} selected={variant} onSelect={setVariant} />
