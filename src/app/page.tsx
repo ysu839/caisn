@@ -19,8 +19,11 @@ export default async function Home() {
       <HorizontalShowcase products={products} />
 
       <section id="collection" className="px-[var(--gutter)] py-16">
-        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
+        <h2 className="mb-6 flex items-center gap-2 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
           03 / 06 — INDEX
+          <span className="tnum flex h-4 min-w-4 items-center justify-center rounded-full border border-[var(--color-line)] px-1 text-[9px]">
+            {products.length}
+          </span>
         </h2>
         <BentoGrid products={products} />
       </section>
