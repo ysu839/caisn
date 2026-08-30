@@ -17,6 +17,55 @@ const spanClasses: Record<Span, string> = {
   lg: "col-span-1 row-span-2 md:col-span-2 md:row-span-2",
 };
 
+/**
+ * A styled "look" card showing two separately-sold, designed-to-pair
+ * products (see Product.pairSlug) side by side in one bento cell,
+ * instead of each getting its own card. Both garments stay
+ * independently purchasable — this is a merchandising pairing, not a
+ * bundle SKU. Reused when the lineup has exactly one such pair; more
+ * pairs would need a second treatment, not yet needed.
+ */
+function BentoPairCardBody({ a, b }: { a: Product; b: Product }) {
+  const imageOf = (p: Product) => p.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
+  const imageA = imageOf(a);
+  const imageB = imageOf(b);
+
+  return (
+    <div className="relative flex h-full w-full bg-[var(--surface-plate)]">
+      {[
+        { product: a, image: imageA },
+        { product: b, image: imageB },
+      ].map(({ product, image }, i) => (
+        <div key={product.id} className={`relative h-full flex-1 ${i === 0 ? "border-r border-[var(--color-line)]/60" : ""}`}>
+          {image && (
+            <Image
+              src={image.url}
+              alt=""
+              aria-hidden
+              fill
+              sizes="(min-width: 768px) 160px, 22vw"
+              className="object-contain p-5 drop-shadow-[0_14px_22px_rgba(10,10,10,0.14)] transition-transform group-hover:scale-[1.03]"
+              style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
+            />
+          )}
+        </div>
+      ))}
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
+        <span className="tnum">
+          {a.id} / {b.id}
+        </span>
+        <span>THE SET</span>
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-4 pt-8">
+        <p className="font-display text-xl font-semibold leading-none text-[var(--ink)]">THE FORMA SET</p>
+        <p className="tnum mt-1 text-xs text-[var(--ink-soft)]">
+          {a.name.replace("CAISN ", "")} + {b.name.replace("CAISN ", "")}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function BentoCardBody({ product }: { product: Product }) {
   const image = product.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
 
@@ -67,16 +116,42 @@ function BentoCardBody({ product }: { product: Product }) {
   );
 }
 
+type BentoItem = { kind: "single"; product: Product } | { kind: "pair"; a: Product; b: Product };
+
+/**
+ * Groups any product with a confirmed pairSlug (see Product.pairSlug)
+ * with its match into one combined bento entry, rather than each
+ * getting its own card — a two-garment "look" reads better in a card
+ * this tall than one product with a lot of empty frame around it.
+ */
+function groupForBento(products: Product[]): BentoItem[] {
+  const consumed = new Set<string>();
+  const items: BentoItem[] = [];
+  for (const p of products) {
+    if (consumed.has(p.id)) continue;
+    const pair = p.pairSlug ? products.find((q) => q.slug === p.pairSlug) : undefined;
+    if (pair) {
+      items.push({ kind: "pair", a: p, b: pair });
+      consumed.add(p.id);
+      consumed.add(pair.id);
+    } else {
+      items.push({ kind: "single", product: p });
+      consumed.add(p.id);
+    }
+  }
+  return items;
+}
+
 export function BentoGrid({ products }: { products: Product[] }) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const active = products.find((p) => p.id === activeId) ?? null;
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  // "lg, md, md" tiles a 4-col grid with zero gaps for any product
+  const items = groupForBento(products);
+  // "lg, md, md" tiles a 4-col grid with zero gaps for any item
   // count — the previous "lg, md, sm, sm" left a dead cell whenever
-  // the catalog wasn't a multiple of 4 (e.g. the current 3 real
-  // products), reading as an unfinished collection rather than a
-  // deliberate layout.
+  // the catalog wasn't a multiple of 4. A paired "look" always gets
+  // "lg" (two garments need the room a single-product "md" doesn't have).
   const spans: Span[] = ["lg", "md", "md"];
 
   useEffect(() => {
@@ -92,19 +167,37 @@ export function BentoGrid({ products }: { products: Product[] }) {
   return (
     <div className="relative">
       <div className="grid auto-rows-[240px] grid-cols-2 gap-4 md:grid-cols-4">
-        {products.map((p, i) => (
-          <motion.button
-            key={p.id}
-            layoutId={`bento-${p.id}`}
-            onClick={() => setActiveId(p.id)}
-            aria-label={`View ${p.name}`}
-            className={`group relative overflow-hidden text-left ${spanClasses[spans[i % spans.length]]}`}
-          >
-            <CursorTarget label="VIEW" className="h-full w-full">
-              <BentoCardBody product={p} />
-            </CursorTarget>
-          </motion.button>
-        ))}
+        {items.map((item, i) => {
+          const span = item.kind === "pair" ? "lg" : spans[i % spans.length];
+          if (item.kind === "pair") {
+            return (
+              <Link
+                key={`${item.a.id}-${item.b.id}`}
+                href={`/product/${item.a.slug}`}
+                aria-label={`View ${item.a.name} and ${item.b.name}, sold separately`}
+                className={`group relative overflow-hidden text-left ${spanClasses[span]}`}
+              >
+                <CursorTarget label="VIEW" className="h-full w-full">
+                  <BentoPairCardBody a={item.a} b={item.b} />
+                </CursorTarget>
+              </Link>
+            );
+          }
+          const p = item.product;
+          return (
+            <motion.button
+              key={p.id}
+              layoutId={`bento-${p.id}`}
+              onClick={() => setActiveId(p.id)}
+              aria-label={`View ${p.name}`}
+              className={`group relative overflow-hidden text-left ${spanClasses[span]}`}
+            >
+              <CursorTarget label="VIEW" className="h-full w-full">
+                <BentoCardBody product={p} />
+              </CursorTarget>
+            </motion.button>
+          );
+        })}
       </div>
 
       <AnimatePresence>
