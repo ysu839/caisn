@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "@/lib/cart/CartContext";
-import { AnimatedPrice } from "@/components/AnimatedPrice";
+import { Price } from "@/components/Price";
 
 export function CartDrawer() {
   const { isOpen, close, lines, total } = useCart();
@@ -67,7 +67,7 @@ export function CartDrawer() {
                       {l.variant.color} / {l.variant.size} × {l.quantity}
                     </p>
                   </div>
-                  <AnimatedPrice value={l.product.price * l.quantity} className="text-sm" />
+                  <Price value={l.product.price !== null ? l.product.price * l.quantity : null} className="text-sm" />
                 </div>
               ))}
             </div>
@@ -75,7 +75,7 @@ export function CartDrawer() {
             <div className="mt-6 space-y-4 border-t border-[var(--color-line)] pt-4">
               <div className="flex justify-between text-sm">
                 <span className="tracking-[0.1em]">TOTAL</span>
-                <AnimatedPrice value={total} className="font-display text-lg" />
+                <Price value={total} className="font-display text-lg" />
               </div>
               <button
                 disabled={lines.length === 0}

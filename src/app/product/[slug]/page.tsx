@@ -18,7 +18,7 @@ export async function generateMetadata({
   if (!product) return { title: "CAISN" };
   return {
     title: `${product.name} — CAISN`,
-    description: `${product.edition} / ${product.spec}. €${product.price}.`,
+    description: `${product.edition} / ${product.spec}.${product.price !== null ? ` €${product.price}.` : ""}`,
   };
 }
 
@@ -37,13 +37,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     description: product.story.join(" "),
     sku: product.id,
     material: product.materials.join(", "),
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "EUR",
-      price: product.price,
-      availability:
-        stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-    },
+    // Omit the offer entirely rather than emit invalid/fabricated
+    // structured data when pricing hasn't been confirmed yet — a
+    // Product with no Offer is valid schema.org, a fake price isn't.
+    ...(product.price !== null && {
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "EUR",
+        price: product.price,
+        availability: stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      },
+    }),
   };
 
   return (

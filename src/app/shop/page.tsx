@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
 import { ProductVisual } from "@/components/ProductVisual";
-import { AnimatedPrice } from "@/components/AnimatedPrice";
+import { Price } from "@/components/Price";
 
 export const metadata: Metadata = {
   title: "Shop — CAISN",
@@ -45,7 +45,7 @@ export default async function ShopPage() {
                   >
                     {p.name}
                   </span>
-                  <AnimatedPrice value={p.price} className={`shrink-0 ${featured ? "text-base" : "text-sm"}`} />
+                  <Price value={p.price} className={`shrink-0 ${featured ? "text-base" : "text-sm"}`} />
                 </div>
               </Link>
             );

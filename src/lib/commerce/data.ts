@@ -107,6 +107,81 @@ const products: Product[] = [
       { color: "Ink", colorHex: "#0a0a0a", size: "L", stock: 6 },
     ],
   },
+  {
+    id: "05",
+    slug: "forma-jogger",
+    name: "CAISN FORMA JOGGER",
+    // Explicitly given as "€—" — pending, not omitted. See PriceOrPending.
+    price: null,
+    edition: "",
+    spec: "HEAVYWEIGHT FLEECE",
+    story: [
+      "The Forma Jogger is cut in a relaxed, wide-leg silhouette with a structured heavyweight feel. Finished with raised CAISN artwork across the leg and contrasting Bone detailing.",
+    ],
+    materials: [
+      "heather grey / bone",
+      "relaxed wide-leg fit",
+      // Fabric composition + GSM to be confirmed by supplier before launch.
+      "heavyweight fleece — composition pending factory confirmation",
+      "raised CAISN leg artwork",
+      "CAISN® thigh branding",
+      "contrast bone pocket trim",
+      "elasticated waistband, adjustable drawcord",
+      "side pockets, straight hem",
+      "unisex",
+    ],
+    media: [
+      { type: "image", url: "/products/forma-jogger/front.png", alt: "CAISN FORMA JOGGER — front" },
+      { type: "image", url: "/products/forma-jogger/back.png", alt: "CAISN FORMA JOGGER — back" },
+    ],
+    variants: [
+      { color: "Heather Grey", colorHex: "#9a958f", size: "XS", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "S", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "M", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "L", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "XL", stock: 1 },
+    ],
+    model3dUrl: undefined,
+  },
+  {
+    id: "06",
+    slug: "forma-zip-up",
+    name: "CAISN FORMA ZIP-UP",
+    // Explicitly given as "€—" — pending, not omitted. See PriceOrPending.
+    price: null,
+    edition: "",
+    spec: "HEAVYWEIGHT FLEECE",
+    story: [
+      "The Forma Zip-Up is cut in a relaxed, boxy silhouette with a structured heavyweight feel. Finished in Heather Grey with Bone detailing, raised CAISN branding and a two-way zip closure.",
+    ],
+    materials: [
+      "heather grey / bone",
+      "relaxed boxy fit",
+      // Fabric composition + GSM to be confirmed by supplier before launch.
+      "heavyweight fleece — composition pending factory confirmation",
+      "two-way zip closure",
+      "raised CAISN sleeve artwork",
+      "subtle CAISN® chest branding",
+      "contrast bone pocket detailing",
+      "structured hood",
+      "ribbed cuffs and hem",
+      "side pockets",
+      "dropped shoulders",
+      "unisex",
+    ],
+    media: [
+      { type: "image", url: "/products/forma-zip-up/front.png", alt: "CAISN FORMA ZIP-UP — front" },
+      { type: "image", url: "/products/forma-zip-up/back.png", alt: "CAISN FORMA ZIP-UP — back" },
+    ],
+    variants: [
+      { color: "Heather Grey", colorHex: "#9a958f", size: "XS", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "S", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "M", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "L", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "XL", stock: 1 },
+    ],
+    model3dUrl: undefined,
+  },
 ];
 
 export async function getProducts(): Promise<Product[]> {

@@ -42,7 +42,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<CartContextValue>(() => {
     const count = lines.reduce((s, l) => s + l.quantity, 0);
-    const total = lines.reduce((s, l) => s + l.product.price * l.quantity, 0);
+    // AddToCart refuses to add a pending-price item, so this is a
+    // defensive fallback (0), not an expected runtime case.
+    const total = lines.reduce((s, l) => s + (l.product.price ?? 0) * l.quantity, 0);
     return {
       lines,
       isOpen,

@@ -7,7 +7,7 @@ import { Product } from "@/lib/commerce/types";
 import { hasRealMedia } from "@/lib/commerce/data";
 import { ProductVisual } from "@/components/ProductVisual";
 import { ProductGallery } from "@/components/ProductGallery";
-import { AnimatedPrice } from "@/components/AnimatedPrice";
+import { Price } from "@/components/Price";
 import { VariantSelector } from "@/components/VariantSelector";
 import { StockIndicator } from "@/components/StockIndicator";
 import { AddToCart } from "@/components/AddToCart";
@@ -71,7 +71,7 @@ export function ProductClient({
           <h1 className="font-display mt-3 text-6xl font-semibold leading-[0.92] md:text-7xl">
             {product.name}
           </h1>
-          <AnimatedPrice value={product.price} className="font-display mt-5 block text-2xl" />
+          <Price value={product.price} className="font-display mt-5 block text-2xl" />
 
           <div className="mt-8">
             <VariantSelector variants={product.variants} selected={variant} onSelect={setVariant} />

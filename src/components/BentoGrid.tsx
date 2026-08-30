@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Product } from "@/lib/commerce/types";
 import { ProductVisual } from "@/components/ProductVisual";
 import { CursorTarget } from "@/lib/motion/CustomCursor";
-import { AnimatedPrice } from "@/components/AnimatedPrice";
+import { Price } from "@/components/Price";
 
 type Span = "sm" | "md" | "lg";
 
@@ -139,7 +139,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
                 </h3>
                 <p className="mt-4 text-sm text-[var(--color-fg-soft)]">{active.story[0]}</p>
                 <div className="mt-6 flex items-center gap-4">
-                  <AnimatedPrice value={active.price} className="font-display text-2xl" />
+                  <Price value={active.price} className="font-display text-2xl" />
                   <Link
                     href={`/product/${active.slug}`}
                     className="border border-[var(--color-fg)] px-5 py-2.5 text-xs tracking-[0.15em] transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"

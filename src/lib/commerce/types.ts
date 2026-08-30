@@ -1,5 +1,15 @@
 export type Money = number; // minor-unit-free display value, e.g. 145 => €145
 
+/**
+ * A product's real price, or null if it genuinely hasn't been set
+ * yet. `null` is a real, honest state — not a placeholder to work
+ * around — see components/Price.tsx, which every price display in
+ * the app reads through. Unlike stock (gated by LIVE_INVENTORY, a
+ * site-wide switch), price is per-product: some products can be
+ * priced and purchasable while others are still pending.
+ */
+export type PriceOrPending = Money | null;
+
 export type Variant = {
   color: string;
   colorHex: string;
@@ -17,7 +27,7 @@ export type Product = {
   id: string;
   slug: string;
   name: string;
-  price: Money;
+  price: PriceOrPending;
   edition: string; // e.g. "EDITION 04"
   spec: string; // e.g. "620G RAW WOOL"
   story: string[];
