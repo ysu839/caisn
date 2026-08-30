@@ -43,8 +43,8 @@ const products: Product[] = [
     // Real studio photography — rendered via ProductVisual wherever a
     // flat product image is shown. See public/products/echo/.
     media: [
-      { type: "image", url: "/products/echo/front.png", alt: "CAISN ECHO ZIP HOODIE — front" },
-      { type: "image", url: "/products/echo/back.png", alt: "CAISN ECHO ZIP HOODIE — back" },
+      { type: "image", url: "/products/echo/front.webp", alt: "CAISN ECHO ZIP HOODIE — front" },
+      { type: "image", url: "/products/echo/back.webp", alt: "CAISN ECHO ZIP HOODIE — back" },
     ],
     // Launch run: limited initial run of 50 pieces, not individually
     // numbered; restock depends on demand. Real per-size stock is
@@ -139,8 +139,8 @@ const products: Product[] = [
       "unisex",
     ],
     media: [
-      { type: "image", url: "/products/forma-jogger/front.png", alt: "CAISN FORMA JOGGER — front" },
-      { type: "image", url: "/products/forma-jogger/back.png", alt: "CAISN FORMA JOGGER — back" },
+      { type: "image", url: "/products/forma-jogger/front.webp", alt: "CAISN FORMA JOGGER — front" },
+      { type: "image", url: "/products/forma-jogger/back.webp", alt: "CAISN FORMA JOGGER — back" },
     ],
     variants: [
       { color: "Heather Grey", colorHex: "#9a958f", size: "XS", stock: 1 },
@@ -179,8 +179,8 @@ const products: Product[] = [
       "unisex",
     ],
     media: [
-      { type: "image", url: "/products/forma-zip-up/front.png", alt: "CAISN FORMA ZIP-UP — front" },
-      { type: "image", url: "/products/forma-zip-up/back.png", alt: "CAISN FORMA ZIP-UP — back" },
+      { type: "image", url: "/products/forma-zip-up/front.webp", alt: "CAISN FORMA ZIP-UP — front" },
+      { type: "image", url: "/products/forma-zip-up/back.webp", alt: "CAISN FORMA ZIP-UP — back" },
     ],
     variants: [
       { color: "Heather Grey", colorHex: "#9a958f", size: "XS", stock: 1 },

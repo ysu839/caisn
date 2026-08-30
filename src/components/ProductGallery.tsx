@@ -39,7 +39,7 @@ export function ProductGallery({ product }: { product: Product }) {
           fill
           priority
           sizes="(min-width: 768px) 45vw, 90vw"
-          className="object-contain p-6"
+          className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)]"
         />
       </div>
       <div className="mt-3 flex gap-2">

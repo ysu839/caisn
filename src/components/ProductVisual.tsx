@@ -35,7 +35,7 @@ export function ProductVisual({
         fill
         priority={priority}
         sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-        className="object-contain p-6"
+        className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)]"
       />
     </div>
   );
