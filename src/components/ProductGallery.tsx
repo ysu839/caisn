@@ -31,7 +31,7 @@ export function ProductGallery({ product }: { product: Product }) {
 
   return (
     <div>
-      <div className="relative aspect-[4/5] w-full overflow-hidden border border-[var(--color-line)] bg-[var(--color-bg)]">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--surface-plate)]">
         <Image
           key={active.url}
           src={active.url}
@@ -39,7 +39,7 @@ export function ProductGallery({ product }: { product: Product }) {
           fill
           priority
           sizes="(min-width: 768px) 45vw, 90vw"
-          className="object-contain p-4"
+          className="object-contain p-6"
         />
       </div>
       <div className="mt-3 flex gap-2">
@@ -52,9 +52,9 @@ export function ProductGallery({ product }: { product: Product }) {
             className="group flex flex-col items-center gap-1.5"
           >
             <span
-              className="relative block h-16 w-14 overflow-hidden border bg-[var(--color-bg)] transition-colors"
+              className="relative block h-16 w-14 overflow-hidden bg-[var(--surface-plate)] transition-opacity"
               style={{
-                borderColor: i === activeIndex ? "var(--color-fg)" : "var(--color-line)",
+                opacity: i === activeIndex ? 1 : 0.55,
                 transitionDuration: "var(--dur-snap)",
               }}
             >

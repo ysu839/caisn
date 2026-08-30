@@ -58,7 +58,7 @@ export function ProductClient({
       {/* HERO — image-forward 3:2 split (not a dead 50/50), and a much
           larger display headline against unchanged small info text:
           the contrast itself is the point, not just bigger type. */}
-      <section className="grid grid-cols-1 gap-10 px-[var(--gutter)] py-12 md:grid-cols-5 md:items-center md:gap-12 md:py-20">
+      <section className="grid grid-cols-1 gap-6 px-[var(--gutter)] py-8 md:grid-cols-5 md:items-center md:gap-12 md:py-20">
         <div className="md:col-span-3">
           {realMedia ? (
             <ProductGallery product={product} />
@@ -67,13 +67,13 @@ export function ProductClient({
           )}
         </div>
         <div className="md:col-span-2">
-          <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">
-            {product.edition}
-          </span>
-          <h1 className="font-display mt-3 text-6xl font-semibold leading-[0.92] md:text-7xl">
+          {product.edition && (
+            <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">{product.edition}</span>
+          )}
+          <h1 className="font-display mt-3 text-4xl font-semibold leading-[0.95] sm:text-5xl md:text-7xl">
             {product.name}
           </h1>
-          <Price value={product.price} className="font-display mt-5 block text-2xl" />
+          <Price value={product.price} className="font-display mt-4 block text-xl md:mt-5 md:text-2xl" />
 
           <div className="mt-8">
             <VariantSelector variants={product.variants} selected={variant} onSelect={setVariant} />
@@ -89,17 +89,18 @@ export function ProductClient({
         </div>
       </section>
 
-      {/* PRODUCT BENTO — material / fit / construction */}
-      <section className="px-[var(--gutter)] py-16">
-        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">CONSTRUCTION</h2>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      {/* DETAILS — a plain, dense list rather than a wall of bordered
+          boxes: whitespace and a hairline rule per row carry the
+          hierarchy, no UI chrome competing with the garment. */}
+      <section className="mx-auto max-w-2xl px-[var(--gutter)] py-16">
+        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">DETAILS</h2>
+        <ul className="divide-y divide-[var(--color-line)] border-t border-[var(--color-line)]">
           {product.materials.map((m, i) => (
-            <div key={i} className="border border-[var(--color-line)] p-4">
-              <span className="tnum text-[10px] text-[var(--color-fg-soft)]">{String(i + 1).padStart(2, "0")}</span>
-              <p className="font-display mt-3 text-sm font-medium uppercase">{m}</p>
-            </div>
+            <li key={i} className="py-3 text-sm capitalize leading-relaxed text-[var(--color-fg)]">
+              {m}
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       {/* SCROLL UNBOXING — signature exploded-view sequence. Its

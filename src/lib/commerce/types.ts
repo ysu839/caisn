@@ -53,4 +53,10 @@ export type Product = {
    * a bundle/set SKU.
    */
   pairSlug?: string;
+  /**
+   * True for concept/placeholder entries without enough real
+   * assets/content to present professionally — withheld from
+   * customer-facing commerce (see visibleProducts in data.ts).
+   */
+  hidden?: boolean;
 };

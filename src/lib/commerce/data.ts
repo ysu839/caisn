@@ -60,6 +60,12 @@ const products: Product[] = [
     model3dUrl: undefined,
   },
   {
+    // Concept placeholder — no real photography or confirmed specs yet.
+    // Excluded from customer-facing commerce (see visibleProducts below)
+    // so the collection never shows an empty spec-sheet card next to
+    // real product photography. Left in source, not deleted, so it can
+    // be turned back on once real assets exist.
+    hidden: true,
     id: "02",
     slug: "frame-jacket",
     name: "FRAME JACKET",
@@ -78,6 +84,7 @@ const products: Product[] = [
     ],
   },
   {
+    hidden: true,
     id: "03",
     slug: "column-trouser",
     name: "COLUMN TROUSER",
@@ -93,6 +100,7 @@ const products: Product[] = [
     ],
   },
   {
+    hidden: true,
     id: "04",
     slug: "plate-vest",
     name: "PLATE VEST",
@@ -186,12 +194,18 @@ const products: Product[] = [
   },
 ];
 
+// Customer-facing commerce (shop, homepage, lineup, PDP routing) sees
+// only products with enough real assets/content to present professionally
+// — see the `hidden` products above. Nothing is deleted, just withheld
+// from the storefront until it's ready.
+const visibleProducts = products.filter((p) => !p.hidden);
+
 export async function getProducts(): Promise<Product[]> {
-  return products;
+  return visibleProducts;
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
-  return products.find((p) => p.slug === slug);
+  return visibleProducts.find((p) => p.slug === slug);
 }
 
 export function totalStock(p: Product): number {

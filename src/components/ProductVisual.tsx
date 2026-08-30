@@ -27,7 +27,7 @@ export function ProductVisual({
 
   return (
     <div
-      className={`relative aspect-[4/5] w-full overflow-hidden border border-[var(--color-line)] bg-[var(--color-bg)] ${className ?? ""}`}
+      className={`relative aspect-[4/5] w-full overflow-hidden bg-[var(--surface-plate)] ${className ?? ""}`}
     >
       <Image
         src={image.url}
@@ -35,7 +35,7 @@ export function ProductVisual({
         fill
         priority={priority}
         sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-        className="object-contain p-4"
+        className="object-contain p-6"
       />
     </div>
   );

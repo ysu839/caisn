@@ -9,7 +9,13 @@
   /* Color */
   --ink: #0a0a0a;
   --paper: #f6f5f2;
-  --accent: #b5651d;
+  /* CAISN Oxblood — a muted, desaturated wine-red. Reads as premium
+     streetwear/label identity (not a UI-kit orange), sits quietly
+     against washed graphite and heather-grey garments, and warms the
+     cream/bone detailing instead of fighting it. Used sparingly:
+     selected states, edition markers, cart feedback, links. */
+  --accent: #7a2b2b;
+  --accent-soft: #a9605a;
   --line: #d8d6d0;
   --ink-soft: #4a4a46;
 
@@ -19,6 +25,13 @@
   --color-fg-soft: var(--ink-soft);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  /* Studio "mat" — the constant, warm off-white ground product
+     photography sits on regardless of site theme. Real garment photos
+     are shot on a light studio backdrop; forcing that backdrop's
+     surrounding container to match (instead of the page's dark-mode
+     background) keeps the photo from reading as a pasted-in JPG. */
+  --surface-plate: #f1efe9;
 
   /* Type */
   --font-display: var(--font-archivo);
@@ -58,6 +71,8 @@
   --color-fg-soft: var(--color-fg-soft);
   --color-line: var(--color-line);
   --color-accent: var(--color-accent);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-surface-plate: var(--surface-plate);
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 }

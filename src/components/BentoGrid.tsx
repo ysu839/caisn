@@ -41,27 +41,27 @@ function BentoCardBody({ product }: { product: Product }) {
 
   // Real photography leads — the product itself carries the visual
   // weight instead of a text-only spec card, same reasoning as
-  // ProductVisual elsewhere.
+  // ProductVisual elsewhere. The image sits on the constant warm
+  // studio "mat" rather than the card's dark ground, so it reads as
+  // art-directed rather than a JPG pasted into a black box.
   return (
-    <div className="flex h-full flex-col p-4">
-      <div className="flex justify-between text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">
+    <div className="relative h-full w-full bg-[var(--surface-plate)]">
+      <Image
+        src={image.url}
+        alt=""
+        aria-hidden
+        fill
+        sizes="(min-width: 768px) 320px, 45vw"
+        className="object-contain p-6 transition-transform group-hover:scale-[1.03]"
+        style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
+      />
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
         <span className="tnum">{product.id}</span>
         <span>{product.edition}</span>
       </div>
-      <div className="relative my-2 min-h-0 flex-1">
-        <Image
-          src={image.url}
-          alt=""
-          aria-hidden
-          fill
-          sizes="(min-width: 768px) 320px, 45vw"
-          className="object-contain transition-transform group-hover:scale-[1.03]"
-          style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
-        />
-      </div>
-      <div>
-        <p className="font-display text-xl font-semibold leading-none">{product.name}</p>
-        <p className="tnum mt-1 text-xs text-[var(--color-fg-soft)]">{product.spec}</p>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-4 pt-8">
+        <p className="font-display text-xl font-semibold leading-none text-[var(--ink)]">{product.name}</p>
+        <p className="tnum mt-1 text-xs text-[var(--ink-soft)]">{product.spec}</p>
       </div>
     </div>
   );
@@ -72,7 +72,12 @@ export function BentoGrid({ products }: { products: Product[] }) {
   const active = products.find((p) => p.id === activeId) ?? null;
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  const spans: Span[] = ["lg", "md", "sm", "sm"];
+  // "lg, md, md" tiles a 4-col grid with zero gaps for any product
+  // count — the previous "lg, md, sm, sm" left a dead cell whenever
+  // the catalog wasn't a multiple of 4 (e.g. the current 3 real
+  // products), reading as an unfinished collection rather than a
+  // deliberate layout.
+  const spans: Span[] = ["lg", "md", "md"];
 
   useEffect(() => {
     if (!active) return;
@@ -93,7 +98,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
             layoutId={`bento-${p.id}`}
             onClick={() => setActiveId(p.id)}
             aria-label={`View ${p.name}`}
-            className={`group relative overflow-hidden border border-[var(--color-line)] text-left ${spanClasses[spans[i % spans.length]]}`}
+            className={`group relative overflow-hidden text-left ${spanClasses[spans[i % spans.length]]}`}
           >
             <CursorTarget label="VIEW" className="h-full w-full">
               <BentoCardBody product={p} />

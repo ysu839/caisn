@@ -12,13 +12,13 @@ export function Navbar() {
         CAISN
       </Link>
       <div className="hidden gap-8 md:flex">
-        <Link href="/shop" className="-m-2.5 p-2.5">
+        <Link href="/shop" className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]" style={{ transitionDuration: "var(--dur-snap)" }}>
           SHOP
         </Link>
-        <Link href="/#collection" className="-m-2.5 p-2.5">
+        <Link href="/#collection" className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]" style={{ transitionDuration: "var(--dur-snap)" }}>
           COLLECTION
         </Link>
-        <Link href="/#about" className="-m-2.5 p-2.5">
+        <Link href="/#about" className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]" style={{ transitionDuration: "var(--dur-snap)" }}>
           ABOUT
         </Link>
       </div>
@@ -31,7 +31,12 @@ export function Navbar() {
         >
           SEARCH
         </button>
-        <button onClick={open} className="tnum -m-2.5 p-2.5" aria-label={`Open cart, ${count} items`}>
+        <button
+          onClick={open}
+          className="tnum -m-2.5 p-2.5"
+          style={{ color: count > 0 ? "var(--color-accent)" : undefined }}
+          aria-label={`Open cart, ${count} items`}
+        >
           CART ({count})
         </button>
       </div>
