@@ -8,6 +8,7 @@ import { Product, displayName } from "@/lib/commerce/types";
 import { ProductVisual } from "@/components/ProductVisual";
 import { CursorTarget } from "@/lib/motion/CustomCursor";
 import { Price } from "@/components/Price";
+import { QuickAdd } from "@/components/QuickAdd";
 
 type Span = "sm" | "md" | "lg";
 
@@ -115,6 +116,7 @@ function BentoCardBody({ product }: { product: Product }) {
         <p className="font-display text-xl font-semibold leading-none text-[var(--ink)]">{displayName(product.name)}</p>
         <p className="tnum mt-1 text-xs text-[var(--ink-soft)]">{product.spec}</p>
       </div>
+      <QuickAdd product={product} />
     </div>
   );
 }
@@ -179,17 +181,28 @@ export function BentoGrid({ products }: { products: Product[] }) {
           }
           const p = item.product;
           return (
-            <motion.button
+            // A plain div (role="button") rather than a <button> — it now
+            // contains QuickAdd's own <button>, and nesting a button
+            // inside a button is invalid HTML that browsers mis-parse.
+            <motion.div
               key={p.id}
               layoutId={`bento-${p.id}`}
               onClick={() => setActiveId(p.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setActiveId(p.id);
+                }
+              }}
+              role="button"
+              tabIndex={0}
               aria-label={`View ${p.name}`}
-              className={`group relative overflow-hidden text-left ${spanClasses[span]}`}
+              className={`group relative cursor-pointer overflow-hidden text-left ${spanClasses[span]}`}
             >
               <CursorTarget label="VIEW" className="h-full w-full">
                 <BentoCardBody product={p} />
               </CursorTarget>
-            </motion.button>
+            </motion.div>
           );
         })}
       </div>

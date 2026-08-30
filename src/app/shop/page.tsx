@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProductPlate } from "@/components/ProductPlate";
 import { Price } from "@/components/Price";
+import { QuickAdd } from "@/components/QuickAdd";
 
 export const metadata: Metadata = {
   title: "Shop — CAISN",
@@ -63,6 +64,7 @@ export default async function ShopPage() {
                         style={{ transitionDuration: "var(--dur-drift)" }}
                       />
                     )}
+                    <QuickAdd product={p} />
                   </div>
                 ) : (
                   <ProductPlate label={p.name} spec={p.spec} index={p.id} />
