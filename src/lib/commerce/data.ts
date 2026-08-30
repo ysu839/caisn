@@ -34,11 +34,13 @@ const products: Product[] = [
       "A raised tonal CAISN appliqué spans the chest and aligns across the two-way zipper. Raw finishing and natural wash variation make every garment slightly different, while the heavyweight cotton construction maintains its boxy silhouette.",
       "Designed as the first expression of CAISN's visual language: bold from a distance, detailed up close.",
     ],
+    // Rib trim composition intentionally omitted — not yet confirmed
+    // by the factory, and the customer-facing DETAILS list only ever
+    // states confirmed facts (see materials elsewhere in this file).
     materials: [
       "100% cotton loopback french terry",
       "420gsm heavyweight construction",
       "antique-silver two-way zipper",
-      "rib trim — composition pending factory confirmation",
     ],
     // Real studio photography — rendered via ProductVisual wherever a
     // flat product image is shown. See public/products/echo/.
@@ -129,8 +131,7 @@ const products: Product[] = [
     materials: [
       "heather grey / bone",
       "relaxed wide-leg fit",
-      // Fabric composition + GSM to be confirmed by supplier before launch.
-      "heavyweight fleece — composition pending factory confirmation",
+      // Fabric composition + GSM omitted — not yet confirmed by supplier.
       "raised CAISN leg artwork",
       "CAISN® thigh branding",
       "contrast bone pocket trim",
@@ -166,8 +167,7 @@ const products: Product[] = [
     materials: [
       "heather grey / bone",
       "relaxed boxy fit",
-      // Fabric composition + GSM to be confirmed by supplier before launch.
-      "heavyweight fleece — composition pending factory confirmation",
+      // Fabric composition + GSM omitted — not yet confirmed by supplier.
       "two-way zip closure",
       "raised CAISN sleeve artwork",
       "subtle CAISN® chest branding",

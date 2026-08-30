@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { getProducts } from "@/lib/commerce/data";
+import { displayName } from "@/lib/commerce/types";
 import { Navbar } from "@/components/Navbar";
-import { ProductVisual } from "@/components/ProductVisual";
+import { Footer } from "@/components/Footer";
+import { ProductPlate } from "@/components/ProductPlate";
 import { Price } from "@/components/Price";
 
 export const metadata: Metadata = {
@@ -24,34 +27,59 @@ export default async function ShopPage() {
           </span>
         </h1>
 
-        {/* Editorial asymmetry: the first edition leads, oversized; the
-            rest sit in a staggered strip rather than a uniform grid —
-            a product page should read like a lineup, not a spreadsheet. */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-6 md:gap-8">
+        {/* Straightforward, conversion-focused grid: equal cards, three
+            per row on desktop, no oversized hero card and no orphan
+            column — a small catalog reads best as a clean lineup, not
+            an editorial layout fighting to fill leftover space. */}
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p, i) => {
-            const featured = i === 0;
+            const front = p.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
+            const back = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"))[1];
+            const color = p.variants[0]?.color;
+
             return (
-              <Link
-                key={p.id}
-                href={`/product/${p.slug}`}
-                className={`group ${featured ? "sm:col-span-2 md:col-span-4" : "md:col-span-2"} ${
-                  !featured && i % 2 === 0 ? "md:mt-16" : ""
-                }`}
-              >
-                <ProductVisual product={p} priority={featured} />
-                <div className="mt-3 flex items-center justify-between gap-3">
-                  <span
-                    className={`font-display truncate font-medium ${featured ? "text-lg md:text-xl" : "text-sm"}`}
-                  >
-                    {p.name}
-                  </span>
-                  <Price value={p.price} className={`shrink-0 ${featured ? "text-base" : "text-sm"}`} />
+              <Link key={p.id} href={`/product/${p.slug}`} className="group block">
+                {front ? (
+                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--surface-plate)]">
+                    <Image
+                      src={front.url}
+                      alt={front.alt}
+                      fill
+                      priority={i < 3}
+                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                      className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity"
+                      style={{ transitionDuration: "var(--dur-snap)" }}
+                    />
+                    {/* Front/back crossfade on hover — pointer devices only,
+                        so touch never gets stuck showing the back image. */}
+                    {back && (
+                      <Image
+                        src={back.url}
+                        alt=""
+                        aria-hidden
+                        fill
+                        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                        className="object-contain p-6 opacity-0 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity [@media(hover:hover)]:group-hover:opacity-100"
+                        style={{ transitionDuration: "var(--dur-drift)" }}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <ProductPlate label={p.name} spec={p.spec} index={p.id} />
+                )}
+                <div className="mt-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="font-display text-sm font-medium">{displayName(p.name)}</span>
+                    <Price value={p.price} className="shrink-0 text-sm" />
+                  </div>
+                  {color && <p className="mt-1 text-xs text-[var(--color-fg-soft)]">{color}</p>}
                 </div>
               </Link>
             );
           })}
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { Product } from "@/lib/commerce/types";
+import { Product, displayName } from "@/lib/commerce/types";
 import { hasRealMedia } from "@/lib/commerce/data";
 import { ProductVisual } from "@/components/ProductVisual";
 import { ProductGallery } from "@/components/ProductGallery";
@@ -12,6 +12,7 @@ import { VariantSelector } from "@/components/VariantSelector";
 import { StockIndicator } from "@/components/StockIndicator";
 import { AddToCart } from "@/components/AddToCart";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { StickyAddToCart } from "@/components/StickyAddToCart";
 
 // Code-split the 3D layer (three.js + r3f + gsap) out of the initial PDP
@@ -42,7 +43,10 @@ export function ProductClient({
   pair?: Product;
   total: number;
 }) {
-  const [variant, setVariant] = useState(product.variants[0]);
+  // No size pre-selected — the shopper must actively choose one (see
+  // VariantSelector/AddToCart), so an inattentive click can never add
+  // the wrong size by default.
+  const [variant, setVariant] = useState<(typeof product.variants)[number] | null>(null);
   // Real photography beats the procedural 3D placeholder system — it
   // stands in for a real *3D asset*/construction breakdown that
   // doesn't exist yet, not for real photography that already does.
@@ -70,22 +74,41 @@ export function ProductClient({
           {product.edition && (
             <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">{product.edition}</span>
           )}
-          <h1 className="font-display mt-3 text-4xl font-semibold leading-[0.95] sm:text-5xl md:text-7xl">
-            {product.name}
+          <h1 className="font-display mt-3 text-4xl font-semibold leading-[0.95] tracking-tight sm:text-5xl md:text-7xl">
+            {displayName(product.name)}
           </h1>
           <Price value={product.price} className="font-display mt-4 block text-xl md:mt-5 md:text-2xl" />
 
           <div className="mt-8">
             <VariantSelector variants={product.variants} selected={variant} onSelect={setVariant} />
           </div>
+          <Link
+            href="/size-guide"
+            className="mt-2 inline-block text-[10px] tracking-[0.1em] text-[var(--color-fg-soft)] underline underline-offset-2 hover:text-[var(--color-accent)]"
+          >
+            SIZE GUIDE
+          </Link>
 
-          <div className="mt-6">
-            <StockIndicator stock={variant.stock} total={total} />
-          </div>
+          {variant && (
+            <div className="mt-6">
+              <StockIndicator stock={variant.stock} total={total} />
+            </div>
+          )}
 
           <div id="primary-add-to-cart" className="mt-6 max-w-xs">
             <AddToCart product={product} variant={variant} />
           </div>
+
+          <p className="mt-4 text-xs text-[var(--color-fg-soft)]">
+            <Link href="/shipping" className="underline underline-offset-2 hover:text-[var(--color-accent)]">
+              Shipping
+            </Link>{" "}
+            &{" "}
+            <Link href="/returns" className="underline underline-offset-2 hover:text-[var(--color-accent)]">
+              returns
+            </Link>{" "}
+            details.
+          </p>
         </div>
       </section>
 
@@ -126,18 +149,21 @@ export function ProductClient({
           Sold separately; this is a styling pointer, not a bundle. */}
       {pair && (
         <section className="px-[var(--gutter)] py-16">
-          <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
-            COMPLETE THE FORMA
-          </h2>
+          <div className="mb-6 flex items-baseline justify-between">
+            <h2 className="text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
+              COMPLETE THE FORMA
+            </h2>
+            <span className="text-[10px] tracking-[0.1em] text-[var(--color-accent)]">SOLD SEPARATELY</span>
+          </div>
           <Link href={`/product/${pair.slug}`} className="group grid grid-cols-1 gap-6 md:grid-cols-3 md:items-center">
             <div className="md:col-span-1">
               <ProductVisual product={pair} />
             </div>
             <div className="md:col-span-2">
-              <p className="font-display text-2xl font-medium md:text-3xl">{pair.name}</p>
+              <p className="font-display text-2xl font-medium md:text-3xl">{displayName(pair.name)}</p>
               <Price value={pair.price} className="mt-2 block text-base text-[var(--color-fg-soft)]" />
               <span className="mt-4 inline-block text-xs tracking-[0.15em] underline underline-offset-4">
-                SHOP {pair.name}
+                SHOP {displayName(pair.name)}
               </span>
             </div>
           </Link>
@@ -156,6 +182,7 @@ export function ProductClient({
         </div>
       </section>
 
+      <Footer />
       <StickyAddToCart product={product} variant={variant} />
     </main>
   );

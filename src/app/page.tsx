@@ -2,7 +2,7 @@ import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
 import { BentoGrid } from "@/components/BentoGrid";
 import { HomeHero } from "@/components/HomeHero";
-import { HorizontalShowcase } from "@/components/HorizontalShowcase";
+import { Footer } from "@/components/Footer";
 
 export default async function Home() {
   const products = await getProducts();
@@ -16,31 +16,41 @@ export default async function Home() {
       <Navbar />
       <HomeHero product={featured} />
 
-      <HorizontalShowcase products={products} />
-
+      {/* Single shopping section — the previous "THE LINEUP" pinned
+          showcase repeated the same three products already shown here,
+          and its horizontal-scroll animation left a genuine blank-frame
+          bug with only three cards to drive it. The editorial grid
+          below is now the one product experience on the homepage. */}
       <section id="collection" className="px-[var(--gutter)] py-16">
-        <h2 className="mb-6 flex items-center gap-2 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
-          03 / 06 — INDEX
-          <span className="tnum flex h-4 min-w-4 items-center justify-center rounded-full border border-[var(--color-line)] px-1 text-[9px]">
-            {products.length}
-          </span>
+        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
+          DROP 01 — THE FIRST CONSTRUCTION
         </h2>
         <BentoGrid products={products} />
       </section>
 
-      <section id="about" className="px-[var(--gutter)] py-24 text-center">
-        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
-          04 / 06 — STATEMENT
-        </h2>
-        <p className="font-display mx-auto max-w-2xl text-3xl font-medium leading-tight md:text-4xl">
-          Every seam is a decision. We show you all of them.
+      <section id="about" className="px-[var(--gutter)] py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">ABOUT CAISN</h2>
+          <p className="font-display text-3xl font-medium leading-tight md:text-4xl">
+            Every seam is a decision. We show you all of them.
+          </p>
+          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[var(--color-fg-soft)]">
+            CAISN is a structural-fashion label: garments engineered like architecture, not decorated like
+            merchandise. Construction, panel lines and hardware are treated as the design itself — visible on
+            purpose, never hidden under print. Built, not printed.
+          </p>
+        </div>
+      </section>
+
+      <section className="border-t border-[var(--color-line)] px-[var(--gutter)] py-16 text-center">
+        <h2 className="mb-3 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">EARLY ACCESS</h2>
+        <p className="font-display text-2xl font-medium">Checkout and the next drop are opening soon.</p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-[var(--color-fg-soft)]">
+          Browse the current construction now — full checkout access is coming shortly.
         </p>
       </section>
 
-      <footer className="flex items-center justify-between border-t border-[var(--color-line)] px-[var(--gutter)] py-8 text-xs tracking-[0.1em] text-[var(--color-fg-soft)]">
-        <span>CAISN © 2026</span>
-        <span className="tnum">06 / 06</span>
-      </footer>
+      <Footer />
     </main>
   );
 }

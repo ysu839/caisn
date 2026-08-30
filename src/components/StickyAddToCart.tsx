@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Product, Variant } from "@/lib/commerce/types";
+import { Product, Variant, displayName } from "@/lib/commerce/types";
 import { Price } from "@/components/Price";
 import { AddToCart } from "@/components/AddToCart";
 
@@ -11,7 +11,7 @@ import { AddToCart } from "@/components/AddToCart";
  * between the hero and the rest of the page, so this is what keeps
  * "add to cart" from ever being genuinely lost on a long PDP scroll.
  */
-export function StickyAddToCart({ product, variant }: { product: Product; variant: Variant }) {
+export function StickyAddToCart({ product, variant }: { product: Product; variant: Variant | null }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function StickyAddToCart({ product, variant }: { product: Product; varian
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
         <div className="min-w-0">
-          <p className="truncate font-display text-sm font-semibold">{product.name}</p>
+          <p className="truncate font-display text-sm font-semibold">{displayName(product.name)}</p>
           <Price value={product.price} className="text-xs text-[var(--color-fg-soft)]" />
         </div>
         <div className="w-40 shrink-0 sm:w-48">

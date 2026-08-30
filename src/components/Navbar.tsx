@@ -24,14 +24,6 @@ export function Navbar() {
       </div>
       <div className="flex items-center gap-4">
         <button
-          disabled
-          aria-disabled="true"
-          title="Search — coming soon"
-          className="-m-2.5 cursor-default p-2.5 text-[var(--color-fg-soft)]"
-        >
-          SEARCH
-        </button>
-        <button
           onClick={open}
           className="tnum -m-2.5 p-2.5"
           style={{ color: count > 0 ? "var(--color-accent)" : undefined }}

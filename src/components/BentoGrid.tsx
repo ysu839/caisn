@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { Product } from "@/lib/commerce/types";
+import { Product, displayName } from "@/lib/commerce/types";
 import { ProductVisual } from "@/components/ProductVisual";
 import { CursorTarget } from "@/lib/motion/CustomCursor";
 import { Price } from "@/components/Price";
@@ -18,49 +18,52 @@ const spanClasses: Record<Span, string> = {
 };
 
 /**
- * A styled "look" card showing two separately-sold, designed-to-pair
+ * A styled "look" showing two separately-sold, designed-to-pair
  * products (see Product.pairSlug) side by side in one bento cell,
- * instead of each getting its own card. Both garments stay
- * independently purchasable — this is a merchandising pairing, not a
- * bundle SKU. Reused when the lineup has exactly one such pair; more
- * pairs would need a second treatment, not yet needed.
+ * instead of each getting its own card. Each half is its own Link to
+ * its own PDP — the card visually reads as one composition but never
+ * behaves like a single bundle SKU (it isn't one).
  */
-function BentoPairCardBody({ a, b }: { a: Product; b: Product }) {
+function BentoPairCard({ a, b, className }: { a: Product; b: Product; className: string }) {
   const imageOf = (p: Product) => p.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
-  const imageA = imageOf(a);
-  const imageB = imageOf(b);
 
   return (
-    <div className="relative flex h-full w-full bg-[var(--surface-plate)]">
-      {[
-        { product: a, image: imageA },
-        { product: b, image: imageB },
-      ].map(({ product, image }, i) => (
-        <div key={product.id} className={`relative h-full flex-1 ${i === 0 ? "border-r border-[var(--color-line)]/60" : ""}`}>
-          {image && (
-            <Image
-              src={image.url}
-              alt=""
-              aria-hidden
-              fill
-              sizes="(min-width: 768px) 160px, 22vw"
-              className="object-contain p-5 drop-shadow-[0_14px_22px_rgba(10,10,10,0.14)] transition-transform group-hover:scale-[1.03]"
-              style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
-            />
-          )}
-        </div>
-      ))}
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
-        <span className="tnum">
-          {a.id} / {b.id}
-        </span>
-        <span>THE SET</span>
+    <div className={`group relative overflow-hidden bg-[var(--surface-plate)] ${className}`}>
+      <div className="relative flex h-full w-full">
+        {[a, b].map((product, i) => {
+          const image = imageOf(product);
+          return (
+            <Link
+              key={product.id}
+              href={`/product/${product.slug}`}
+              aria-label={`View ${product.name}`}
+              className={`group/half relative h-full flex-1 ${i === 0 ? "border-r border-[var(--color-line)]/60" : ""}`}
+            >
+              <CursorTarget label="VIEW" className="h-full w-full">
+                {image && (
+                  <Image
+                    src={image.url}
+                    alt={image.alt}
+                    fill
+                    sizes="(min-width: 768px) 160px, 22vw"
+                    className="object-contain p-5 drop-shadow-[0_14px_22px_rgba(10,10,10,0.14)] transition-transform group-hover/half:scale-[1.03]"
+                    style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
+                  />
+                )}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-3 pt-6">
+                  <p className="font-display truncate text-sm font-medium text-[var(--ink)]">
+                    {displayName(product.name).replace("CAISN ", "")}
+                  </p>
+                  <Price value={product.price} className="tnum mt-0.5 block text-xs text-[var(--ink-soft)]" />
+                </div>
+              </CursorTarget>
+            </Link>
+          );
+        })}
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-4 pt-8">
-        <p className="font-display text-xl font-semibold leading-none text-[var(--ink)]">THE FORMA SET</p>
-        <p className="tnum mt-1 text-xs text-[var(--ink-soft)]">
-          {a.name.replace("CAISN ", "")} + {b.name.replace("CAISN ", "")}
-        </p>
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
+        <span className="font-display text-sm font-semibold tracking-normal text-[var(--ink)]">THE FORMA SET</span>
+        <span className="text-[var(--color-accent)]">SOLD SEPARATELY</span>
       </div>
     </div>
   );
@@ -80,7 +83,7 @@ function BentoCardBody({ product }: { product: Product }) {
         </div>
         <div>
           <p className="font-display text-xl font-semibold leading-none transition-transform duration-200 group-hover:-translate-y-0.5">
-            {product.name}
+            {displayName(product.name)}
           </p>
           <p className="tnum mt-1 text-xs text-[var(--color-fg-soft)]">{product.spec}</p>
         </div>
@@ -109,7 +112,7 @@ function BentoCardBody({ product }: { product: Product }) {
         <span>{product.edition}</span>
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-4 pt-8">
-        <p className="font-display text-xl font-semibold leading-none text-[var(--ink)]">{product.name}</p>
+        <p className="font-display text-xl font-semibold leading-none text-[var(--ink)]">{displayName(product.name)}</p>
         <p className="tnum mt-1 text-xs text-[var(--ink-soft)]">{product.spec}</p>
       </div>
     </div>
@@ -171,16 +174,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
           const span = item.kind === "pair" ? "lg" : spans[i % spans.length];
           if (item.kind === "pair") {
             return (
-              <Link
-                key={`${item.a.id}-${item.b.id}`}
-                href={`/product/${item.a.slug}`}
-                aria-label={`View ${item.a.name} and ${item.b.name}, sold separately`}
-                className={`group relative overflow-hidden text-left ${spanClasses[span]}`}
-              >
-                <CursorTarget label="VIEW" className="h-full w-full">
-                  <BentoPairCardBody a={item.a} b={item.b} />
-                </CursorTarget>
-              </Link>
+              <BentoPairCard key={`${item.a.id}-${item.b.id}`} a={item.a} b={item.b} className={spanClasses[span]} />
             );
           }
           const p = item.product;
@@ -233,7 +227,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
                   {active.edition}
                 </span>
                 <h3 id="bento-overlay-heading" className="font-display mt-2 text-4xl font-semibold">
-                  {active.name}
+                  {displayName(active.name)}
                 </h3>
                 <p className="mt-4 text-sm text-[var(--color-fg-soft)]">{active.story[0]}</p>
                 <div className="mt-6 flex items-center gap-4">

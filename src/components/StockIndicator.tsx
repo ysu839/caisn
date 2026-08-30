@@ -8,17 +8,13 @@ import { LIVE_INVENTORY } from "@/lib/commerce/data";
  * beyond the single accent reserved for low stock.
  *
  * Until LIVE_INVENTORY is true, stock is placeholder data and must
- * never be presented as fact — this renders a neutral "DATA PENDING"
- * state instead of a fabricated remaining count.
+ * never be presented as fact — rather than show internal-sounding
+ * language like "pending" to a customer, this control is simply
+ * withheld until real inventory is wired in.
  */
 export function StockIndicator({ stock, total }: { stock: number; total?: number }) {
   if (!LIVE_INVENTORY) {
-    return (
-      <div className="flex items-center gap-2 text-xs tracking-[0.1em]">
-        <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-fg-soft)]" aria-hidden />
-        <span className="tnum text-[var(--color-fg-soft)]">DATA PENDING</span>
-      </div>
-    );
+    return null;
   }
 
   const low = stock <= 3;

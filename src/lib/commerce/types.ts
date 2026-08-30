@@ -60,3 +60,14 @@ export type Product = {
    */
   hidden?: boolean;
 };
+
+/**
+ * A literal hyphen (e.g. in "ZIP-UP") is a valid line-break point for
+ * the browser, which can split a compound product name awkwardly at
+ * small sizes. Swap it for a non-breaking hyphen (U+2011) wherever a
+ * product name is displayed as a heading/title — purely visual, the
+ * underlying data/slug/copy stays a normal hyphen.
+ */
+export function displayName(name: string): string {
+  return name.replace(/-/g, "‑");
+}
