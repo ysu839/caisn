@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { getProducts } from "@/lib/commerce/data";
 import { displayName } from "@/lib/commerce/types";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ProductPlate } from "@/components/ProductPlate";
+import { ProductCardImage } from "@/components/ProductCardImage";
 import { Price } from "@/components/Price";
 import { QuickAdd } from "@/components/QuickAdd";
 
@@ -41,29 +41,8 @@ export default async function ShopPage() {
             return (
               <Link key={p.id} href={`/product/${p.slug}`} className="group block">
                 {front ? (
-                  <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--surface-plate)]">
-                    <Image
-                      src={front.url}
-                      alt={front.alt}
-                      fill
-                      priority={i < 3}
-                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-                      className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity"
-                      style={{ transitionDuration: "var(--dur-snap)" }}
-                    />
-                    {/* Front/back crossfade on hover — pointer devices only,
-                        so touch never gets stuck showing the back image. */}
-                    {back && (
-                      <Image
-                        src={back.url}
-                        alt=""
-                        aria-hidden
-                        fill
-                        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-                        className="object-contain p-6 opacity-0 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity [@media(hover:hover)]:group-hover:opacity-100"
-                        style={{ transitionDuration: "var(--dur-drift)" }}
-                      />
-                    )}
+                  <div className="relative">
+                    <ProductCardImage front={front} back={back} priority={i < 3} />
                     <QuickAdd product={p} />
                   </div>
                 ) : (

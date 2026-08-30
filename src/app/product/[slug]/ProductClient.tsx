@@ -14,6 +14,7 @@ import { AddToCart } from "@/components/AddToCart";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { StickyAddToCart } from "@/components/StickyAddToCart";
+import { ConstructionSheet } from "@/components/ConstructionSheet";
 
 // Code-split the 3D layer (three.js + r3f + gsap) out of the initial PDP
 // bundle so price/variant/cart interactivity doesn't wait on it — commerce
@@ -112,19 +113,24 @@ export function ProductClient({
         </div>
       </section>
 
-      {/* DETAILS — a plain, dense list rather than a wall of bordered
-          boxes: whitespace and a hairline rule per row carry the
-          hierarchy, no UI chrome competing with the garment. */}
-      <section className="mx-auto max-w-2xl px-[var(--gutter)] py-16">
-        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">DETAILS</h2>
-        <ul className="divide-y divide-[var(--color-line)] border-t border-[var(--color-line)]">
-          {product.materials.map((m, i) => (
-            <li key={i} className="py-3 text-sm capitalize leading-relaxed text-[var(--color-fg)]">
-              {m}
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* CONSTRUCTION SHEET — an editorial garment-development-sheet
+          layout for products with real photography, replacing the
+          plain DETAILS list. Falls back to the plain list when there's
+          no real photography to compose it around. */}
+      {realMedia ? (
+        <ConstructionSheet product={product} />
+      ) : (
+        <section className="mx-auto max-w-2xl px-[var(--gutter)] py-16">
+          <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">DETAILS</h2>
+          <ul className="divide-y divide-[var(--color-line)] border-t border-[var(--color-line)]">
+            {product.materials.map((m, i) => (
+              <li key={i} className="py-3 text-sm capitalize leading-relaxed text-[var(--color-fg)]">
+                {m}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* SCROLL UNBOXING — signature exploded-view sequence. Its
           construction labels are generic (SOLID BRASS, STRUCTURAL
@@ -133,17 +139,24 @@ export function ProductClient({
           exists — same reasoning as the hero above. */}
       {!realMedia && <ProductExplodedSection spec={product.spec} name={product.name} />}
 
-      {/* PRODUCT STORY */}
-      <section className="mx-auto max-w-2xl px-[var(--gutter)] py-16">
-        <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">STORY</h2>
-        <div className="space-y-6">
-          {product.story.map((p, i) => (
-            <p key={i} className="text-lg leading-relaxed text-[var(--color-fg-soft)]">
-              {p}
-            </p>
-          ))}
-        </div>
-      </section>
+      {/* PRODUCT STORY — the first paragraph already appears inside the
+          Construction Sheet above (realMedia case), so only the rest
+          renders here to avoid repeating it. */}
+      {(() => {
+        const remainingStory = realMedia ? product.story.slice(1) : product.story;
+        return remainingStory.length > 0 ? (
+          <section className="mx-auto max-w-2xl px-[var(--gutter)] py-16">
+            <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">STORY</h2>
+            <div className="space-y-6">
+              {remainingStory.map((p, i) => (
+                <p key={i} className="text-lg leading-relaxed text-[var(--color-fg-soft)]">
+                  {p}
+                </p>
+              ))}
+            </div>
+          </section>
+        ) : null;
+      })()}
 
       {/* COMPLETE THE FORMA — cross-link to the designed-to-pair piece.
           Sold separately; this is a styling pointer, not a bundle. */}
