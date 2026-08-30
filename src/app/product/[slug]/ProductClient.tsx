@@ -34,10 +34,12 @@ const ProductExplodedSection = dynamic(
 export function ProductClient({
   product,
   related,
+  pair,
   total,
 }: {
   product: Product;
   related: Product[];
+  pair?: Product;
   total: number;
 }) {
   const [variant, setVariant] = useState(product.variants[0]);
@@ -118,6 +120,28 @@ export function ProductClient({
           ))}
         </div>
       </section>
+
+      {/* COMPLETE THE FORMA — cross-link to the designed-to-pair piece.
+          Sold separately; this is a styling pointer, not a bundle. */}
+      {pair && (
+        <section className="px-[var(--gutter)] py-16">
+          <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
+            COMPLETE THE FORMA
+          </h2>
+          <Link href={`/product/${pair.slug}`} className="group grid grid-cols-1 gap-6 md:grid-cols-3 md:items-center">
+            <div className="md:col-span-1">
+              <ProductVisual product={pair} />
+            </div>
+            <div className="md:col-span-2">
+              <p className="font-display text-2xl font-medium md:text-3xl">{pair.name}</p>
+              <Price value={pair.price} className="mt-2 block text-base text-[var(--color-fg-soft)]" />
+              <span className="mt-4 inline-block text-xs tracking-[0.15em] underline underline-offset-4">
+                SHOP {pair.name}
+              </span>
+            </div>
+          </Link>
+        </section>
+      )}
 
       {/* RELATED */}
       <section className="px-[var(--gutter)] py-16">

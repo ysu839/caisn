@@ -46,4 +46,11 @@ export type Product = {
   media: ProductMedia[];
   variants: Variant[];
   model3dUrl?: string;
+  /**
+   * Slug of a separately-sold product designed to pair with this one
+   * (e.g. a set's top + bottom). Purely a cross-link — the two remain
+   * distinct, independently purchasable products; this does not imply
+   * a bundle/set SKU.
+   */
+  pairSlug?: string;
 };

@@ -142,6 +142,7 @@ const products: Product[] = [
       { color: "Heather Grey", colorHex: "#9a958f", size: "XL", stock: 1 },
     ],
     model3dUrl: undefined,
+    pairSlug: "forma-zip-up",
   },
   {
     id: "06",
@@ -181,6 +182,7 @@ const products: Product[] = [
       { color: "Heather Grey", colorHex: "#9a958f", size: "XL", stock: 1 },
     ],
     model3dUrl: undefined,
+    pairSlug: "forma-jogger",
   },
 ];
 

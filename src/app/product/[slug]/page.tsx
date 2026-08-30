@@ -27,7 +27,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const related = (await getProducts()).filter((p) => p.id !== product.id).slice(0, 3);
+  const pair = product.pairSlug ? await getProductBySlug(product.pairSlug) : undefined;
+  const related = (await getProducts())
+    .filter((p) => p.id !== product.id && p.id !== pair?.id)
+    .slice(0, 3);
   const stock = totalStock(product);
 
   const jsonLd = {
@@ -59,7 +62,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <ProductClient product={product} related={related} total={stock} />
+      <ProductClient product={product} related={related} pair={pair} total={stock} />
     </>
   );
 }
