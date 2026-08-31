@@ -35,7 +35,8 @@ export function CategorySection({ products }: { products: Product[] }) {
           <Link
             key={category}
             href={`/shop?category=${encodeURIComponent(category)}`}
-            className="group relative block aspect-[3/4] overflow-hidden bg-[#161615]"
+            className="group relative block aspect-[3/4] overflow-hidden bg-[#161615] ring-1 ring-transparent ring-inset transition-[transform,box-shadow] active:scale-[0.98] [@media(hover:hover)]:hover:ring-[var(--color-accent)]/60"
+            style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
           >
             {image && (
               <Image
@@ -44,8 +45,8 @@ export function CategorySection({ products }: { products: Product[] }) {
                 aria-hidden
                 fill
                 sizes="(min-width: 640px) 30vw, 90vw"
-                className="object-contain p-8 opacity-90 drop-shadow-[0_18px_28px_rgba(0,0,0,0.5)] transition-transform group-hover:scale-[1.04]"
-                style={{ transitionDuration: "var(--dur-drift)", transitionTimingFunction: "var(--ease-drift)" }}
+                className="object-contain p-8 opacity-90 drop-shadow-[0_18px_28px_rgba(0,0,0,0.5)] transition-transform [@media(hover:hover)]:group-hover:scale-[1.04]"
+                style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
               />
             )}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 pt-12">

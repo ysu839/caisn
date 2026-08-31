@@ -9,34 +9,27 @@ import { Product, displayName } from "@/lib/commerce/types";
 import { Price } from "@/components/Price";
 
 /**
- * Architectural editorial hero: the oversized CAISN wordmark sits
- * behind the garment rather than beside it, the garment overlaps it
- * directly, and a small inset shows the back view — closer to a
- * campaign composition while staying a functioning product hero (name,
- * price and CTA are never hidden behind the typography).
+ * CAISN / CONTROLLED DISTORTION hero. The garment is the dominant
+ * element — an oversized cropped wordmark sits behind it and a second
+ * fragment overlaps its lower edge in front, both purely decorative
+ * (aria-hidden) so the real product name/price/CTAs below carry the
+ * actual information. The panel-style reveal is a plain CSS animation
+ * (see .hero-panel-reveal in globals.css) — fully visible with
+ * JavaScript disabled, not gated behind a scripted opacity state.
+ * Pointer parallax is a pure enhancement layered on top of that.
  */
 export function HomeHero({ product }: { product?: Product }) {
-  const ctaRef = useMagnetic<HTMLAnchorElement>();
+  const shopRef = useMagnetic<HTMLAnchorElement>();
   const frameRef = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const images = product?.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:")) ?? [];
   const front = images[0];
   const back = images[1];
 
-  // Reveal once mounted — fast (see the 600ms transition below), never
-  // a multi-second wait, and skipped visually under reduced-motion
-  // (the element is already in its resting position, just not yet
-  // "ready" for the opacity transition, which reduced-motion CSS below
-  // makes instant anyway).
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setReady(true));
-    return () => cancelAnimationFrame(id);
-  }, []);
-
   // Very small pointer-driven parallax between the background wordmark
-  // and the garment — desktop, fine-pointer, motion-enabled only.
+  // and the garment — desktop, fine-pointer, motion-enabled only. Pure
+  // enhancement: the hero is already complete without it.
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fine = window.matchMedia("(pointer: fine)").matches;
@@ -59,25 +52,26 @@ export function HomeHero({ product }: { product?: Product }) {
   }, []);
 
   return (
-    <section className="relative overflow-hidden px-[var(--gutter)] pb-10 pt-6 md:pb-16">
+    <section className="relative overflow-hidden px-[var(--gutter)] pb-12 pt-6 md:pb-20">
       <div className="pointer-events-none fixed left-0 top-0 hidden h-full w-[var(--rail-width)] flex-col items-center justify-center border-r border-[var(--color-line)] md:flex">
         <span className="tnum -rotate-90 whitespace-nowrap text-xs tracking-[0.2em] text-[var(--color-fg-soft)]">
           CAISN — BUILT, NOT PRINTED
         </span>
       </div>
 
-      <div
-        ref={frameRef}
-        className="relative border border-[var(--color-line)] px-[max(4vw,var(--gutter))] py-10 md:py-16"
-      >
-        {/* Oversized wordmark behind the garment — a background layer,
-            not a heading; the real <h1> is the small label below so
-            screen readers get "CAISN" once, not shouted twice. */}
+      <div ref={frameRef} className="relative">
+        <div className="flex items-baseline gap-3">
+          <h1 className="font-display text-sm font-semibold tracking-[0.2em]">CAISN</h1>
+          <span className="text-xs tracking-[0.1em] text-[var(--color-fg-soft)]">built, not printed.</span>
+        </div>
+
+        {/* Oversized cropped wordmark behind the garment — decorative
+            layer, not a heading (the real <h1> is above). */}
         <span
           aria-hidden
-          className="font-display pointer-events-none absolute inset-x-0 top-1/2 block -translate-y-1/2 select-none text-center text-[26vw] font-semibold leading-none tracking-tight text-[var(--color-fg)] opacity-[0.06] md:text-[15vw]"
+          className="font-display pointer-events-none absolute inset-x-0 top-1/2 block -translate-y-1/2 select-none text-center text-[30vw] font-semibold leading-none tracking-tight text-[var(--color-fg)] opacity-[0.05] md:text-[16vw]"
           style={{
-            transform: `translate(${tilt.x * -6}px, calc(-50% + ${tilt.y * -6}px))`,
+            transform: `translate(${tilt.x * -8}px, calc(-50% + ${tilt.y * -8}px))`,
             transitionDuration: "var(--dur-drift)",
             transitionTimingFunction: "var(--ease-drift)",
             transitionProperty: "transform",
@@ -86,81 +80,93 @@ export function HomeHero({ product }: { product?: Product }) {
           CAISN
         </span>
 
-        <div className="relative grid grid-cols-1 items-end gap-8 md:grid-cols-[1fr_auto] md:gap-12">
-          <div className="relative z-10">
-            <div className="flex items-baseline gap-3">
-              <h1 className="font-display text-sm font-semibold tracking-[0.2em]">CAISN</h1>
-              <span className="text-xs tracking-[0.1em] text-[var(--color-fg-soft)]">built, not printed.</span>
-            </div>
-
-            {product && front && (
-              <div
-                className="relative mt-6 opacity-0 transition-[opacity,transform]"
-                style={{
-                  opacity: ready ? 1 : 0,
-                  transform: ready ? "translateY(0)" : "translateY(12px)",
-                  transitionDuration: "600ms",
-                  transitionTimingFunction: "var(--ease-drift)",
-                }}
-              >
-                <span className="tnum text-[10px] tracking-[0.15em] text-[var(--color-accent)]">
-                  CONSTRUCTION 01 {product.edition && `/ ${product.edition.toUpperCase()}`}
-                </span>
-
-                <Link href={`/product/${product.slug}`} className="group relative mt-4 block">
-                  <div
-                    className="relative aspect-[4/5] w-full max-w-md overflow-hidden bg-[var(--surface-plate)]"
-                    style={{
-                      transform: `translate(${tilt.x * 4}px, ${tilt.y * 4}px)`,
-                      transitionDuration: "var(--dur-drift)",
-                      transitionTimingFunction: "var(--ease-drift)",
-                      transitionProperty: "transform",
-                    }}
+        <div className="relative mt-8 grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-6">
+          {/* GARMENT — dominant, full-bleed within its column. Panel
+              reveal runs via CSS (.hero-panel-reveal), not JS state. */}
+          {product && front && (
+            <div className="relative md:col-span-7 md:col-start-1">
+              <Link href={`/product/${product.slug}`} className="group relative block">
+                <div
+                  className="hero-panel-reveal relative aspect-[4/5] w-full overflow-hidden bg-[var(--surface-plate)] md:aspect-[5/6]"
+                  style={{
+                    transform: `translate(${tilt.x * 5}px, ${tilt.y * 5}px)`,
+                    transitionDuration: "var(--dur-drift)",
+                    transitionTimingFunction: "var(--ease-drift)",
+                    transitionProperty: "transform",
+                  }}
+                >
+                  <Image
+                    src={front.url}
+                    alt={front.alt}
+                    fill
+                    priority
+                    sizes="(min-width: 768px) 55vw, 92vw"
+                    className="object-contain p-6 drop-shadow-[0_28px_40px_rgba(10,10,10,0.2)] transition-transform group-hover:scale-[1.02] md:p-10"
+                    style={{ transitionDuration: "var(--dur-drift)", transitionTimingFunction: "var(--ease-drift)" }}
+                  />
+                  {/* A cropped wordmark fragment in front of the garment's
+                      lower edge — partial letterforms only (overflow
+                      clips it), so it reads as graphic distortion rather
+                      than a duplicate label. */}
+                  <span
+                    aria-hidden
+                    className="font-display pointer-events-none absolute -bottom-[6%] left-1/2 block -translate-x-1/2 select-none text-[13vw] font-semibold leading-none tracking-tight text-[var(--ink)] opacity-[0.85] mix-blend-overlay md:text-[7vw]"
                   >
-                    <Image
-                      src={front.url}
-                      alt={front.alt}
-                      fill
-                      priority
-                      sizes="(min-width: 768px) 40vw, 90vw"
-                      className="object-contain p-8 drop-shadow-[0_24px_36px_rgba(10,10,10,0.18)] transition-transform group-hover:scale-[1.02]"
-                      style={{ transitionDuration: "var(--dur-drift)", transitionTimingFunction: "var(--ease-drift)" }}
-                    />
-                  </div>
+                    CAISN
+                  </span>
+                </div>
+                {/* Oxblood alignment line — a single signature mark
+                    connecting the garment to the info panel. */}
+                <span
+                  aria-hidden
+                  className="absolute -bottom-5 left-0 hidden h-px w-16 bg-[var(--color-accent)] md:block"
+                />
+              </Link>
 
-                  {back && (
-                    <div
-                      className="absolute -bottom-6 -right-6 h-24 w-20 overflow-hidden bg-[var(--surface-plate)] opacity-0 shadow-lg ring-1 ring-[var(--color-accent)] transition-opacity md:h-32 md:w-28"
-                      style={{
-                        opacity: ready ? 1 : 0,
-                        transitionDelay: "150ms",
-                        transitionDuration: "500ms",
-                      }}
-                    >
-                      <Image src={back.url} alt="" aria-hidden fill sizes="112px" className="object-contain p-3" />
-                    </div>
-                  )}
-                </Link>
+              {back && (
+                <div
+                  className="hero-fade-up absolute -right-4 -top-4 hidden h-28 w-24 overflow-hidden bg-[var(--surface-plate)] shadow-lg ring-1 ring-[var(--color-accent)] md:block md:h-36 md:w-28"
+                  style={{ animationDelay: "250ms" }}
+                >
+                  <Image src={back.url} alt="" aria-hidden fill sizes="112px" className="object-contain p-3" />
+                </div>
+              )}
+            </div>
+          )}
 
-                <p className="font-display mt-8 text-2xl font-medium">{displayName(product.name)}</p>
-                <Price value={product.price} className="font-display mt-1 block text-lg" />
+          {/* INFO — name, price, two CTAs. Never hidden behind the
+              garment or the wordmark layers. */}
+          {product && (
+            <div className="hero-fade-up md:col-span-5 md:col-start-8" style={{ animationDelay: "120ms" }}>
+              <span className="tnum text-[10px] tracking-[0.15em] text-[var(--color-accent)]">
+                CONSTRUCTION 01 {product.edition && `/ ${product.edition.toUpperCase()}`}
+              </span>
+              <p className="font-display mt-3 text-4xl font-medium leading-[0.95] md:text-5xl">
+                {displayName(product.name)}
+              </p>
+              <Price value={product.price} className="font-display mt-3 block text-xl" />
+
+              <div className="mt-7 flex flex-wrap items-center gap-4">
                 <CursorTarget label="VIEW">
                   <Link
-                    ref={ctaRef}
+                    ref={shopRef}
                     href={`/product/${product.slug}`}
-                    className="mt-5 inline-block whitespace-nowrap rounded-[var(--radius)] border border-[var(--color-fg)] px-6 py-3 text-xs font-medium tracking-[0.15em] transition-colors hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--paper)]"
+                    className="inline-block whitespace-nowrap rounded-[var(--radius)] border border-[var(--color-fg)] bg-[var(--color-fg)] px-6 py-3 text-xs font-medium tracking-[0.15em] text-[var(--color-bg)] transition-colors hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]"
                     style={{ transitionDuration: "var(--dur-snap)" }}
                   >
-                    VIEW PRODUCT
+                    SHOP ECHO
                   </Link>
                 </CursorTarget>
+                <Link
+                  href="#collection"
+                  className="inline-block whitespace-nowrap text-xs font-medium tracking-[0.15em] text-[var(--color-fg-soft)] underline underline-offset-4 transition-colors hover:text-[var(--color-accent)]"
+                  style={{ transitionDuration: "var(--dur-snap)" }}
+                >
+                  EXPLORE DROP 01
+                </Link>
               </div>
-            )}
-          </div>
-
-          <div className="hidden text-right md:block">
-            <span className="tnum text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">FIRST EDITION</span>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

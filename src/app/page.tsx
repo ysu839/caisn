@@ -2,8 +2,11 @@ import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
 import { BentoGrid } from "@/components/BentoGrid";
 import { HomeHero } from "@/components/HomeHero";
+import { FormaConnection } from "@/components/FormaConnection";
 import { CategorySection } from "@/components/CategorySection";
+import { CampaignSection } from "@/components/CampaignSection";
 import { AboutSection } from "@/components/AboutSection";
+import { BrandMoment } from "@/components/BrandMoment";
 import { Footer } from "@/components/Footer";
 
 export default async function Home() {
@@ -12,6 +15,9 @@ export default async function Home() {
   // edit data.ts to change what the homepage leads with; no component
   // change required.
   const featured = products[0];
+  const zipUp = products.find((p) => p.slug === "forma-zip-up");
+  const jogger = products.find((p) => p.slug === "forma-jogger");
+  const tracksuit = products.find((p) => p.slug === "forma-tracksuit");
 
   return (
     <main className="relative">
@@ -30,7 +36,13 @@ export default async function Home() {
         <BentoGrid products={products} />
       </section>
 
+      {zipUp && jogger && tracksuit && (
+        <FormaConnection zipUp={zipUp} jogger={jogger} tracksuit={tracksuit} />
+      )}
+
       <CategorySection products={products} />
+
+      {featured && <CampaignSection product={featured} />}
 
       <AboutSection product={featured} />
 
@@ -41,6 +53,8 @@ export default async function Home() {
           Browse the current construction now — full checkout access is coming shortly.
         </p>
       </section>
+
+      <BrandMoment />
 
       <Footer />
     </main>

@@ -52,7 +52,7 @@ function BentoPairCard({ a, b, className }: { a: Product; b: Product; className:
                   />
                 )}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-3 pt-6">
-                  <p className="font-display truncate text-sm font-medium text-[var(--ink)]">
+                  <p className="font-display text-xs font-medium leading-tight text-[var(--ink)] sm:text-sm">
                     {displayName(product.name).replace("CAISN ", "")}
                   </p>
                   <Price value={product.price} className="tnum mt-0.5 block text-xs text-[var(--ink-soft)]" />
@@ -70,8 +70,11 @@ function BentoPairCard({ a, b, className }: { a: Product; b: Product; className:
   );
 }
 
-function BentoCardBody({ product }: { product: Product }) {
-  const image = product.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
+function BentoCardBody({ product, featured }: { product: Product; featured: boolean }) {
+  const images = product.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"));
+  const image = images[0];
+  const back = images[1];
+  const isBundle = product.category === "Sets";
 
   if (!image) {
     // No real photography yet — the existing pure spec-sheet treatment,
@@ -108,12 +111,35 @@ function BentoCardBody({ product }: { product: Product }) {
         className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-transform group-hover:scale-[1.03]"
         style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
       />
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
+      {/* Front/back crossfade on hover, pointer devices only — touch
+          never gets stuck on the back image. */}
+      {back && (
+        <Image
+          src={back.url}
+          alt=""
+          aria-hidden
+          fill
+          sizes="(min-width: 768px) 320px, 45vw"
+          className="object-contain p-6 opacity-0 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity [@media(hover:hover)]:group-hover:opacity-100"
+          style={{ transitionDuration: "var(--dur-drift)" }}
+        />
+      )}
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
         <span className="tnum">{product.id}</span>
-        <span>{product.edition}</span>
+        {isBundle ? (
+          <span className="rounded-full bg-[var(--color-accent)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">
+            SET — 2 PIECES
+          </span>
+        ) : (
+          <span>{product.edition}</span>
+        )}
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-4 pt-8">
-        <p className="font-display text-xl font-semibold leading-none text-[var(--ink)]">{displayName(product.name)}</p>
+        <p
+          className={`font-display leading-none text-[var(--ink)] ${featured ? "text-2xl font-semibold md:text-3xl" : "text-xl font-semibold"}`}
+        >
+          {displayName(product.name)}
+        </p>
         <p className="tnum mt-1 text-xs text-[var(--ink-soft)]">{product.spec}</p>
       </div>
       <QuickAdd product={product} />
@@ -154,13 +180,11 @@ export function BentoGrid({ products }: { products: Product[] }) {
 
   const items = groupForBento(products);
   // Exactly one "lg" (2x2 = 4 cells) plus the rest "md" (2x1 = 2 cells
-  // each) tiles a 4-col grid with zero gaps for any item count — a
-  // second forced-"lg" (previously always given to the pair, on top of
-  // a hardcoded "lg" for whichever single happened to be first) pushed
-  // total cells past what the grid holds and left a dead gap. The pair
-  // gets the one "lg" when present (two garments need the room a
-  // single-product "md" doesn't have); otherwise the first single does.
-  const hasPair = items.some((item) => item.kind === "pair");
+  // each) tiles a 4-col grid with zero gaps for any item count. The
+  // first item is the featured card — ECHO leads the catalog order in
+  // data.ts, so this naturally makes it the large feature per the
+  // brief's "one large ECHO feature, one FORMA pair, one tracksuit"
+  // composition, without hardcoding a slug check here.
 
   useEffect(() => {
     if (!active) return;
@@ -176,7 +200,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
     <div className="relative">
       <div className="grid auto-rows-[240px] grid-cols-2 gap-4 md:grid-cols-4">
         {items.map((item, i) => {
-          const span: Span = item.kind === "pair" ? "lg" : !hasPair && i === 0 ? "lg" : "md";
+          const span: Span = i === 0 ? "lg" : "md";
           if (item.kind === "pair") {
             return (
               <BentoPairCard key={`${item.a.id}-${item.b.id}`} a={item.a} b={item.b} className={spanClasses[span]} />
@@ -203,7 +227,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
               className={`group relative cursor-pointer overflow-hidden text-left ${spanClasses[span]}`}
             >
               <CursorTarget label="VIEW" className="h-full w-full">
-                <BentoCardBody product={p} />
+                <BentoCardBody product={p} featured={span === "lg"} />
               </CursorTarget>
             </motion.div>
           );

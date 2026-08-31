@@ -9,7 +9,11 @@ import { Product } from "@/lib/commerce/types";
  * only the composition changes.
  */
 export function AboutSection({ product }: { product?: Product }) {
-  const detailImage = product?.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
+  const images = product?.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:")) ?? [];
+  // Back image, not front — the hero and Construction Sheet already
+  // use the front shot; this crop needs a different storytelling
+  // purpose, not another repeat of the same view.
+  const detailImage = images[1] ?? images[0];
 
   const index = [
     { n: "01", label: "STRUCTURE" },
@@ -59,12 +63,8 @@ export function AboutSection({ product }: { product?: Product }) {
                 alt={detailImage.alt}
                 fill
                 sizes="(min-width: 768px) 35vw, 90vw"
-                className="scale-[2.1] object-cover object-[50%_20%]"
+                className="scale-[1.6] object-cover object-[50%_32%]"
               />
-              <div className="pointer-events-none absolute inset-3 border border-[var(--color-accent)]/30" />
-              <span className="tnum absolute bottom-3 right-3 text-[9px] tracking-[0.15em] text-[var(--color-fg-soft)]">
-                DETAIL / 01
-              </span>
             </div>
           </div>
         )}

@@ -130,3 +130,54 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   HOMEPAGE MOTION SYSTEM — two levels only, everything else on the
+   page reads through these tokens rather than inventing its own
+   timing:
+
+   - Direct-response (buttons, hover, quick-add, links, image switch):
+     var(--dur-snap) / var(--ease-snap)  — ~200ms, already defined above.
+   - Editorial (hero reveal, section entrances, image-layer transitions,
+     FORMA storytelling): var(--dur-drift) / var(--ease-drift) — ~1100ms.
+
+   Both are CSS custom properties, so every homepage component shares
+   one source of truth instead of hardcoding durations. Reduced-motion
+   collapses all of it via the rule above — no separate fallback path
+   needed per-component.
+   ============================================================ */
+
+/* Signature hero reveal — a plain CSS @keyframes animation, not
+   JS-driven state. It runs automatically on paint via the
+   `animation` property, so the hero is fully visible immediately with
+   JavaScript disabled (no scripted opacity gate to get stuck behind)
+   and the entrance is still a controlled panel-style reveal when JS
+   *is* available. Reduced-motion collapses the duration to ~0 via the
+   global rule above, so it becomes an instant appearance either way. */
+@keyframes hero-panel-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0% 0);
+  }
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-panel-reveal {
+  animation: hero-panel-reveal var(--dur-drift) var(--ease-drift) both;
+}
+
+.hero-fade-up {
+  animation: hero-fade-up var(--dur-drift) var(--ease-drift) both;
+}

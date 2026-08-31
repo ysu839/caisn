@@ -165,7 +165,7 @@ test.describe("responsive navigation", () => {
   test("primary nav links are present and functional on desktop", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
-    await page.getByRole("link", { name: "SHOP" }).click();
+    await page.getByRole("link", { name: "SHOP", exact: true }).click();
     await expect(page).toHaveURL(/\/shop$/);
   });
 
@@ -210,6 +210,45 @@ test.describe("category filtering", () => {
     await page.goto("/shop?category=Sets");
     await expect(page.getByText(/CAISN FORMA TRACKSUIT/)).toBeVisible();
     await expect(page.getByText(/CAISN FORMA JOGGER/)).toHaveCount(0);
+  });
+});
+
+test.describe("homepage hero", () => {
+  test("SHOP ECHO and EXPLORE DROP 01 both work", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByText("€69.99").first()).toBeVisible();
+    await page.getByRole("link", { name: "EXPLORE DROP 01" }).click();
+    await expect(page.locator("#collection")).toBeInViewport();
+
+    await page.goto("/");
+    await page.getByRole("link", { name: "SHOP ECHO" }).click();
+    await expect(page).toHaveURL(/\/product\/echo-zip-hoodie$/);
+  });
+
+  test("hero is visible without relying on scripted opacity state", async ({ page }) => {
+    // The hero's entrance is a CSS animation (see .hero-panel-reveal),
+    // not a JS-gated opacity toggle — after the animation settles the
+    // product name must be at full opacity, not stuck invisible.
+    await page.goto("/");
+    await page.waitForTimeout(1300);
+    const opacity = await page.getByText("CAISN ECHO ZIP HOODIE").first().evaluate((el) => getComputedStyle(el).opacity);
+    expect(opacity).toBe("1");
+  });
+});
+
+test.describe("FORMA connection section", () => {
+  test("all three destinations resolve to the correct products", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("link", { name: /View Complete Set/ }).click();
+    await expect(page).toHaveURL(/\/product\/forma-tracksuit$/);
+
+    await page.goto("/");
+    const links = await page
+      .locator('a[href^="/product/forma-"]')
+      .evaluateAll((els) => els.map((el) => el.getAttribute("href")));
+    expect(links).toContain("/product/forma-zip-up");
+    expect(links).toContain("/product/forma-jogger");
+    expect(links).toContain("/product/forma-tracksuit");
   });
 });
 
