@@ -169,9 +169,61 @@ test.describe("responsive navigation", () => {
     await expect(page).toHaveURL(/\/shop$/);
   });
 
-  test("no disabled SEARCH control remains", async ({ page }) => {
+});
+
+test.describe("search", () => {
+  test("opens, returns real products, and closes on Escape", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("SEARCH")).toHaveCount(0);
+    await page.getByRole("button", { name: "Open search" }).click();
+    const dialog = page.getByRole("dialog", { name: "Search" });
+    await expect(dialog).toBeVisible();
+
+    await page.getByRole("textbox", { name: "Search" }).fill("forma");
+    await expect(dialog.getByText(/CAISN FORMA JOGGER/)).toBeVisible();
+    await expect(dialog.getByText(/CAISN FORMA ZIP.UP/)).toBeVisible();
+    await expect(dialog.getByText(/CAISN ECHO ZIP HOODIE/)).toHaveCount(0);
+
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+  });
+
+  test("shows an honest empty state for no matches", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Open search" }).click();
+    await page.getByRole("textbox", { name: "Search" }).fill("zzzznomatch");
+    await expect(page.getByText(/No results for/)).toBeVisible();
+  });
+});
+
+test.describe("category filtering", () => {
+  test("filtering the shop grid by category shows only matching products", async ({ page }) => {
+    await page.goto("/shop");
+    await page.getByRole("button", { name: "BOTTOMS" }).click();
+    await expect(page.getByText(/CAISN FORMA JOGGER/)).toBeVisible();
+    await expect(page.getByText(/CAISN ECHO ZIP HOODIE/)).toHaveCount(0);
+
+    await page.getByRole("button", { name: "RESET" }).click();
+    await expect(page.getByText(/CAISN ECHO ZIP HOODIE/)).toBeVisible();
+  });
+
+  test("a category deep-link from the homepage lands pre-filtered", async ({ page }) => {
+    await page.goto("/shop?category=Sets");
+    await expect(page.getByText(/CAISN FORMA TRACKSUIT/)).toBeVisible();
+    await expect(page.getByText(/CAISN FORMA JOGGER/)).toHaveCount(0);
+  });
+});
+
+test.describe("checkout honesty", () => {
+  test("the cart never shows a clickable checkout action when none exists", async ({ page }) => {
+    await page.goto("/product/echo-zip-hoodie");
+    await page.getByRole("button", { name: "L", exact: true }).click();
+    await page.locator("#primary-add-to-cart button").click();
+    const drawer = page.locator('[role="dialog"][aria-labelledby="cart-drawer-heading"]');
+    await expect(drawer).toBeVisible();
+    await expect(drawer.getByText("RESERVE")).toHaveCount(0);
+    const checkoutBtn = drawer.getByRole("button", { name: "CHECKOUT UNAVAILABLE" });
+    await expect(checkoutBtn).toBeVisible();
+    await expect(checkoutBtn).toBeDisabled();
   });
 });
 

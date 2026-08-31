@@ -2,6 +2,7 @@ import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
 import { BentoGrid } from "@/components/BentoGrid";
 import { HomeHero } from "@/components/HomeHero";
+import { CategorySection } from "@/components/CategorySection";
 import { AboutSection } from "@/components/AboutSection";
 import { Footer } from "@/components/Footer";
 
@@ -28,6 +29,8 @@ export default async function Home() {
         </h2>
         <BentoGrid products={products} />
       </section>
+
+      <CategorySection products={products} />
 
       <AboutSection product={featured} />
 

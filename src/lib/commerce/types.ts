@@ -23,11 +23,22 @@ export type ProductMedia = {
   alt: string;
 };
 
+/**
+ * Categories supported by the real catalog only — never invented ahead
+ * of actual products. New categories (Denim, Long Sleeves, Tees) get
+ * added here and to CATEGORIES below when real products exist for them;
+ * nothing in the filter/nav UI needs to change to support that.
+ */
+export type Category = "Hoodies & Zip-Ups" | "Bottoms" | "Sets";
+
+export const CATEGORIES: Category[] = ["Hoodies & Zip-Ups", "Bottoms", "Sets"];
+
 export type Product = {
   id: string;
   slug: string;
   name: string;
   price: PriceOrPending;
+  category: Category;
   edition: string; // e.g. "EDITION 04"
   spec: string; // e.g. "620G RAW WOOL"
   story: string[];

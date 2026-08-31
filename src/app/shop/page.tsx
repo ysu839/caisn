@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Suspense } from "react";
 import { getProducts } from "@/lib/commerce/data";
-import { displayName } from "@/lib/commerce/types";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ProductPlate } from "@/components/ProductPlate";
-import { ProductCardImage } from "@/components/ProductCardImage";
-import { Price } from "@/components/Price";
-import { QuickAdd } from "@/components/QuickAdd";
+import { ShopGrid } from "@/components/ShopGrid";
 
 export const metadata: Metadata = {
   title: "Shop — CAISN",
@@ -16,12 +12,6 @@ export const metadata: Metadata = {
 
 export default async function ShopPage() {
   const products = await getProducts();
-  // Pick the desktop column count that divides the catalog evenly —
-  // a fixed 3-column grid leaves an orphan card alone in the last row
-  // whenever the count isn't a multiple of 3 (true again the moment a
-  // 4th product ships). Prefers 3, falls back to 2, then 1.
-  const lgCols = [3, 2, 1].find((n) => products.length % n === 0) ?? 3;
-  const lgColsClass = { 3: "lg:grid-cols-3", 2: "lg:grid-cols-2", 1: "lg:grid-cols-1" }[lgCols];
 
   return (
     <main>
@@ -34,37 +24,9 @@ export default async function ShopPage() {
           </span>
         </h1>
 
-        {/* Straightforward, conversion-focused grid: equal cards, three
-            per row on desktop, no oversized hero card and no orphan
-            column — a small catalog reads best as a clean lineup, not
-            an editorial layout fighting to fill leftover space. */}
-        <div className={`grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 ${lgColsClass}`}>
-          {products.map((p, i) => {
-            const front = p.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
-            const back = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"))[1];
-            const color = p.variants[0]?.color;
-
-            return (
-              <Link key={p.id} href={`/product/${p.slug}`} className="group block">
-                {front ? (
-                  <div className="relative">
-                    <ProductCardImage front={front} back={back} priority={i < 3} />
-                    <QuickAdd product={p} />
-                  </div>
-                ) : (
-                  <ProductPlate label={p.name} spec={p.spec} index={p.id} />
-                )}
-                <div className="mt-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="font-display text-sm font-medium">{displayName(p.name)}</span>
-                    <Price value={p.price} className="shrink-0 text-sm" />
-                  </div>
-                  {color && <p className="mt-1 text-xs text-[var(--color-fg-soft)]">{color}</p>}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+        <Suspense fallback={null}>
+          <ShopGrid products={products} />
+        </Suspense>
       </section>
       <Footer />
     </main>

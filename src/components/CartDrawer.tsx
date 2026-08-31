@@ -178,20 +178,24 @@ export function CartDrawer() {
                 <span className="tracking-[0.1em]">TOTAL</span>
                 <Price value={total} className="font-display text-lg" />
               </div>
-              {/* No live checkout/payment integration exists yet — showing a
-                  functional-looking button here would be a false promise, so
-                  this is a distinct, honestly-labeled early-access state
-                  rather than a disabled "CHECKOUT". */}
+              {/* No live checkout/payment integration exists yet. A clickable
+                  button that just shows an alert() reads as fake — it implies
+                  something happened when nothing did. This is a plain
+                  disabled control with an honest reason, no click handler at
+                  all: no reservation is taken, so nothing here claims one is. */}
               <button
-                disabled={lines.length === 0}
-                onClick={() => alert("CAISN checkout is opening soon. Thanks for your interest — we'll be in touch.")}
-                className="w-full border border-[var(--color-fg)] py-3.5 text-xs tracking-[0.15em] transition-colors disabled:opacity-30 hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
-                style={{ transitionDuration: "var(--dur-snap)" }}
+                disabled
+                title="Checkout is not connected yet"
+                className="w-full cursor-not-allowed border border-[var(--color-line)] py-3.5 text-xs tracking-[0.15em] text-[var(--color-fg-soft)]"
               >
-                RESERVE — EARLY ACCESS
+                CHECKOUT UNAVAILABLE
               </button>
               <p className="text-center text-[10px] tracking-[0.1em] text-[var(--color-fg-soft)]">
-                CHECKOUT OPENING SOON
+                Online checkout isn&apos;t connected yet — browse the current construction at{" "}
+                <Link href="/shop" onClick={close} className="underline underline-offset-2 hover:text-[var(--color-accent)]">
+                  /shop
+                </Link>
+                .
               </p>
             </div>
           </motion.aside>

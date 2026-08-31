@@ -27,6 +27,7 @@ const products: Product[] = [
     slug: "echo-zip-hoodie",
     name: "CAISN ECHO ZIP HOODIE",
     price: 69.99,
+    category: "Hoodies & Zip-Ups",
     edition: "FIRST EDITION",
     spec: "420G LOOPBACK TERRY",
     story: [
@@ -72,6 +73,7 @@ const products: Product[] = [
     slug: "frame-jacket",
     name: "FRAME JACKET",
     price: 560,
+    category: "Hoodies & Zip-Ups",
     edition: "EDITION 02",
     spec: "TWILL / STEEL STAY",
     story: [
@@ -91,6 +93,7 @@ const products: Product[] = [
     slug: "column-trouser",
     name: "COLUMN TROUSER",
     price: 310,
+    category: "Bottoms",
     edition: "EDITION 01",
     spec: "STRUCTURED DRILL",
     story: ["Straight from hip to hem — no taper, no break. The leg reads as one continuous line."],
@@ -107,6 +110,7 @@ const products: Product[] = [
     slug: "plate-vest",
     name: "PLATE VEST",
     price: 260,
+    category: "Hoodies & Zip-Ups",
     edition: "EDITION 07",
     spec: "BONDED PANEL",
     story: ["Two panels, bonded not sewn, at the side seam — a construction borrowed from technical outerwear."],
@@ -122,6 +126,7 @@ const products: Product[] = [
     slug: "forma-jogger",
     name: "CAISN FORMA JOGGER",
     price: 84.49,
+    category: "Bottoms",
     edition: "",
     spec: "HEAVYWEIGHT FLEECE",
     story: [
@@ -157,6 +162,7 @@ const products: Product[] = [
     slug: "forma-zip-up",
     name: "CAISN FORMA ZIP-UP",
     price: 45.69,
+    category: "Hoodies & Zip-Ups",
     edition: "",
     spec: "HEAVYWEIGHT FLEECE",
     story: [
@@ -200,6 +206,7 @@ const products: Product[] = [
     slug: "forma-tracksuit",
     name: "CAISN FORMA TRACKSUIT",
     price: 105,
+    category: "Sets",
     edition: "",
     spec: "HEAVYWEIGHT FLEECE",
     story: [
