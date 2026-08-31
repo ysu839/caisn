@@ -213,9 +213,14 @@ const products: Product[] = [
       "CAISN® branding",
       "unisex",
     ],
+    // All four real angles — front + back of both constituent garments
+    // — rather than just the two front shots, so the set gallery can
+    // show the full flat-lay composition (see TracksuitGallery).
     media: [
-      { type: "image", url: "/products/forma-jogger/front.webp", alt: "CAISN FORMA TRACKSUIT — jogger" },
-      { type: "image", url: "/products/forma-zip-up/front.webp", alt: "CAISN FORMA TRACKSUIT — zip-up" },
+      { type: "image", url: "/products/forma-zip-up/front.webp", alt: "CAISN FORMA TRACKSUIT — zip-up front" },
+      { type: "image", url: "/products/forma-zip-up/back.webp", alt: "CAISN FORMA TRACKSUIT — zip-up back" },
+      { type: "image", url: "/products/forma-jogger/front.webp", alt: "CAISN FORMA TRACKSUIT — jogger front" },
+      { type: "image", url: "/products/forma-jogger/back.webp", alt: "CAISN FORMA TRACKSUIT — jogger back" },
     ],
     variants: [
       { color: "Heather Grey", colorHex: "#9a958f", size: "XS", stock: 1 },

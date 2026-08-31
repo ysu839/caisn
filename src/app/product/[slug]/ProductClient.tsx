@@ -15,6 +15,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { StickyAddToCart } from "@/components/StickyAddToCart";
 import { ConstructionSheet } from "@/components/ConstructionSheet";
+import { TracksuitGallery } from "@/components/TracksuitGallery";
 
 // Code-split the 3D layer (three.js + r3f + gsap) out of the initial PDP
 // bundle so price/variant/cart interactivity doesn't wait on it — commerce
@@ -65,7 +66,9 @@ export function ProductClient({
           the contrast itself is the point, not just bigger type. */}
       <section className="grid grid-cols-1 gap-6 px-[var(--gutter)] py-8 md:grid-cols-5 md:items-center md:gap-12 md:py-20">
         <div className="md:col-span-3">
-          {realMedia ? (
+          {product.slug === "forma-tracksuit" ? (
+            <TracksuitGallery product={product} />
+          ) : realMedia ? (
             <ProductGallery product={product} />
           ) : (
             <ProductViewer label={product.name} spec={product.spec} index={product.id} />
