@@ -2,6 +2,7 @@ import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
 import { BentoGrid } from "@/components/BentoGrid";
 import { HomeHero } from "@/components/HomeHero";
+import { AboutSection } from "@/components/AboutSection";
 import { Footer } from "@/components/Footer";
 
 export default async function Home() {
@@ -28,19 +29,7 @@ export default async function Home() {
         <BentoGrid products={products} />
       </section>
 
-      <section id="about" className="px-[var(--gutter)] py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="mb-6 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">ABOUT CAISN</h2>
-          <p className="font-display text-3xl font-medium leading-tight md:text-4xl">
-            Every seam is a decision. We show you all of them.
-          </p>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[var(--color-fg-soft)]">
-            CAISN is a structural-fashion label: garments engineered like architecture, not decorated like
-            merchandise. Construction, panel lines and hardware are treated as the design itself — visible on
-            purpose, never hidden under print. Built, not printed.
-          </p>
-        </div>
-      </section>
+      <AboutSection product={featured} />
 
       <section className="border-t border-[var(--color-line)] px-[var(--gutter)] py-16 text-center">
         <h2 className="mb-3 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">EARLY ACCESS</h2>
