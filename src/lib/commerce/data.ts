@@ -26,7 +26,7 @@ const products: Product[] = [
     id: "01",
     slug: "echo-zip-hoodie",
     name: "CAISN ECHO ZIP HOODIE",
-    price: 119.95,
+    price: 69.99,
     edition: "FIRST EDITION",
     spec: "420G LOOPBACK TERRY",
     story: [
@@ -121,8 +121,7 @@ const products: Product[] = [
     id: "05",
     slug: "forma-jogger",
     name: "CAISN FORMA JOGGER",
-    // Explicitly given as "€—" — pending, not omitted. See PriceOrPending.
-    price: null,
+    price: 84.49,
     edition: "",
     spec: "HEAVYWEIGHT FLEECE",
     story: [
@@ -157,8 +156,7 @@ const products: Product[] = [
     id: "06",
     slug: "forma-zip-up",
     name: "CAISN FORMA ZIP-UP",
-    // Explicitly given as "€—" — pending, not omitted. See PriceOrPending.
-    price: null,
+    price: 45.69,
     edition: "",
     spec: "HEAVYWEIGHT FLEECE",
     story: [
@@ -191,6 +189,42 @@ const products: Product[] = [
     ],
     model3dUrl: undefined,
     pairSlug: "forma-jogger",
+  },
+  {
+    // A real bundle SKU (both pieces, one price) — distinct from the
+    // "COMPLETE THE FORMA" cross-link on the individual pieces, which
+    // still sells them separately. Uses the two existing real product
+    // photos (no dedicated tracksuit shoot exists) rather than any
+    // generated/placeholder image.
+    id: "07",
+    slug: "forma-tracksuit",
+    name: "CAISN FORMA TRACKSUIT",
+    price: 105,
+    edition: "",
+    spec: "HEAVYWEIGHT FLEECE",
+    story: [
+      "The Forma Tracksuit pairs the Forma Jogger and Forma Zip-Up as one set — a relaxed, heavyweight fleece silhouette in Heather Grey with Bone detailing and raised CAISN artwork across both pieces.",
+    ],
+    materials: [
+      "includes 1x forma jogger, 1x forma zip-up",
+      "heather grey / bone",
+      "relaxed fit across both pieces",
+      "raised CAISN artwork",
+      "CAISN® branding",
+      "unisex",
+    ],
+    media: [
+      { type: "image", url: "/products/forma-jogger/front.webp", alt: "CAISN FORMA TRACKSUIT — jogger" },
+      { type: "image", url: "/products/forma-zip-up/front.webp", alt: "CAISN FORMA TRACKSUIT — zip-up" },
+    ],
+    variants: [
+      { color: "Heather Grey", colorHex: "#9a958f", size: "XS", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "S", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "M", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "L", stock: 1 },
+      { color: "Heather Grey", colorHex: "#9a958f", size: "XL", stock: 1 },
+    ],
+    model3dUrl: undefined,
   },
 ];
 

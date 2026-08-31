@@ -3,9 +3,8 @@ import { test, expect } from "@playwright/test";
 /**
  * Covers the storefront-correctness rules established across the
  * pre-launch refinement passes: no default size selection, cart
- * persistence, quick-view, coming-soon products, and grid structure.
- * Uses CAISN ECHO ZIP HOODIE (the one product with a confirmed price)
- * for any flow that needs an addable item.
+ * persistence, quick-view, real catalog pricing, and grid structure.
+ * Uses CAISN ECHO ZIP HOODIE for any flow that needs an addable item.
  */
 
 test.describe("size selection", () => {
@@ -105,12 +104,19 @@ test.describe("quick-view", () => {
   });
 });
 
-test.describe("coming-soon products", () => {
-  test("FORMA JOGGER shows Coming Soon, not a fabricated price", async ({ page }) => {
-    await page.goto("/product/forma-jogger");
-    await expect(page.getByText("COMING SOON").first()).toBeVisible();
-    await expect(page.getByText(/PRICE PENDING|DATA PENDING|PROTOTYPE/i)).toHaveCount(0);
-    await expect(page.locator("#primary-add-to-cart button")).toBeDisabled();
+test.describe("catalog pricing", () => {
+  test("all four products show a real price, not a placeholder", async ({ page }) => {
+    const priced: [string, string][] = [
+      ["/product/echo-zip-hoodie", "€69.99"],
+      ["/product/forma-jogger", "€84.49"],
+      ["/product/forma-zip-up", "€45.69"],
+      ["/product/forma-tracksuit", "€105"],
+    ];
+    for (const [route, price] of priced) {
+      await page.goto(route);
+      await expect(page.getByText(price).first()).toBeVisible();
+      await expect(page.getByText(/COMING SOON/i)).toHaveCount(0);
+    }
   });
 
   test("the FORMA SET card links each garment to its own product page", async ({ page }) => {
@@ -127,12 +133,17 @@ test.describe("grid structure", () => {
   test("shop page renders one card per product with no orphan layout", async ({ page }) => {
     await page.goto("/shop");
     const cards = page.locator("main a.group");
-    await expect(cards).toHaveCount(3);
+    await expect(cards).toHaveCount(4);
     // Product names render through displayName(), which swaps a
     // non-breaking hyphen (U+2011) for a literal "-" so "ZIP-UP" never
     // breaks mid-word — match loosely on the hyphen so this doesn't
     // depend on that internal detail.
-    for (const name of [/CAISN ECHO ZIP HOODIE/, /CAISN FORMA JOGGER/, /CAISN FORMA ZIP.UP/]) {
+    for (const name of [
+      /CAISN ECHO ZIP HOODIE/,
+      /CAISN FORMA JOGGER/,
+      /CAISN FORMA ZIP.UP/,
+      /CAISN FORMA TRACKSUIT/,
+    ]) {
       await expect(page.getByText(name)).toBeVisible();
     }
   });
@@ -166,7 +177,14 @@ test.describe("responsive navigation", () => {
 
 test.describe("no customer-facing placeholder terms", () => {
   test("banned strings do not appear anywhere on the storefront", async ({ page }) => {
-    const routes = ["/", "/shop", "/product/echo-zip-hoodie", "/product/forma-jogger", "/product/forma-zip-up"];
+    const routes = [
+      "/",
+      "/shop",
+      "/product/echo-zip-hoodie",
+      "/product/forma-jogger",
+      "/product/forma-zip-up",
+      "/product/forma-tracksuit",
+    ];
     const banned = [/PRICE PENDING/i, /DATA PENDING/i, /PROTOTYPE/i, /composition pending/i];
     for (const route of routes) {
       await page.goto(route);

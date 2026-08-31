@@ -16,6 +16,12 @@ export const metadata: Metadata = {
 
 export default async function ShopPage() {
   const products = await getProducts();
+  // Pick the desktop column count that divides the catalog evenly —
+  // a fixed 3-column grid leaves an orphan card alone in the last row
+  // whenever the count isn't a multiple of 3 (true again the moment a
+  // 4th product ships). Prefers 3, falls back to 2, then 1.
+  const lgCols = [3, 2, 1].find((n) => products.length % n === 0) ?? 3;
+  const lgColsClass = { 3: "lg:grid-cols-3", 2: "lg:grid-cols-2", 1: "lg:grid-cols-1" }[lgCols];
 
   return (
     <main>
@@ -32,7 +38,7 @@ export default async function ShopPage() {
             per row on desktop, no oversized hero card and no orphan
             column — a small catalog reads best as a clean lineup, not
             an editorial layout fighting to fill leftover space. */}
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        <div className={`grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 ${lgColsClass}`}>
           {products.map((p, i) => {
             const front = p.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
             const back = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"))[1];

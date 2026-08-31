@@ -153,11 +153,14 @@ export function BentoGrid({ products }: { products: Product[] }) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const items = groupForBento(products);
-  // "lg, md, md" tiles a 4-col grid with zero gaps for any item
-  // count — the previous "lg, md, sm, sm" left a dead cell whenever
-  // the catalog wasn't a multiple of 4. A paired "look" always gets
-  // "lg" (two garments need the room a single-product "md" doesn't have).
-  const spans: Span[] = ["lg", "md", "md"];
+  // Exactly one "lg" (2x2 = 4 cells) plus the rest "md" (2x1 = 2 cells
+  // each) tiles a 4-col grid with zero gaps for any item count — a
+  // second forced-"lg" (previously always given to the pair, on top of
+  // a hardcoded "lg" for whichever single happened to be first) pushed
+  // total cells past what the grid holds and left a dead gap. The pair
+  // gets the one "lg" when present (two garments need the room a
+  // single-product "md" doesn't have); otherwise the first single does.
+  const hasPair = items.some((item) => item.kind === "pair");
 
   useEffect(() => {
     if (!active) return;
@@ -173,7 +176,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
     <div className="relative">
       <div className="grid auto-rows-[240px] grid-cols-2 gap-4 md:grid-cols-4">
         {items.map((item, i) => {
-          const span = item.kind === "pair" ? "lg" : spans[i % spans.length];
+          const span: Span = item.kind === "pair" ? "lg" : !hasPair && i === 0 ? "lg" : "md";
           if (item.kind === "pair") {
             return (
               <BentoPairCard key={`${item.a.id}-${item.b.id}`} a={item.a} b={item.b} className={spanClasses[span]} />
