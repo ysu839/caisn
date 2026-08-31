@@ -6,6 +6,7 @@ import { FormaConnection } from "@/components/FormaConnection";
 import { CategorySection } from "@/components/CategorySection";
 import { CampaignSection } from "@/components/CampaignSection";
 import { AboutSection } from "@/components/AboutSection";
+import { DropAccessSection } from "@/components/DropAccessSection";
 import { BrandMoment } from "@/components/BrandMoment";
 import { Footer } from "@/components/Footer";
 
@@ -46,15 +47,9 @@ export default async function Home() {
 
       <AboutSection product={featured} />
 
-      <section className="border-t border-[var(--color-line)] px-[var(--gutter)] py-16 text-center">
-        <h2 className="mb-3 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">EARLY ACCESS</h2>
-        <p className="font-display text-2xl font-medium">Checkout and the next drop are opening soon.</p>
-        <p className="mx-auto mt-2 max-w-md text-sm text-[var(--color-fg-soft)]">
-          Browse the current construction now — full checkout access is coming shortly.
-        </p>
-      </section>
+      <DropAccessSection product={jogger} />
 
-      <BrandMoment />
+      <BrandMoment product={featured} />
 
       <Footer />
     </main>

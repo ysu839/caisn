@@ -11,14 +11,35 @@ export function Navbar() {
   const { count, open } = useCart();
   const [searchOpen, setSearchOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     getProducts().then(setProducts);
   }, []);
 
+  // Background/blur only kicks in once the page has actually scrolled
+  // past the hero's top padding — the nav stays transparent over the
+  // hero itself, then gains a readable ground for the darker sections
+  // (CategorySection, CampaignSection) further down.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
-      <nav className="flex items-center justify-between px-[var(--gutter)] py-4 text-sm tracking-[0.15em]">
+      <nav
+        className="sticky top-0 z-40 flex items-center justify-between px-[var(--gutter)] py-4 text-sm tracking-[0.15em] transition-colors"
+        style={{
+          backgroundColor: scrolled ? "var(--color-bg)" : "transparent",
+          borderBottom: scrolled ? "1px solid var(--color-line)" : "1px solid transparent",
+          backdropFilter: scrolled ? "blur(8px)" : "none",
+          transitionDuration: "var(--dur-snap)",
+          transitionTimingFunction: "var(--ease-snap)",
+        }}
+      >
         <Link href="/" className="font-display -m-2 p-2 text-lg font-semibold">
           CAISN
         </Link>

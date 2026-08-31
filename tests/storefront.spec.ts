@@ -132,7 +132,7 @@ test.describe("catalog pricing", () => {
 test.describe("grid structure", () => {
   test("shop page renders one card per product with no orphan layout", async ({ page }) => {
     await page.goto("/shop");
-    const cards = page.locator("main a.group");
+    const cards = page.locator('[data-testid="product-card"]');
     await expect(cards).toHaveCount(4);
     // Product names render through displayName(), which swaps a
     // non-breaking hyphen (U+2011) for a literal "-" so "ZIP-UP" never
@@ -151,7 +151,7 @@ test.describe("grid structure", () => {
   test("no horizontal overflow at key breakpoints", async ({ page }) => {
     for (const width of [390, 768, 1366, 1440, 1920]) {
       await page.setViewportSize({ width, height: 1000 });
-      await page.goto("/");
+      await page.goto("/", { waitUntil: "domcontentloaded" });
       const { scrollWidth, clientWidth } = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
         clientWidth: document.documentElement.clientWidth,
@@ -217,7 +217,7 @@ test.describe("homepage hero", () => {
   test("SHOP ECHO and EXPLORE DROP 01 both work", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByText("€69.99").first()).toBeVisible();
-    await page.getByRole("link", { name: "EXPLORE DROP 01" }).click();
+    await page.getByRole("link", { name: "EXPLORE DROP 01" }).first().click();
     await expect(page.locator("#collection")).toBeInViewport();
 
     await page.goto("/");
@@ -263,6 +263,60 @@ test.describe("checkout honesty", () => {
     const checkoutBtn = drawer.getByRole("button", { name: "CHECKOUT UNAVAILABLE" });
     await expect(checkoutBtn).toBeVisible();
     await expect(checkoutBtn).toBeDisabled();
+  });
+});
+
+test.describe("sticky navigation", () => {
+  test("nav stays fixed to the top after scrolling and search/cart still work", async ({ page }) => {
+    await page.goto("/");
+    const nav = page.locator("nav");
+    await page.evaluate(() => window.scrollTo(0, 1200));
+    await expect(nav).toBeInViewport();
+    await page.getByRole("button", { name: "Open search" }).click();
+    await expect(page.getByRole("dialog", { name: "Search" })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await page.getByRole("button", { name: /Open cart/ }).click();
+    await expect(page.locator('[role="dialog"][aria-labelledby="cart-drawer-heading"]')).toBeVisible();
+  });
+});
+
+test.describe("no nested interactive elements", () => {
+  test("no anchor or button contains another anchor or button, on the shop grid or homepage", async ({ page }) => {
+    for (const route of ["/", "/shop"]) {
+      await page.goto(route);
+      const violations = await page.evaluate(() => {
+        const interactive = Array.from(document.querySelectorAll("a, button"));
+        return interactive.filter((el) => el.querySelector("a, button")).length;
+      });
+      expect(violations, `nested interactive elements found on ${route}`).toBe(0);
+    }
+  });
+});
+
+test.describe("Drop 01 card content", () => {
+  test("every Drop 01 card shows its real price", async ({ page }) => {
+    await page.goto("/#collection");
+    for (const price of ["€69.99", "€84.49", "€45.69", "€105"]) {
+      await expect(page.getByText(price).first()).toBeVisible();
+    }
+  });
+
+  test("the tracksuit card visually shows both real pieces", async ({ page }) => {
+    await page.goto("/#collection");
+    const card = page.getByRole("button", { name: "View CAISN FORMA TRACKSUIT" });
+    const images = card.locator("img");
+    const srcs = await images.evaluateAll((els) => els.map((el) => el.getAttribute("src") ?? ""));
+    expect(srcs.some((s) => s.includes("forma-zip-up"))).toBe(true);
+    expect(srcs.some((s) => s.includes("forma-jogger"))).toBe(true);
+  });
+});
+
+test.describe("Drop 01 access section", () => {
+  test("EXPLORE DROP 01 and VIEW ALL PRODUCTS route correctly", async ({ page }) => {
+    await page.goto("/");
+    await page.getByText("DROP 01 ACCESS").scrollIntoViewIfNeeded();
+    await page.getByRole("link", { name: "VIEW ALL PRODUCTS" }).click();
+    await expect(page).toHaveURL(/\/shop$/);
   });
 });
 

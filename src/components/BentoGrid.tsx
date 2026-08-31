@@ -75,6 +75,11 @@ function BentoCardBody({ product, featured }: { product: Product; featured: bool
   const image = images[0];
   const back = images[1];
   const isBundle = product.category === "Sets";
+  // The tracksuit's media is ordered zip-up front/back, jogger
+  // front/back (see data.ts) — images[2] is the jogger's real front
+  // shot, so a bundle card can show both real pieces side by side
+  // instead of only the zip-up that happens to be images[0].
+  const secondPiece = isBundle ? images[2] : undefined;
 
   if (!image) {
     // No real photography yet — the existing pure spec-sheet treatment,
@@ -102,27 +107,59 @@ function BentoCardBody({ product, featured }: { product: Product; featured: bool
   // art-directed rather than a JPG pasted into a black box.
   return (
     <div className="relative h-full w-full bg-[var(--surface-plate)]">
-      <Image
-        src={image.url}
-        alt=""
-        aria-hidden
-        fill
-        sizes="(min-width: 768px) 320px, 45vw"
-        className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-transform group-hover:scale-[1.03]"
-        style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
-      />
-      {/* Front/back crossfade on hover, pointer devices only — touch
-          never gets stuck on the back image. */}
-      {back && (
-        <Image
-          src={back.url}
-          alt=""
-          aria-hidden
-          fill
-          sizes="(min-width: 768px) 320px, 45vw"
-          className="object-contain p-6 opacity-0 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity [@media(hover:hover)]:group-hover:opacity-100"
-          style={{ transitionDuration: "var(--dur-drift)" }}
-        />
+      {secondPiece ? (
+        // Bundle SKU — show both real constituent pieces side by side
+        // rather than just images[0] (the zip-up), so the card matches
+        // its own "SET — 2 PIECES" badge instead of contradicting it.
+        <div className="flex h-full w-full">
+          <div className="relative h-full flex-1 border-r border-[var(--color-line)]/60">
+            <Image
+              src={image.url}
+              alt=""
+              aria-hidden
+              fill
+              sizes="(min-width: 768px) 160px, 22vw"
+              className="object-contain p-4 drop-shadow-[0_14px_22px_rgba(10,10,10,0.16)] transition-transform group-hover:scale-[1.03]"
+              style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
+            />
+          </div>
+          <div className="relative h-full flex-1">
+            <Image
+              src={secondPiece.url}
+              alt=""
+              aria-hidden
+              fill
+              sizes="(min-width: 768px) 160px, 22vw"
+              className="object-contain p-4 drop-shadow-[0_14px_22px_rgba(10,10,10,0.16)] transition-transform group-hover:scale-[1.03]"
+              style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
+            />
+          </div>
+        </div>
+      ) : (
+        <>
+          <Image
+            src={image.url}
+            alt=""
+            aria-hidden
+            fill
+            sizes="(min-width: 768px) 320px, 45vw"
+            className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-transform group-hover:scale-[1.03]"
+            style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
+          />
+          {/* Front/back crossfade on hover, pointer devices only — touch
+              never gets stuck on the back image. */}
+          {back && (
+            <Image
+              src={back.url}
+              alt=""
+              aria-hidden
+              fill
+              sizes="(min-width: 768px) 320px, 45vw"
+              className="object-contain p-6 opacity-0 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity [@media(hover:hover)]:group-hover:opacity-100"
+              style={{ transitionDuration: "var(--dur-drift)" }}
+            />
+          )}
+        </>
       )}
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
         <span className="tnum">{product.id}</span>
@@ -140,7 +177,10 @@ function BentoCardBody({ product, featured }: { product: Product; featured: bool
         >
           {displayName(product.name)}
         </p>
-        <p className="tnum mt-1 text-xs text-[var(--ink-soft)]">{product.spec}</p>
+        <div className="mt-1 flex items-baseline gap-2">
+          <Price value={product.price} className="tnum text-xs font-medium text-[var(--color-accent)]" />
+          <span className="tnum text-xs text-[var(--ink-soft)]">{product.spec}</span>
+        </div>
       </div>
       <QuickAdd product={product} />
     </div>

@@ -116,11 +116,18 @@ export function ShopGrid({ products }: { products: Product[] }) {
             const color = p.variants[0]?.color;
             const isBundle = p.slug === "forma-tracksuit";
 
+            // A non-interactive container, not a Link — QuickAdd's own
+            // <button> would otherwise nest inside the card's anchor,
+            // which is invalid HTML (interactive content cannot nest).
+            // The image/name below is its own real Link to the PDP;
+            // QuickAdd is an independent sibling button instead.
             return (
-              <Link key={p.id} href={`/product/${p.slug}`} className="group block">
+              <div key={p.id} data-testid="product-card" className="group">
                 {front ? (
                   <div className="relative">
-                    <ProductCardImage front={front} back={back} priority={i < 3} />
+                    <Link href={`/product/${p.slug}`} className="block" aria-label={`View ${p.name}`}>
+                      <ProductCardImage front={front} back={back} priority={i < 3} />
+                    </Link>
                     {isBundle && (
                       <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-[var(--color-accent)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">
                         SET — 2 PIECES
@@ -129,16 +136,18 @@ export function ShopGrid({ products }: { products: Product[] }) {
                     <QuickAdd product={p} />
                   </div>
                 ) : (
-                  <ProductPlate label={p.name} spec={p.spec} index={p.id} />
+                  <Link href={`/product/${p.slug}`} className="block" aria-label={`View ${p.name}`}>
+                    <ProductPlate label={p.name} spec={p.spec} index={p.id} />
+                  </Link>
                 )}
-                <div className="mt-3">
+                <Link href={`/product/${p.slug}`} className="mt-3 block">
                   <div className="flex items-start justify-between gap-3">
                     <span className="font-display text-sm font-medium">{displayName(p.name)}</span>
                     <Price value={p.price} className="shrink-0 text-sm" />
                   </div>
                   {color && <p className="mt-1 text-xs text-[var(--color-fg-soft)]">{color}</p>}
-                </div>
-              </Link>
+                </Link>
+              </div>
             );
           })}
         </div>
