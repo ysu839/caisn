@@ -75,12 +75,21 @@ export function ProductClient({
           )}
         </div>
         <div className="md:col-span-2">
-          {product.edition && (
-            <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">{product.edition}</span>
+          {product.comingSoon ? (
+            <span className="rounded-full bg-[var(--ink)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">
+              COMING SOON
+            </span>
+          ) : (
+            product.edition && (
+              <span className="tnum text-xs tracking-[0.15em] text-[var(--color-fg-soft)]">{product.edition}</span>
+            )
           )}
           <h1 className="font-display mt-3 text-4xl font-semibold leading-[0.95] tracking-tight sm:text-5xl md:text-7xl">
             {displayName(product.name)}
           </h1>
+          {product.variants[0]?.color && (
+            <p className="mt-1.5 text-sm text-[var(--color-fg-soft)]">{product.variants[0].color}</p>
+          )}
           <Price value={product.price} className="font-display mt-4 block text-xl md:mt-5 md:text-2xl" />
 
           <div className="mt-8">

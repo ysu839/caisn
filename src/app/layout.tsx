@@ -20,6 +20,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative Open Graph image URLs (see product page metadata)
+  // to absolute ones — falls back to localhost in preview/dev, but a
+  // real deployment should set NEXT_PUBLIC_SITE_URL to the live domain.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: "CAISN",
   description: "Built, not printed.",
 };

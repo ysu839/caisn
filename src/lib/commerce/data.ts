@@ -238,6 +238,56 @@ const products: Product[] = [
     ],
     model3dUrl: undefined,
   },
+  {
+    // Announced ahead of its own drop — real photography and pricing
+    // are confirmed, but it isn't purchasable yet (see `comingSoon`).
+    // Fabric composition, GSM and any fit/delivery claims are not yet
+    // confirmed by the factory, so they're omitted here rather than
+    // guessed (see materials below and ConstructionSheet, which only
+    // ever renders facts already present in this array).
+    id: "08",
+    slug: "fieldframe-longsleeve",
+    name: "CAISN FIELDFRAME LONGSLEEVE",
+    price: 89,
+    category: "Longsleeves",
+    edition: "",
+    spec: "Details coming soon",
+    comingSoon: true,
+    story: [
+      "The Fieldframe Longsleeve treats contrast as construction. A deep black body is framed by washed woodland raglan sleeves, with curved panel lines shaping the silhouette from shoulder to hem. Restrained CAISN marks keep the focus on the garment's structure, balance and finish.",
+    ],
+    materials: [
+      "black / washed woodland",
+      "washed woodland raglan sleeves and shoulder panels",
+      "deep black centre body",
+      "curved contrast panel construction",
+      "restrained CAISN marks at the chest, upper back and cuff",
+      "long-sleeve silhouette designed for layered styling",
+    ],
+    media: [
+      {
+        type: "image",
+        url: "/products/fieldframe-longsleeve/front.webp",
+        alt: "Front view of the CAISN Fieldframe Longsleeve in black and washed woodland camo",
+      },
+      {
+        type: "image",
+        url: "/products/fieldframe-longsleeve/back.webp",
+        alt: "Back view of the CAISN Fieldframe Longsleeve in black and washed woodland camo",
+      },
+    ],
+    // Placeholder seed stock, same convention as every other product
+    // above (LIVE_INVENTORY gates real display) — sizing is confirmed
+    // (XS-XL), per-size stock is not.
+    variants: [
+      { color: "Black / Washed Woodland", colorHex: "#14140f", size: "XS", stock: 1 },
+      { color: "Black / Washed Woodland", colorHex: "#14140f", size: "S", stock: 1 },
+      { color: "Black / Washed Woodland", colorHex: "#14140f", size: "M", stock: 1 },
+      { color: "Black / Washed Woodland", colorHex: "#14140f", size: "L", stock: 1 },
+      { color: "Black / Washed Woodland", colorHex: "#14140f", size: "XL", stock: 1 },
+    ],
+    model3dUrl: undefined,
+  },
 ];
 
 // Customer-facing commerce (shop, homepage, lineup, PDP routing) sees

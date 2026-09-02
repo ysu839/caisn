@@ -29,9 +29,9 @@ export type ProductMedia = {
  * added here and to CATEGORIES below when real products exist for them;
  * nothing in the filter/nav UI needs to change to support that.
  */
-export type Category = "Hoodies & Zip-Ups" | "Bottoms" | "Sets";
+export type Category = "Hoodies & Zip-Ups" | "Bottoms" | "Sets" | "Longsleeves";
 
-export const CATEGORIES: Category[] = ["Hoodies & Zip-Ups", "Bottoms", "Sets"];
+export const CATEGORIES: Category[] = ["Hoodies & Zip-Ups", "Bottoms", "Sets", "Longsleeves"];
 
 export type Product = {
   id: string;
@@ -70,6 +70,14 @@ export type Product = {
    * customer-facing commerce (see visibleProducts in data.ts).
    */
   hidden?: boolean;
+  /**
+   * A confirmed, priced product that isn't purchasable yet — distinct
+   * from `price: null` (price not yet decided) and from a sold-out
+   * variant (was available, temporarily isn't). The product is fully
+   * visible everywhere in the storefront; only the add-to-cart action
+   * is disabled, with an honest "COMING SOON" label — see AddToCart.
+   */
+  comingSoon?: boolean;
 };
 
 /**

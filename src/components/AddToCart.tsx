@@ -19,8 +19,9 @@ export function AddToCart({ product, variant }: { product: Product; variant: Var
   const [showSizeError, setShowSizeError] = useState(false);
 
   const pricePending = product.price === null;
+  const comingSoon = product.comingSoon === true;
   const soldOut = variant?.stock === 0;
-  const disabled = pricePending || soldOut === true;
+  const disabled = pricePending || comingSoon || soldOut === true;
 
   const handleClick = () => {
     if (disabled) return;
@@ -34,7 +35,8 @@ export function AddToCart({ product, variant }: { product: Product; variant: Var
     setTimeout(() => setJustAdded(false), 900);
   };
 
-  const label = pricePending ? "COMING SOON" : soldOut ? "SOLD OUT" : justAdded ? "ADDED" : "ADD TO CART";
+  const label =
+    pricePending || comingSoon ? "COMING SOON" : soldOut ? "SOLD OUT" : justAdded ? "ADDED" : "ADD TO CART";
 
   return (
     <div>
@@ -44,7 +46,13 @@ export function AddToCart({ product, variant }: { product: Product; variant: Var
           onClick={handleClick}
           disabled={disabled}
           aria-describedby={showSizeError ? "size-required-error" : undefined}
-          title={pricePending ? "This piece is coming soon — pricing isn't confirmed yet." : undefined}
+          title={
+            pricePending
+              ? "This piece is coming soon — pricing isn't confirmed yet."
+              : comingSoon
+                ? "This piece is coming soon — not available to order yet."
+                : undefined
+          }
           className="w-full rounded-[var(--radius)] border border-[var(--color-fg)] px-6 py-4 text-xs font-medium tracking-[0.15em] transition-colors disabled:cursor-not-allowed disabled:opacity-40"
           style={{
             transitionDuration: "var(--dur-snap)",

@@ -46,7 +46,15 @@ export function ShopGrid({ products }: { products: Product[] }) {
     return list;
   }, [products, category, sort]);
 
-  const lgCols = [3, 2, 1].find((n) => filtered.length % n === 0) ?? 3;
+  // Prefer a column count the catalog tiles exactly (3, then 2); if
+  // neither divides evenly, fall back to whichever leaves a full short
+  // row instead of a single stranded card (a remainder of exactly 1).
+  // 1 column is the last resort, which is itself always orphan-free.
+  const lgCols = (() => {
+    for (const n of [3, 2]) if (filtered.length % n === 0) return n;
+    for (const n of [3, 2]) if (filtered.length % n >= 2) return n;
+    return 1;
+  })();
   const lgColsClass = { 3: "lg:grid-cols-3", 2: "lg:grid-cols-2", 1: "lg:grid-cols-1" }[lgCols];
 
   return (
@@ -115,6 +123,7 @@ export function ShopGrid({ products }: { products: Product[] }) {
             const back = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"))[1];
             const color = p.variants[0]?.color;
             const isBundle = p.slug === "forma-tracksuit";
+            const comingSoon = p.comingSoon === true;
 
             // A non-interactive container, not a Link — QuickAdd's own
             // <button> would otherwise nest inside the card's anchor,
@@ -131,6 +140,11 @@ export function ShopGrid({ products }: { products: Product[] }) {
                     {isBundle && (
                       <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-[var(--color-accent)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">
                         SET — 2 PIECES
+                      </span>
+                    )}
+                    {comingSoon && (
+                      <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-[var(--ink)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">
+                        COMING SOON
                       </span>
                     )}
                     <QuickAdd product={p} />

@@ -113,7 +113,7 @@ test.describe("catalog pricing", () => {
       ["/product/forma-tracksuit", "€105"],
     ];
     for (const [route, price] of priced) {
-      await page.goto(route);
+      await page.goto(route, { waitUntil: "domcontentloaded" });
       await expect(page.getByText(price).first()).toBeVisible();
       await expect(page.getByText(/COMING SOON/i)).toHaveCount(0);
     }
@@ -133,7 +133,7 @@ test.describe("grid structure", () => {
   test("shop page renders one card per product with no orphan layout", async ({ page }) => {
     await page.goto("/shop");
     const cards = page.locator('[data-testid="product-card"]');
-    await expect(cards).toHaveCount(4);
+    await expect(cards).toHaveCount(5);
     // Product names render through displayName(), which swaps a
     // non-breaking hyphen (U+2011) for a literal "-" so "ZIP-UP" never
     // breaks mid-word — match loosely on the hyphen so this doesn't
@@ -143,6 +143,7 @@ test.describe("grid structure", () => {
       /CAISN FORMA JOGGER/,
       /CAISN FORMA ZIP.UP/,
       /CAISN FORMA TRACKSUIT/,
+      /CAISN FIELDFRAME LONGSLEEVE/,
     ]) {
       await expect(page.getByText(name)).toBeVisible();
     }
@@ -320,6 +321,55 @@ test.describe("Drop 01 access section", () => {
   });
 });
 
+test.describe("CAISN Fieldframe Longsleeve", () => {
+  test("shows its real price and a Coming Soon status, not a live add-to-cart", async ({ page }) => {
+    await page.goto("/product/fieldframe-longsleeve");
+    await expect(page.getByText("€89").first()).toBeVisible();
+    await expect(page.getByText("COMING SOON").first()).toBeVisible();
+    const cta = page.locator("#primary-add-to-cart button");
+    await expect(cta).toBeDisabled();
+    await expect(cta).toHaveText("COMING SOON");
+  });
+
+  test("no size is pre-selected, and picking one does not enable the disabled CTA", async ({ page }) => {
+    await page.goto("/product/fieldframe-longsleeve");
+    const sizePressed = await page
+      .locator('button[aria-pressed="true"]')
+      .filter({ hasText: /^(XS|S|M|L|XL)$/ })
+      .count();
+    expect(sizePressed).toBe(0);
+    await page.getByRole("button", { name: "M", exact: true }).click();
+    await expect(page.locator("#primary-add-to-cart button")).toBeDisabled();
+  });
+
+  test("appears in the Longsleeves category filter and in search", async ({ page }) => {
+    await page.goto("/shop?category=Longsleeves");
+    await expect(page.getByText(/CAISN FIELDFRAME LONGSLEEVE/)).toBeVisible();
+    await expect(page.getByText(/CAISN ECHO ZIP HOODIE/)).toHaveCount(0);
+
+    await page.goto("/");
+    await page.getByRole("button", { name: "Open search" }).click();
+    await page.getByRole("textbox", { name: "Search" }).fill("fieldframe");
+    await expect(page.getByRole("dialog", { name: "Search" }).getByText(/CAISN FIELDFRAME LONGSLEEVE/)).toBeVisible();
+  });
+
+  test("product card crossfades from front to back on hover", async ({ page }) => {
+    await page.goto("/shop");
+    const card = page.locator('[data-testid="product-card"]').filter({ hasText: "CAISN FIELDFRAME LONGSLEEVE" });
+    const backImage = card.locator('img[alt=""]').first();
+    await expect(backImage).toHaveCSS("opacity", "0");
+    await card.hover();
+    await expect(backImage).toHaveCSS("opacity", "1");
+  });
+
+  test("front/back images carry the confirmed alt text", async ({ page }) => {
+    await page.goto("/product/fieldframe-longsleeve");
+    await expect(
+      page.getByAltText("Front view of the CAISN Fieldframe Longsleeve in black and washed woodland camo").first()
+    ).toBeVisible();
+  });
+});
+
 test.describe("no customer-facing placeholder terms", () => {
   test("banned strings do not appear anywhere on the storefront", async ({ page }) => {
     const routes = [
@@ -329,10 +379,11 @@ test.describe("no customer-facing placeholder terms", () => {
       "/product/forma-jogger",
       "/product/forma-zip-up",
       "/product/forma-tracksuit",
+      "/product/fieldframe-longsleeve",
     ];
     const banned = [/PRICE PENDING/i, /DATA PENDING/i, /PROTOTYPE/i, /composition pending/i];
     for (const route of routes) {
-      await page.goto(route);
+      await page.goto(route, { waitUntil: "domcontentloaded" });
       const body = await page.locator("body").innerText();
       for (const pattern of banned) {
         expect(body, `${pattern} found on ${route}`).not.toMatch(pattern);

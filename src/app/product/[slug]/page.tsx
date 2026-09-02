@@ -16,9 +16,19 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) return { title: "CAISN" };
+  const priceText = product.price !== null ? ` €${product.price}.` : "";
+  const statusText = product.comingSoon ? " Coming soon." : "";
+  const description = `${product.edition} / ${product.spec}.${priceText}${statusText}`;
+  const image = product.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
+
   return {
     title: `${product.name} — CAISN`,
-    description: `${product.edition} / ${product.spec}.${product.price !== null ? ` €${product.price}.` : ""}`,
+    description,
+    openGraph: {
+      title: `${product.name} — CAISN`,
+      description,
+      images: image ? [{ url: image.url, alt: image.alt }] : undefined,
+    },
   };
 }
 
@@ -48,7 +58,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         "@type": "Offer",
         priceCurrency: "EUR",
         price: product.price,
-        availability: stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        // Coming Soon is a real, distinct availability state — a
+        // priced product that isn't purchasable yet — not the same
+        // claim as InStock/OutOfStock, so it gets its own enum value
+        // rather than a availability that would misstate readiness.
+        availability: product.comingSoon
+          ? "https://schema.org/PreOrder"
+          : stock > 0
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
       },
     }),
   };

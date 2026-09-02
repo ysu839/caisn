@@ -167,6 +167,10 @@ function BentoCardBody({ product, featured }: { product: Product; featured: bool
           <span className="rounded-full bg-[var(--color-accent)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">
             SET — 2 PIECES
           </span>
+        ) : product.comingSoon ? (
+          <span className="rounded-full bg-[var(--ink)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">
+            COMING SOON
+          </span>
         ) : (
           <span>{product.edition}</span>
         )}
@@ -219,9 +223,14 @@ export function BentoGrid({ products }: { products: Product[] }) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const items = groupForBento(products);
-  // Exactly one "lg" (2x2 = 4 cells) plus the rest "md" (2x1 = 2 cells
-  // each) tiles a 4-col grid with zero gaps for any item count. The
-  // first item is the featured card — ECHO leads the catalog order in
+  // One "lg" (2x2 = 4 cells) opening feature plus the rest "md" (2x1 =
+  // 2 cells each) tiles a 4-col grid with zero gaps whenever the item
+  // count is odd (4 + 2*(n-1) is a multiple of 4 exactly when n is
+  // odd). An even count would otherwise leave a 2-cell gap in the last
+  // row, so the closing item also becomes "lg" — a large opening and
+  // closing feature bookending the mds in between, which both reads as
+  // an intentional composition and always tiles exactly. The first
+  // item is the featured card — ECHO leads the catalog order in
   // data.ts, so this naturally makes it the large feature per the
   // brief's "one large ECHO feature, one FORMA pair, one tracksuit"
   // composition, without hardcoding a slug check here.
@@ -240,7 +249,8 @@ export function BentoGrid({ products }: { products: Product[] }) {
     <div className="relative">
       <div className="grid auto-rows-[240px] grid-cols-2 gap-4 md:grid-cols-4">
         {items.map((item, i) => {
-          const span: Span = i === 0 ? "lg" : "md";
+          const isBookendClose = items.length % 2 === 0 && i === items.length - 1;
+          const span: Span = i === 0 || isBookendClose ? "lg" : "md";
           if (item.kind === "pair") {
             return (
               <BentoPairCard key={`${item.a.id}-${item.b.id}`} a={item.a} b={item.b} className={spanClasses[span]} />
