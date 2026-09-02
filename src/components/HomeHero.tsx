@@ -84,11 +84,11 @@ export function HomeHero({ product }: { product?: Product }) {
               className="object-contain p-4 drop-shadow-[0_34px_50px_rgba(10,10,10,0.22)] md:p-8 lg:p-12"
             />
 
-            <div className="absolute left-4 top-4 flex items-center gap-2 text-[9px] uppercase tracking-[0.18em] text-white/55 md:left-6 md:top-6">
+            <div className="absolute left-4 top-4 flex items-center gap-2 text-[9px] uppercase tracking-[0.18em] text-[var(--ink-soft)] md:left-6 md:top-6">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
               Construction 01
             </div>
-            <span className="tnum absolute bottom-4 right-4 text-[9px] tracking-[0.18em] text-white/45 md:bottom-6 md:right-6">
+            <span className="tnum absolute bottom-4 right-4 text-[9px] tracking-[0.18em] text-[var(--ink-soft)] md:bottom-6 md:right-6">
               FRONT / 01
             </span>
           </motion.div>

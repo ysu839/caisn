@@ -116,7 +116,7 @@ export function ShopGrid({ products }: { products: Product[] }) {
           </button>
         </div>
       ) : (
-        <div className={`grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 ${lgColsClass}`}>
+        <div className={`grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-10 ${lgColsClass}`}>
           {filtered.map((p, i) => {
             const front = p.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
             const back = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"))[1];
@@ -154,9 +154,9 @@ export function ShopGrid({ products }: { products: Product[] }) {
                   </Link>
                 )}
                 <Link href={`/product/${p.slug}`} className="mt-3 block">
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="font-display text-sm font-medium">{displayName(p.name)}</span>
-                    <Price value={p.price} className="shrink-0 text-sm" />
+                  <div className="flex flex-col items-start gap-1 sm:flex-row sm:justify-between sm:gap-3">
+                    <span className="font-display text-xs font-medium sm:text-sm">{displayName(p.name)}</span>
+                    <Price value={p.price} className="shrink-0 text-xs sm:text-sm" />
                   </div>
                   {color && <p className="mt-1 text-xs text-[var(--color-fg-soft)]">{color}</p>}
                 </Link>

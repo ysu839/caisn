@@ -32,8 +32,8 @@
      surrounding container to match (instead of the page's dark-mode
      background) keeps the photo from reading as a pasted-in JPG. */
   --surface-plate: #e8e5de;
-  --product-stage: #353532;
-  --product-stage-edge: #242422;
+  --product-stage: #ecebe7;
+  --product-stage-edge: #dfddd7;
 
   /* Type */
   --font-display: var(--font-archivo);
@@ -106,14 +106,13 @@ a {
   font-family: var(--font-display);
 }
 
-/* One photographic world across hero, catalog, PDP, search and cart.
-   The lifted centre keeps black garments separated from the charcoal
-   edge without turning the stage back into a generic light-grey card. */
+/* One photographic world across hero, catalog, PDP, search and cart:
+   a quiet warm-grey studio plate inspired by archival lookbooks. */
 .product-stage {
   background-color: var(--product-stage);
   background-image:
-    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.07) 28%, transparent 58%),
-    linear-gradient(145deg, #444440 0%, var(--product-stage) 48%, var(--product-stage-edge) 100%);
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.28) 34%, transparent 66%),
+    linear-gradient(145deg, #f1f0ec 0%, var(--product-stage) 52%, var(--product-stage-edge) 100%);
 }
 
 /* tabular numerals utility for price / stock / index */
