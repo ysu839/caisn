@@ -16,10 +16,10 @@ export function DropAccessSection({ product }: { product?: Product }) {
   const image = images[1] ?? images[0];
 
   return (
-    <section className="border-t border-[var(--color-line)] px-[var(--gutter)] py-16 md:py-20">
-      <div className="mx-auto grid max-w-4xl grid-cols-1 items-center gap-8 md:grid-cols-12">
+    <section className="border-t border-[var(--color-line)] px-[var(--gutter)] py-20 md:py-28">
+      <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12">
         {image && (
-          <div className="relative aspect-[4/3] overflow-hidden bg-[var(--surface-plate)] md:col-span-4">
+          <div className="relative aspect-[4/3] overflow-hidden bg-[var(--surface-plate)] md:col-span-5">
             <Image
               src={image.url}
               alt={image.alt}
@@ -29,13 +29,13 @@ export function DropAccessSection({ product }: { product?: Product }) {
             />
           </div>
         )}
-        <div className={image ? "md:col-span-8" : "md:col-span-12 text-center md:text-left"}>
-          <span className="tnum text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">DROP 01 ACCESS</span>
-          <p className="font-display mt-2 text-2xl font-medium md:text-3xl">
-            Checkout and the next drop are opening soon.
+        <div className={image ? "md:col-span-6 md:col-start-7" : "md:col-span-12 text-center md:text-left"}>
+          <span className="tnum text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)]">DROP 01 ACCESS / SOON</span>
+          <p className="font-display mt-3 text-4xl font-medium uppercase leading-[0.9] tracking-[-0.045em] md:text-6xl">
+            The first drop<br />is taking shape.
           </p>
-          <p className="mt-2 max-w-md text-sm text-[var(--color-fg-soft)]">
-            Browse the current construction now — full checkout access is coming shortly.
+          <p className="mt-5 max-w-md text-sm leading-relaxed text-[var(--color-fg-soft)]">
+            Explore every current construction now. Checkout and full drop access are opening shortly.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link

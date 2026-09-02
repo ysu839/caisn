@@ -38,16 +38,19 @@ export function FormaConnection({
   const joggerImage = jogger.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
 
   return (
-    <section ref={sectionRef} className="px-[var(--gutter)] py-20 md:py-28">
-      <div className="mx-auto max-w-3xl text-center">
-        <span className="tnum text-[10px] tracking-[0.15em] text-[var(--color-accent)]">THE FORMA SYSTEM</span>
-        <h2 className="font-display mt-3 text-3xl font-medium leading-tight md:text-4xl">
-          Two pieces. Worn apart or together.
+    <section ref={sectionRef} className="bg-[var(--ink)] px-[var(--gutter)] py-20 text-[var(--paper)] md:py-28">
+      <div className="mx-auto max-w-6xl text-center">
+        <span className="tnum text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent-soft)]">The Forma System / 02</span>
+        <h2 className="font-display mx-auto mt-4 max-w-4xl text-[clamp(3rem,7vw,7.5rem)] font-medium uppercase leading-[0.84] tracking-[-0.06em]">
+          Apart by design.<br />Better together.
         </h2>
+        <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-white/55">
+          One visual system across two relaxed silhouettes. Wear either piece alone or complete the construction.
+        </p>
       </div>
 
-      <div className="relative mx-auto mt-12 grid max-w-3xl grid-cols-2 items-center gap-0 overflow-hidden">
-        <motion.div style={{ x: zipUpX }} className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-plate)]">
+      <div className="relative mx-auto mt-12 grid max-w-5xl grid-cols-2 items-center gap-px overflow-hidden bg-white/15">
+        <motion.div style={{ x: zipUpX }} className="relative aspect-[4/5] overflow-hidden bg-[#171716]">
           {zipUpImage && (
             <Image
               src={zipUpImage.url}
@@ -58,7 +61,7 @@ export function FormaConnection({
             />
           )}
         </motion.div>
-        <motion.div style={{ x: joggerX }} className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-plate)]">
+        <motion.div style={{ x: joggerX }} className="relative aspect-[4/5] overflow-hidden bg-[#171716]">
           {joggerImage && (
             <Image
               src={joggerImage.url}
@@ -79,11 +82,11 @@ export function FormaConnection({
         />
       </div>
 
-      <div className="mx-auto mt-10 max-w-3xl">
+      <div className="mx-auto mt-10 max-w-5xl">
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
           <Link
             href={`/product/${zipUp.slug}`}
-            className="underline underline-offset-4 transition-colors hover:text-[var(--color-accent)]"
+            className="text-white/70 underline underline-offset-4 transition-colors hover:text-[var(--color-accent-soft)]"
             style={{ transitionDuration: "var(--dur-snap)" }}
           >
             View {displayName(zipUp.name).replace("CAISN ", "")}
@@ -92,7 +95,7 @@ export function FormaConnection({
           </Link>
           <Link
             href={`/product/${jogger.slug}`}
-            className="underline underline-offset-4 transition-colors hover:text-[var(--color-accent)]"
+            className="text-white/70 underline underline-offset-4 transition-colors hover:text-[var(--color-accent-soft)]"
             style={{ transitionDuration: "var(--dur-snap)" }}
           >
             View {displayName(jogger.name).replace("CAISN ", "")}
@@ -103,7 +106,7 @@ export function FormaConnection({
 
         <Link
           href={`/product/${tracksuit.slug}`}
-          className="group mt-8 flex items-center justify-between border-t border-[var(--color-line)] pt-6 transition-colors hover:border-[var(--color-accent)]"
+          className="group mt-8 flex items-center justify-between border-t border-white/20 pt-6 transition-colors hover:border-[var(--color-accent-soft)]"
           style={{ transitionDuration: "var(--dur-snap)" }}
         >
           <div>
@@ -111,7 +114,7 @@ export function FormaConnection({
               SET — 2 PIECES
             </span>
             <p className="font-display mt-2 text-xl font-medium">View Complete Set</p>
-            <p className="text-sm text-[var(--color-fg-soft)]">Both pieces, one price.</p>
+            <p className="text-sm text-white/50">Both pieces, one price.</p>
           </div>
           <Price value={tracksuit.price} className="font-display text-2xl" />
         </Link>

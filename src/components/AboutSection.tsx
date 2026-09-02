@@ -22,17 +22,17 @@ export function AboutSection({ product }: { product?: Product }) {
   ];
 
   return (
-    <section id="about" className="border-t border-[var(--color-line)] px-[var(--gutter)] py-20 md:py-28">
+    <section id="about" className="border-t border-[var(--color-line)] px-[var(--gutter)] py-24 md:py-36">
       <div className="grid grid-cols-1 gap-12 md:grid-cols-12 md:gap-8">
         <div className="md:col-span-7">
           <span className="tnum text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">ABOUT CAISN</span>
-          <h2 className="font-display mt-4 text-[13vw] font-semibold leading-[0.9] tracking-tight md:text-6xl lg:text-7xl">
+          <h2 className="font-display mt-4 text-[15vw] font-medium uppercase leading-[0.82] tracking-[-0.065em] md:text-7xl lg:text-8xl">
             BUILT, NOT
             <br />
             PRINTED<span className="text-[var(--color-accent)]">.</span>
           </h2>
 
-          <div className="mt-10 max-w-md border-l border-[var(--color-line)] pl-6">
+          <div className="mt-12 max-w-lg border-l border-[var(--color-accent)] pl-6 md:ml-[14%]">
             <p className="font-display text-lg font-medium leading-snug">
               Every seam is a decision. We show you all of them.
             </p>

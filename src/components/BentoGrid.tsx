@@ -247,7 +247,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
 
   return (
     <div className="relative">
-      <div className="grid auto-rows-[240px] grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="grid auto-rows-[260px] grid-cols-2 gap-px border border-[var(--color-line)] bg-[var(--color-line)] md:auto-rows-[300px] md:grid-cols-4">
         {items.map((item, i) => {
           const isBookendClose = items.length % 2 === 0 && i === items.length - 1;
           const span: Span = i === 0 || isBookendClose ? "lg" : "md";

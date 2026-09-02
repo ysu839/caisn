@@ -59,8 +59,8 @@ export function ShopGrid({ products }: { products: Product[] }) {
 
   return (
     <>
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-2 overflow-x-auto">
+      <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex gap-6 overflow-x-auto border-b border-[var(--color-line)]">
           {(["all", ...CATEGORIES] as const).map((c) => {
             const active = category === c;
             return (
@@ -68,11 +68,10 @@ export function ShopGrid({ products }: { products: Product[] }) {
                 key={c}
                 onClick={() => setCategory(c)}
                 aria-pressed={active}
-                className="shrink-0 rounded-full border px-3.5 py-1.5 text-xs tracking-[0.05em] transition-colors"
+                className="shrink-0 border-b-2 px-0 pb-3 pt-1 text-[10px] uppercase tracking-[0.14em] transition-colors"
                 style={{
-                  borderColor: active ? "var(--color-fg)" : "var(--color-line)",
-                  backgroundColor: active ? "var(--color-fg)" : "transparent",
-                  color: active ? "var(--color-bg)" : "var(--color-fg-soft)",
+                  borderColor: active ? "var(--color-accent)" : "transparent",
+                  color: active ? "var(--color-fg)" : "var(--color-fg-soft)",
                   transitionDuration: "var(--dur-snap)",
                 }}
               >
@@ -83,19 +82,19 @@ export function ShopGrid({ products }: { products: Product[] }) {
           {category !== "all" && (
             <button
               onClick={() => setCategory("all")}
-              className="shrink-0 text-xs tracking-[0.05em] text-[var(--color-fg-soft)] underline underline-offset-2 hover:text-[var(--color-accent)]"
+              className="shrink-0 pb-3 text-[10px] uppercase tracking-[0.14em] text-[var(--color-fg-soft)] underline hover:text-[var(--color-accent)]"
             >
               RESET
             </button>
           )}
         </div>
 
-        <label className="flex shrink-0 items-center gap-2 text-xs tracking-[0.05em] text-[var(--color-fg-soft)]">
+        <label className="flex shrink-0 items-center gap-3 text-[10px] uppercase tracking-[0.14em] text-[var(--color-fg-soft)]">
           SORT
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
-            className="border border-[var(--color-line)] bg-[var(--color-bg)] px-2 py-1.5 text-xs text-[var(--color-fg)]"
+            className="border-0 border-b border-[var(--color-line)] bg-[var(--color-bg)] py-2 text-[10px] tracking-[0.08em] text-[var(--color-fg)] outline-none"
           >
             {sortOptions.map((o) => (
               <option key={o.key} value={o.key}>

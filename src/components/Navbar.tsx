@@ -31,19 +31,19 @@ export function Navbar() {
   return (
     <>
       <nav
-        className="sticky top-0 z-40 flex items-center justify-between px-[var(--gutter)] py-4 text-sm tracking-[0.15em] transition-colors"
+        className="sticky top-0 z-40 grid h-[4.5rem] grid-cols-3 items-center px-[var(--gutter)] text-[11px] uppercase tracking-[0.15em] transition-colors"
         style={{
           backgroundColor: scrolled ? "var(--color-bg)" : "transparent",
           borderBottom: scrolled ? "1px solid var(--color-line)" : "1px solid transparent",
-          backdropFilter: scrolled ? "blur(8px)" : "none",
+          backdropFilter: scrolled ? "blur(14px)" : "none",
           transitionDuration: "var(--dur-snap)",
           transitionTimingFunction: "var(--ease-snap)",
         }}
       >
-        <Link href="/" className="font-display -m-2 p-2 text-lg font-semibold">
+        <Link href="/" className="font-display -m-2 justify-self-start p-2 text-xl font-semibold tracking-[-0.04em]">
           CAISN
         </Link>
-        <div className="hidden gap-8 md:flex">
+        <div className="hidden justify-self-center gap-8 md:flex">
           <Link
             href="/shop"
             className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]"
@@ -66,14 +66,15 @@ export function Navbar() {
             ABOUT
           </Link>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-self-end gap-2 sm:gap-4">
           <button
             onClick={() => setSearchOpen(true)}
             className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]"
             style={{ transitionDuration: "var(--dur-snap)" }}
             aria-label="Open search"
           >
-            SEARCH
+            <span className="hidden sm:inline">SEARCH</span>
+            <span className="sm:hidden" aria-hidden>⌕</span>
           </button>
           <button
             onClick={open}
@@ -81,7 +82,7 @@ export function Navbar() {
             style={{ color: count > 0 ? "var(--color-accent)" : undefined }}
             aria-label={`Open cart, ${count} items`}
           >
-            CART ({count})
+            CART <span className="tnum">({count})</span>
           </button>
         </div>
       </nav>

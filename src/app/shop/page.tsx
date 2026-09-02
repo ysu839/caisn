@@ -16,13 +16,21 @@ export default async function ShopPage() {
   return (
     <main>
       <Navbar />
-      <section className="px-[var(--gutter)] py-10">
-        <h1 className="mb-8 flex items-center gap-2 text-[10px] font-normal tracking-[0.15em] text-[var(--color-fg-soft)]">
-          SHOP — ALL EDITIONS
-          <span className="tnum flex h-4 min-w-4 items-center justify-center rounded-full border border-[var(--color-line)] px-1 text-[9px]">
-            {products.length}
-          </span>
-        </h1>
+      <section className="px-[var(--gutter)] pb-20 pt-12 md:pt-20">
+        <div className="mb-12 grid grid-cols-1 items-end gap-6 border-b border-[var(--color-line)] pb-8 md:grid-cols-12">
+          <div className="md:col-span-8">
+            <span className="tnum text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)]">CAISN / SHOP</span>
+            <h1 className="font-display mt-3 text-[clamp(4rem,10vw,10rem)] font-medium uppercase leading-[0.78] tracking-[-0.075em]">
+              All pieces.
+            </h1>
+          </div>
+          <div className="flex items-end justify-between gap-6 md:col-span-4">
+            <p className="max-w-xs text-sm leading-relaxed text-[var(--color-fg-soft)]">
+              Drop 01 and current constructions. Designed as individual pieces, built to work together.
+            </p>
+            <span className="tnum text-3xl font-light">{String(products.length).padStart(2, "0")}</span>
+          </div>
+        </div>
 
         <Suspense fallback={null}>
           <ShopGrid products={products} />

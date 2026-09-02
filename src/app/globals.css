@@ -8,16 +8,16 @@
 :root {
   /* Color */
   --ink: #0a0a0a;
-  --paper: #f6f5f2;
+  --paper: #f3f0e9;
   /* CAISN Oxblood — a muted, desaturated wine-red. Reads as premium
      streetwear/label identity (not a UI-kit orange), sits quietly
      against washed graphite and heather-grey garments, and warms the
      cream/bone detailing instead of fighting it. Used sparingly:
      selected states, edition markers, cart feedback, links. */
-  --accent: #7a2b2b;
-  --accent-soft: #a9605a;
-  --line: #d8d6d0;
-  --ink-soft: #4a4a46;
+  --accent: #762f2a;
+  --accent-soft: #a75e57;
+  --line: #cbc7bd;
+  --ink-soft: #575650;
 
   /* Color roles (light default) */
   --color-bg: var(--paper);
@@ -31,7 +31,7 @@
      are shot on a light studio backdrop; forcing that backdrop's
      surrounding container to match (instead of the page's dark-mode
      background) keeps the photo from reading as a pasted-in JPG. */
-  --surface-plate: #f1efe9;
+  --surface-plate: #e8e5de;
 
   /* Type */
   --font-display: var(--font-archivo);
@@ -39,23 +39,14 @@
 
   /* Spacing / structure */
   --rail-width: 3.5rem;
-  --gutter: clamp(1rem, 3vw, 2.5rem);
-  --radius: 2px;
+  --gutter: clamp(1rem, 3.2vw, 3.5rem);
+  --radius: 0px;
 
   /* Motion */
   --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-drift: cubic-bezier(0.16, 0.9, 0.2, 1.02);
   --dur-snap: 200ms;
   --dur-drift: 1100ms;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg: #111110;
-    --color-fg: #ede9e6;
-    --color-fg-soft: #a19d97;
-    --color-line: #2a2a28;
-  }
 }
 
 :root[data-theme="dark"] {
@@ -87,10 +78,26 @@ body {
   color: var(--color-fg);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-body);
   font-feature-settings: "tnum" 1, "lnum" 1;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+a,
+button,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  text-underline-offset: 0.2em;
 }
 
 .font-display {
