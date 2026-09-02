@@ -40,7 +40,7 @@ export function ProductGallery({ product }: { product: Product }) {
           className="group flex flex-col items-center gap-1.5"
         >
           <span
-            className="relative block h-16 w-14 overflow-hidden bg-[var(--surface-plate)] transition-opacity md:h-20 md:w-16"
+            className="product-stage relative block h-16 w-14 overflow-hidden transition-opacity md:h-20 md:w-16"
             style={{
               opacity: i === activeIndex ? 1 : 0.55,
               transitionDuration: "var(--dur-snap)",
@@ -70,7 +70,7 @@ export function ProductGallery({ product }: { product: Product }) {
     // width to spare for a side rail.
     <div className="flex flex-col-reverse gap-3 md:flex-row">
       {thumbs}
-      <div className="relative aspect-[4/5] w-full flex-1 overflow-hidden bg-[var(--surface-plate)]">
+      <div className="product-stage relative aspect-[4/5] w-full flex-1 overflow-hidden">
         <Image
           key={active.url}
           src={active.url}

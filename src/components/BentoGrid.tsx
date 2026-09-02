@@ -29,7 +29,7 @@ function BentoPairCard({ a, b, className }: { a: Product; b: Product; className:
   const imageOf = (p: Product) => p.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
 
   return (
-    <div className={`group relative overflow-hidden bg-[var(--surface-plate)] ${className}`}>
+    <div className={`product-stage group relative overflow-hidden ${className}`}>
       <div className="relative flex h-full w-full">
         {[a, b].map((product, i) => {
           const image = imageOf(product);
@@ -51,19 +51,19 @@ function BentoPairCard({ a, b, className }: { a: Product; b: Product; className:
                     style={{ transitionDuration: "var(--dur-snap)", transitionTimingFunction: "var(--ease-snap)" }}
                   />
                 )}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-3 pt-6">
-                  <p className="font-display text-xs font-medium leading-tight text-[var(--ink)] sm:text-sm">
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#242422] via-[#242422]/85 to-transparent p-3 pt-6">
+                  <p className="font-display text-xs font-medium leading-tight text-white sm:text-sm">
                     {displayName(product.name).replace("CAISN ", "")}
                   </p>
-                  <Price value={product.price} className="tnum mt-0.5 block text-xs text-[var(--ink-soft)]" />
+                  <Price value={product.price} className="tnum mt-0.5 block text-xs text-white/55" />
                 </div>
               </CursorTarget>
             </Link>
           );
         })}
       </div>
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
-        <span className="font-display text-sm font-semibold tracking-normal text-[var(--ink)]">THE FORMA SET</span>
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-[10px] tracking-[0.15em] text-white/55">
+        <span className="font-display text-sm font-semibold tracking-normal text-white">THE FORMA SET</span>
         <span className="text-[var(--color-accent)]">SOLD SEPARATELY</span>
       </div>
     </div>
@@ -106,7 +106,7 @@ function BentoCardBody({ product, featured }: { product: Product; featured: bool
   // studio "mat" rather than the card's dark ground, so it reads as
   // art-directed rather than a JPG pasted into a black box.
   return (
-    <div className="relative h-full w-full bg-[var(--surface-plate)]">
+    <div className="product-stage relative h-full w-full">
       {secondPiece ? (
         // Bundle SKU — show both real constituent pieces side by side
         // rather than just images[0] (the zip-up), so the card matches
@@ -161,7 +161,7 @@ function BentoCardBody({ product, featured }: { product: Product; featured: bool
           )}
         </>
       )}
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-[10px] tracking-[0.15em] text-white/55">
         <span className="tnum">{product.id}</span>
         {isBundle ? (
           <span className="rounded-full bg-[var(--color-accent)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">
@@ -175,15 +175,15 @@ function BentoCardBody({ product, featured }: { product: Product; featured: bool
           <span>{product.edition}</span>
         )}
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--surface-plate)] via-[var(--surface-plate)]/90 to-transparent p-4 pt-8">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#242422] via-[#242422]/85 to-transparent p-4 pt-8">
         <p
-          className={`font-display leading-none text-[var(--ink)] ${featured ? "text-2xl font-semibold md:text-3xl" : "text-xl font-semibold"}`}
+          className={`font-display leading-none text-white ${featured ? "text-2xl font-semibold md:text-3xl" : "text-xl font-semibold"}`}
         >
           {displayName(product.name)}
         </p>
         <div className="mt-1 flex items-baseline gap-2">
           <Price value={product.price} className="tnum text-xs font-medium text-[var(--color-accent)]" />
-          <span className="tnum text-xs text-[var(--ink-soft)]">{product.spec}</span>
+          <span className="tnum text-xs text-white/50">{product.spec}</span>
         </div>
       </div>
       <QuickAdd product={product} />

@@ -23,7 +23,7 @@ export function ProductCardImage({
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--surface-plate)]">
+    <div className="product-stage relative aspect-[4/5] w-full overflow-hidden">
       <span
         aria-hidden
         className="pointer-events-none absolute inset-0 flex items-center justify-center text-[10px] font-semibold tracking-[0.3em] text-[var(--color-line)] transition-opacity"

@@ -50,7 +50,7 @@ export function FormaConnection({
       </div>
 
       <div className="relative mx-auto mt-12 grid max-w-5xl grid-cols-2 items-center gap-px overflow-hidden bg-white/15">
-        <motion.div style={{ x: zipUpX }} className="relative aspect-[4/5] overflow-hidden bg-[#171716]">
+        <motion.div style={{ x: zipUpX }} className="product-stage relative aspect-[4/5] overflow-hidden">
           {zipUpImage && (
             <Image
               src={zipUpImage.url}
@@ -61,7 +61,7 @@ export function FormaConnection({
             />
           )}
         </motion.div>
-        <motion.div style={{ x: joggerX }} className="relative aspect-[4/5] overflow-hidden bg-[#171716]">
+        <motion.div style={{ x: joggerX }} className="product-stage relative aspect-[4/5] overflow-hidden">
           {joggerImage && (
             <Image
               src={joggerImage.url}

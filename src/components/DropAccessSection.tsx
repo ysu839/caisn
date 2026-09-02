@@ -19,7 +19,7 @@ export function DropAccessSection({ product }: { product?: Product }) {
     <section className="border-t border-[var(--color-line)] px-[var(--gutter)] py-20 md:py-28">
       <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12">
         {image && (
-          <div className="relative aspect-[4/3] overflow-hidden bg-[var(--surface-plate)] md:col-span-5">
+          <div className="product-stage relative aspect-[4/3] overflow-hidden md:col-span-5">
             <Image
               src={image.url}
               alt={image.alt}

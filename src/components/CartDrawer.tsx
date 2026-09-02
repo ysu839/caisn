@@ -12,7 +12,7 @@ import { Price } from "@/components/Price";
 function CartThumb({ product, className }: { product: Product; className: string }) {
   const image = product.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
   return (
-    <div className={`relative shrink-0 overflow-hidden bg-[var(--surface-plate)] ${className}`}>
+    <div className={`product-stage relative shrink-0 overflow-hidden ${className}`}>
       {image && <Image src={image.url} alt="" aria-hidden fill sizes="60px" className="object-contain p-1.5" />}
     </div>
   );

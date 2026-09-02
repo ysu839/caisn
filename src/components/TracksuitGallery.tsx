@@ -23,7 +23,7 @@ export function TracksuitGallery({ product }: { product: Product }) {
   return (
     <div className="grid grid-cols-2 gap-3">
       {cells.map((cell, i) => (
-        <div key={i} className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-plate)]">
+        <div key={i} className="product-stage relative aspect-[4/5] overflow-hidden">
           {cell.media && (
             <>
               <Image
@@ -34,7 +34,7 @@ export function TracksuitGallery({ product }: { product: Product }) {
                 sizes="(min-width: 768px) 21vw, 45vw"
                 className="object-contain p-4 drop-shadow-[0_14px_22px_rgba(10,10,10,0.14)]"
               />
-              <span className="pointer-events-none absolute bottom-2 left-2 text-[9px] tracking-[0.1em] text-[var(--color-fg-soft)]">
+              <span className="pointer-events-none absolute bottom-2 left-2 text-[9px] tracking-[0.1em] text-white/55">
                 {cell.label}
               </span>
             </>

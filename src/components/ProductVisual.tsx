@@ -27,7 +27,7 @@ export function ProductVisual({
 
   return (
     <div
-      className={`relative aspect-[4/5] w-full overflow-hidden bg-[var(--surface-plate)] ${className ?? ""}`}
+      className={`product-stage relative aspect-[4/5] w-full overflow-hidden ${className ?? ""}`}
     >
       <Image
         src={image.url}

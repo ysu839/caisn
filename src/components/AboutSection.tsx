@@ -55,7 +55,7 @@ export function AboutSection({ product }: { product?: Product }) {
 
         {detailImage && (
           <div className="md:col-span-5">
-            <div className="relative aspect-[4/5] w-full overflow-hidden border border-[var(--color-line)] bg-[var(--surface-plate)]">
+            <div className="product-stage relative aspect-[4/5] w-full overflow-hidden border border-[var(--color-line)]">
               {/* A tight crop of the real garment — a detail, not the
                   full product shot already shown elsewhere on the page. */}
               <Image

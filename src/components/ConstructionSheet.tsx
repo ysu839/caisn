@@ -26,7 +26,7 @@ export function ConstructionSheet({ product }: { product: Product }) {
       <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
         {front && (
           <div className="md:col-span-5">
-            <div className="relative aspect-[4/5] w-full overflow-hidden border border-[var(--color-line)] bg-[var(--surface-plate)]">
+            <div className="product-stage relative aspect-[4/5] w-full overflow-hidden border border-[var(--color-line)]">
               <Image
                 src={front.url}
                 alt={front.alt}
@@ -54,7 +54,7 @@ export function ConstructionSheet({ product }: { product: Product }) {
           </dl>
 
           {back && (
-            <div className="relative float-right mt-8 aspect-[4/5] w-32 overflow-hidden border border-[var(--color-line)] bg-[var(--surface-plate)] md:w-40">
+            <div className="product-stage relative float-right mt-8 aspect-[4/5] w-32 overflow-hidden border border-[var(--color-line)] md:w-40">
               <Image src={back.url} alt={back.alt} fill sizes="160px" className="object-contain p-3" />
             </div>
           )}

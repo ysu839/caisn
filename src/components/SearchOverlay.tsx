@@ -156,7 +156,7 @@ export function SearchOverlay({
                           transitionDuration: "var(--dur-snap)",
                         }}
                       >
-                        <div className="relative h-16 w-14 shrink-0 overflow-hidden bg-[var(--surface-plate)]">
+                        <div className="product-stage relative h-16 w-14 shrink-0 overflow-hidden">
                           {image && (
                             <Image src={image.url} alt="" aria-hidden fill sizes="56px" className="object-contain p-1.5" />
                           )}
