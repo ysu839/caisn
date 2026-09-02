@@ -35,7 +35,6 @@ export function Navbar() {
         style={{
           backgroundColor: scrolled ? "var(--color-bg)" : "transparent",
           borderBottom: scrolled ? "1px solid var(--color-line)" : "1px solid transparent",
-          backdropFilter: scrolled ? "blur(14px)" : "none",
           transitionDuration: "var(--dur-snap)",
           transitionTimingFunction: "var(--ease-snap)",
         }}
