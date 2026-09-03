@@ -118,10 +118,14 @@ export function ShopGrid({ products }: { products: Product[] }) {
       ) : (
         <div className={`grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-10 ${lgColsClass}`}>
           {filtered.map((p, i) => {
-            const front = p.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
-            const back = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"))[1];
-            const color = p.variants[0]?.color;
             const isBundle = p.slug === "forma-tracksuit";
+            const productImages = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"));
+            const front = productImages[0];
+            const back = isBundle ? undefined : productImages[1];
+            // The tracksuit media order is zip-up front/back, then
+            // jogger front/back. Show both front views as one set card.
+            const secondaryFront = isBundle ? productImages[2] : undefined;
+            const color = p.variants[0]?.color;
             const comingSoon = p.comingSoon === true;
 
             // A non-interactive container, not a Link — QuickAdd's own
@@ -134,7 +138,7 @@ export function ShopGrid({ products }: { products: Product[] }) {
                 {front ? (
                   <div className="relative">
                     <Link href={`/product/${p.slug}`} className="block" aria-label={`View ${p.name}`}>
-                      <ProductCardImage front={front} back={back} priority={i < 3} />
+                      <ProductCardImage front={front} back={back} secondaryFront={secondaryFront} priority={i < 3} />
                     </Link>
                     {isBundle && (
                       <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-[var(--color-accent)] px-2.5 py-1 text-[9px] tracking-[0.1em] text-[var(--paper)]">

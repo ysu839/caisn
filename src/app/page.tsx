@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
 import { BentoGrid } from "@/components/BentoGrid";
@@ -34,6 +35,45 @@ export default async function Home() {
             A compact study in washed surfaces, raised artwork and silhouettes that hold their shape.
           </p>
         </div>
+        <nav
+          aria-label="Shop by category"
+          className="mb-8 flex flex-col gap-4 border-y border-[var(--color-line)] py-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <span className="tnum text-[10px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
+            Shop by category
+          </span>
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0">
+            <Link
+              href="/shop?category=Hoodies%20%26%20Zip-Ups"
+              className="flex shrink-0 items-center gap-2 rounded-full border border-[var(--color-line)] px-4 py-2 text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" aria-hidden />
+              Hoodies &amp; Zip-Ups
+            </Link>
+            <Link
+              href="/shop?category=Bottoms"
+              className="flex shrink-0 items-center gap-2 rounded-full border border-[var(--color-line)] px-4 py-2 text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" aria-hidden />
+              Bottoms
+            </Link>
+            <Link
+              href="/shop?category=Sets"
+              className="flex shrink-0 items-center gap-2 rounded-full border border-[var(--color-line)] px-4 py-2 text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" aria-hidden />
+              Sets
+            </Link>
+            <Link
+              href="/shop?category=Longsleeves"
+              className="flex shrink-0 items-center gap-2 rounded-full border border-[var(--color-line)] px-4 py-2 text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" aria-hidden />
+              Longsleeves
+            </Link>
+          </div>
+        </nav>
+
         <BentoGrid products={products} />
       </section>
 

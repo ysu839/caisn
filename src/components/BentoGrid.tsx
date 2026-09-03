@@ -200,11 +200,17 @@ type BentoItem = { kind: "single"; product: Product } | { kind: "pair"; a: Produ
  * this tall than one product with a lot of empty frame around it.
  */
 function groupForBento(products: Product[]): BentoItem[] {
+  // The dedicated tracksuit SKU is the homepage's single FORMA set
+  // presentation. Keep the separately purchasable top and bottom in
+  // /shop, but do not repeat them here as a second split-price set card.
+  const homepageProducts = products.some((p) => p.slug === "forma-tracksuit")
+    ? products.filter((p) => p.slug !== "forma-zip-up" && p.slug !== "forma-jogger")
+    : products;
   const consumed = new Set<string>();
   const items: BentoItem[] = [];
-  for (const p of products) {
+  for (const p of homepageProducts) {
     if (consumed.has(p.id)) continue;
-    const pair = p.pairSlug ? products.find((q) => q.slug === p.pairSlug) : undefined;
+    const pair = p.pairSlug ? homepageProducts.find((q) => q.slug === p.pairSlug) : undefined;
     if (pair) {
       items.push({ kind: "pair", a: p, b: pair });
       consumed.add(p.id);
