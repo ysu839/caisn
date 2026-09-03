@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title">
+  <title id="title">CAISN FORMA zip-up and jogger set</title>
+  <image
+    href="/products/forma-zip-up/front.webp"
+    x="35"
+    y="135"
+    width="650"
+    height="820"
+    preserveAspectRatio="xMidYMid meet"
+  />
+  <image
+    href="/products/forma-jogger/front.webp"
+    x="635"
+    y="80"
+    width="530"
+    height="930"
+    preserveAspectRatio="xMidYMid meet"
+  />
+</svg>

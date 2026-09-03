@@ -120,11 +120,11 @@ export function ShopGrid({ products }: { products: Product[] }) {
           {filtered.map((p, i) => {
             const isBundle = p.slug === "forma-tracksuit";
             const productImages = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"));
-            const front = productImages[0];
-            const back = isBundle ? undefined : productImages[1];
-            // The tracksuit media order is zip-up front/back, then
-            // jogger front/back. Show both front views as one set card.
-            const secondaryFront = isBundle ? productImages[2] : undefined;
+            const front = p.cardMedia ?? productImages[0];
+            const back = isBundle || p.cardMedia ? undefined : productImages[1];
+            // Fall back to a live two-image composition for any future
+            // set without its own dedicated catalog asset.
+            const secondaryFront = isBundle && !p.cardMedia ? productImages[2] : undefined;
             const color = p.variants[0]?.color;
             const comingSoon = p.comingSoon === true;
 

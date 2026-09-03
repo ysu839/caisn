@@ -220,6 +220,13 @@ const products: Product[] = [
       "CAISN® branding",
       "unisex",
     ],
+    // Dedicated combined catalog asset stored with the set. It references
+    // the original transparent product photos without regenerating them.
+    cardMedia: {
+      type: "image",
+      url: "/products/forma-tracksuit/set.svg",
+      alt: "CAISN FORMA TRACKSUIT — zip-up and jogger set",
+    },
     // All four real angles — front + back of both constituent garments
     // — rather than just the two front shots, so the set gallery can
     // show the full flat-lay composition (see TracksuitGallery).

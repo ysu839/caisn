@@ -72,14 +72,14 @@ function BentoPairCard({ a, b, className }: { a: Product; b: Product; className:
 
 function BentoCardBody({ product, featured }: { product: Product; featured: boolean }) {
   const images = product.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"));
-  const image = images[0];
-  const back = images[1];
   const isBundle = product.category === "Sets";
+  const image = product.cardMedia ?? images[0];
+  const back = product.cardMedia ? undefined : images[1];
   // The tracksuit's media is ordered zip-up front/back, jogger
   // front/back (see data.ts) — images[2] is the jogger's real front
   // shot, so a bundle card can show both real pieces side by side
   // instead of only the zip-up that happens to be images[0].
-  const secondPiece = isBundle ? images[2] : undefined;
+  const secondPiece = isBundle && !product.cardMedia ? images[2] : undefined;
 
   if (!image) {
     // No real photography yet — the existing pure spec-sheet treatment,

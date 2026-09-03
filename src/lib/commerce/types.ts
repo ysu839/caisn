@@ -55,6 +55,11 @@ export type Product = {
    * reads `model3dUrl` below, not this field.
    */
   media: ProductMedia[];
+  /**
+   * Optional dedicated catalog-card composition. Product galleries keep
+   * using media; this is only for a clean multi-piece set thumbnail.
+   */
+  cardMedia?: ProductMedia;
   variants: Variant[];
   model3dUrl?: string;
   /**
