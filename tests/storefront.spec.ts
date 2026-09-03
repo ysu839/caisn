@@ -253,17 +253,17 @@ test.describe("FORMA connection section", () => {
   });
 });
 
-test.describe("checkout honesty", () => {
-  test("the cart never shows a clickable checkout action when none exists", async ({ page }) => {
+test.describe("checkout", () => {
+  test("the cart offers secure checkout for purchasable items", async ({ page }) => {
     await page.goto("/product/echo-zip-hoodie");
     await page.getByRole("button", { name: "L", exact: true }).click();
     await page.locator("#primary-add-to-cart button").click();
     const drawer = page.locator('[role="dialog"][aria-labelledby="cart-drawer-heading"]');
     await expect(drawer).toBeVisible();
-    await expect(drawer.getByText("RESERVE")).toHaveCount(0);
-    const checkoutBtn = drawer.getByRole("button", { name: "CHECKOUT UNAVAILABLE" });
+    const checkoutBtn = drawer.getByRole("button", { name: "SECURE CHECKOUT" });
     await expect(checkoutBtn).toBeVisible();
-    await expect(checkoutBtn).toBeDisabled();
+    await expect(checkoutBtn).toBeEnabled();
+    await expect(drawer.getByText(/powered by Stripe/i)).toBeVisible();
   });
 });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Product, Variant } from "@/lib/commerce/types";
 import { getProductBySlug } from "@/lib/commerce/data";
 
@@ -18,6 +18,7 @@ type CartContextValue = {
   addItem: (product: Product, variant: Variant) => void;
   removeItem: (productId: string, color: string, size: string) => void;
   setQuantity: (productId: string, color: string, size: string, quantity: number) => void;
+  clear: () => void;
   count: number;
   total: number;
 };
@@ -125,6 +126,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const clear = useCallback(() => setLines([]), []);
+
   const value = useMemo<CartContextValue>(() => {
     const count = lines.reduce((s, l) => s + l.quantity, 0);
     // AddToCart refuses to add a pending-price item, so this is a
@@ -138,10 +141,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       addItem,
       removeItem,
       setQuantity,
+      clear,
       count,
       total,
     };
-  }, [lines, isOpen]);
+  }, [lines, isOpen, clear]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

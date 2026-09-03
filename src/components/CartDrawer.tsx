@@ -8,6 +8,7 @@ import { useCart } from "@/lib/cart/CartContext";
 import { getProductBySlug } from "@/lib/commerce/data";
 import { Product, displayName } from "@/lib/commerce/types";
 import { Price } from "@/components/Price";
+import { CheckoutButton } from "@/components/CheckoutButton";
 
 function CartThumb({ product, className }: { product: Product; className: string }) {
   const image = product.media.find((m) => m.type === "image" && !m.url.startsWith("plate:"));
@@ -178,24 +179,9 @@ export function CartDrawer() {
                 <span className="tracking-[0.1em]">TOTAL</span>
                 <Price value={total} className="font-display text-lg" />
               </div>
-              {/* No live checkout/payment integration exists yet. A clickable
-                  button that just shows an alert() reads as fake — it implies
-                  something happened when nothing did. This is a plain
-                  disabled control with an honest reason, no click handler at
-                  all: no reservation is taken, so nothing here claims one is. */}
-              <button
-                disabled
-                title="Checkout is not connected yet"
-                className="w-full cursor-not-allowed border border-[var(--color-line)] py-3.5 text-xs tracking-[0.15em] text-[var(--color-fg-soft)]"
-              >
-                CHECKOUT UNAVAILABLE
-              </button>
+              <CheckoutButton />
               <p className="text-center text-[10px] tracking-[0.1em] text-[var(--color-fg-soft)]">
-                Online checkout isn&apos;t connected yet — browse the current construction at{" "}
-                <Link href="/shop" onClick={close} className="underline underline-offset-2 hover:text-[var(--color-accent)]">
-                  /shop
-                </Link>
-                .
+                Secure payment powered by Stripe. Shipping details are collected at checkout.
               </p>
             </div>
           </motion.aside>
