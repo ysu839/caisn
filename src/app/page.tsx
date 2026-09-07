@@ -36,33 +36,21 @@ export default async function Home() {
 
         <section
           id="more-products"
-          className="bg-[var(--paper)] px-[var(--gutter)] py-20 text-[var(--ink)] md:py-32"
+          className="bg-[var(--paper)] px-[var(--gutter)] py-16 text-[var(--ink)] md:py-24"
         >
-          <div className="grid gap-10 border-b border-[var(--color-line)] pb-10 md:grid-cols-12 md:items-end">
-            <div className="md:col-span-9">
-              <span className="tnum text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent)]">
-                02 / In development
-              </span>
-              <h2 className="font-display mt-5 text-[clamp(4.5rem,11vw,11rem)] font-semibold uppercase leading-[0.7] tracking-[-0.08em]">
-                More<br />
-                <span className="text-transparent [-webkit-text-stroke:1.5px_var(--ink)]">
-                  products.
-                </span>
-              </h2>
-            </div>
-            <p className="max-w-sm text-sm leading-relaxed text-[var(--color-fg-soft)] md:col-span-3 md:justify-self-end">
-              New CAISN pieces are being developed. Nothing enters the collection until the construction, fit and imagery are right.
-            </p>
+          <div className="mb-7 flex items-end justify-between gap-6">
+            <h2 className="font-display text-3xl font-medium tracking-[-0.04em] md:text-5xl">
+              More products
+            </h2>
+            <span className="text-sm text-[var(--color-fg-soft)]">Coming soon</span>
           </div>
 
-          <div className="grid min-h-64 place-items-center border-b border-[var(--color-line)] py-16 text-center md:min-h-80">
+          <div className="grid min-h-80 place-items-center bg-[#f3f3f1] px-6 py-16 text-center md:min-h-[28rem]">
             <div>
-              <span className="tnum text-[10px] uppercase tracking-[0.2em] text-[var(--color-fg-soft)]">
-                Catalog 00
-              </span>
-              <p className="font-display mt-4 text-3xl font-medium uppercase tracking-[-0.04em] md:text-5xl">
-                New structures incoming.
+              <p className="font-display text-2xl font-medium tracking-[-0.03em] md:text-3xl">
+                The next collection is in development.
               </p>
+              <p className="mt-3 text-sm text-[var(--color-fg-soft)]">Nothing available yet.</p>
             </div>
           </div>
         </section>
