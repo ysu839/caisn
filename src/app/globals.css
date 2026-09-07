@@ -24,6 +24,7 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-surface-soft: #f3f3f1;
   /* Studio "mat" — the constant, warm off-white ground product
      photography sits on regardless of site theme. Real garment photos
      are shot on a light studio backdrop; forcing that backdrop's
@@ -63,6 +64,7 @@
   --color-line: var(--color-line);
   --color-accent: var(--color-accent);
   --color-accent-soft: var(--color-accent-soft);
+  --color-surface-soft: var(--color-surface-soft);
   --color-surface-plate: var(--surface-plate);
   --font-display: var(--font-display);
   --font-body: var(--font-body);

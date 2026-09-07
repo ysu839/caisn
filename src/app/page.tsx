@@ -38,19 +38,19 @@ export default async function Home() {
           id="more-products"
           className="bg-[var(--paper)] px-[var(--gutter)] py-16 text-[var(--ink)] md:py-24"
         >
-          <div className="mb-7 flex items-end justify-between gap-6">
+          <div className="mb-7 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-end sm:gap-6">
             <h2 className="font-display text-3xl font-medium tracking-[-0.04em] md:text-5xl">
               More products
             </h2>
             <span className="text-sm text-[var(--color-fg-soft)]">Coming soon</span>
           </div>
 
-          <div className="grid min-h-80 place-items-center bg-[#f3f3f1] px-6 py-16 text-center md:min-h-[28rem]">
+          <div className="grid min-h-80 place-items-center bg-[var(--color-surface-soft)] px-6 py-16 text-center md:min-h-[28rem]">
             <div>
               <p className="font-display text-2xl font-medium tracking-[-0.03em] md:text-3xl">
-                The next collection is in development.
+                New products coming soon.
               </p>
-              <p className="mt-3 text-sm text-[var(--color-fg-soft)]">Nothing available yet.</p>
+              <p className="mt-3 text-sm text-[var(--color-fg-soft)]">The next CAISN collection is in development.</p>
             </div>
           </div>
         </section>
