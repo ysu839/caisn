@@ -11,55 +11,37 @@ export function Navbar() {
   const { count, open } = useCart();
   const [searchOpen, setSearchOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
-  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     getProducts().then(setProducts);
   }, []);
 
-  // Background/blur only kicks in once the page has actually scrolled
-  // past the hero's top padding — the nav stays transparent over the
-  // hero itself, then gains a readable ground for the darker sections
-  // (CategorySection, CampaignSection) further down.
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <>
       <nav
-        className="sticky top-0 z-40 grid h-[4.5rem] grid-cols-3 items-center px-[var(--gutter)] text-[11px] uppercase tracking-[0.15em] transition-colors"
-        style={{
-          backgroundColor: scrolled ? "var(--color-bg)" : "transparent",
-          borderBottom: scrolled ? "1px solid var(--color-line)" : "1px solid transparent",
-          transitionDuration: "var(--dur-snap)",
-          transitionTimingFunction: "var(--ease-snap)",
-        }}
+        className="sticky top-0 z-40 grid h-[4.5rem] grid-cols-3 items-center border-b border-white/15 bg-[var(--ink)] px-[var(--gutter)] text-[11px] uppercase tracking-[0.15em] text-[var(--paper)]"
       >
-        <Link href="/" className="font-display -m-2 justify-self-start p-2 text-xl font-semibold tracking-[-0.04em]">
+        <Link href="/" className="font-display -m-2 justify-self-start p-2 text-xl font-semibold tracking-[-0.06em]">
           CAISN
         </Link>
         <div className="hidden justify-self-center gap-8 md:flex">
           <Link
             href="/shop"
-            className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]"
+            className="-m-2.5 p-2.5 text-white/70 transition-colors hover:text-[var(--color-accent-soft)]"
             style={{ transitionDuration: "var(--dur-snap)" }}
           >
             SHOP
           </Link>
           <Link
             href="/#collection"
-            className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]"
+            className="-m-2.5 p-2.5 text-white/70 transition-colors hover:text-[var(--color-accent-soft)]"
             style={{ transitionDuration: "var(--dur-snap)" }}
           >
             COLLECTION
           </Link>
           <Link
             href="/#about"
-            className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]"
+            className="-m-2.5 p-2.5 text-white/70 transition-colors hover:text-[var(--color-accent-soft)]"
             style={{ transitionDuration: "var(--dur-snap)" }}
           >
             ABOUT
@@ -68,7 +50,7 @@ export function Navbar() {
         <div className="flex items-center justify-self-end gap-2 sm:gap-4">
           <button
             onClick={() => setSearchOpen(true)}
-            className="-m-2.5 p-2.5 transition-colors hover:text-[var(--color-accent)]"
+            className="-m-2.5 p-2.5 text-white/70 transition-colors hover:text-[var(--color-accent-soft)]"
             style={{ transitionDuration: "var(--dur-snap)" }}
             aria-label="Open search"
           >

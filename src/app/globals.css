@@ -7,17 +7,15 @@
 
 :root {
   /* Color */
-  --ink: #0a0a0a;
-  --paper: #f3f0e9;
-  /* CAISN Oxblood — a muted, desaturated wine-red. Reads as premium
-     streetwear/label identity (not a UI-kit orange), sits quietly
-     against washed graphite and heather-grey garments, and warms the
-     cream/bone detailing instead of fighting it. Used sparingly:
-     selected states, edition markers, cart feedback, links. */
-  --accent: #762f2a;
-  --accent-soft: #a75e57;
-  --line: #cbc7bd;
-  --ink-soft: #575650;
+  --ink: #080909;
+  --paper: #efeee9;
+  /* Cold steel is the only chromatic signal in the system. It gives
+     CAISN a technical, after-dark identity without acid green/yellow
+     or the warmer red used in the previous direction. */
+  --accent: #7788ff;
+  --accent-soft: #aeb8ff;
+  --line: #c7c6c0;
+  --ink-soft: #5a5b58;
 
   /* Color roles (light default) */
   --color-bg: var(--paper);
@@ -31,9 +29,9 @@
      are shot on a light studio backdrop; forcing that backdrop's
      surrounding container to match (instead of the page's dark-mode
      background) keeps the photo from reading as a pasted-in JPG. */
-  --surface-plate: #e8e5de;
-  --product-stage: #ecebe7;
-  --product-stage-edge: #dfddd7;
+  --surface-plate: #e2e3e1;
+  --product-stage: #e7e8e6;
+  --product-stage-edge: #d6d8d6;
 
   /* Type */
   --font-display: var(--font-archivo);
@@ -52,10 +50,10 @@
 }
 
 :root[data-theme="dark"] {
-  --color-bg: #111110;
-  --color-fg: #ede9e6;
-  --color-fg-soft: #a19d97;
-  --color-line: #2a2a28;
+  --color-bg: #0d0e0f;
+  --color-fg: #efeee9;
+  --color-fg-soft: #9b9d9b;
+  --color-line: #292b2c;
 }
 
 @theme inline {
@@ -111,8 +109,9 @@ a {
 .product-stage {
   background-color: var(--product-stage);
   background-image:
-    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.28) 34%, transparent 66%),
-    linear-gradient(145deg, #f1f0ec 0%, var(--product-stage) 52%, var(--product-stage-edge) 100%);
+    linear-gradient(90deg, transparent 49.9%, rgba(8, 9, 9, 0.055) 50%, transparent 50.1%),
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.2) 34%, transparent 66%),
+    linear-gradient(145deg, #eff0ed 0%, var(--product-stage) 52%, var(--product-stage-edge) 100%);
 }
 
 /* tabular numerals utility for price / stock / index */
