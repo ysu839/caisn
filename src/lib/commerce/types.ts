@@ -31,7 +31,7 @@ export type ProductMedia = {
  */
 export type Category = "Hoodies & Zip-Ups" | "Bottoms" | "Sets" | "Longsleeves";
 
-export const CATEGORIES: Category[] = ["Hoodies & Zip-Ups", "Bottoms", "Sets", "Longsleeves"];
+export const CATEGORIES: Category[] = ["Hoodies & Zip-Ups", "Bottoms"];
 
 export type Product = {
   id: string;

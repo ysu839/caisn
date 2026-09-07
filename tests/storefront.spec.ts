@@ -1,18 +1,27 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("empty catalog baseline", () => {
-  test("homepage presents the reset state", async ({ page }) => {
+test.describe("Archive 03 catalog", () => {
+  test("homepage presents the collection and future-product section", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: /the next structure/i })).toBeVisible();
-    await expect(page.getByText("Catalog cleared")).toBeVisible();
-    await expect(page.locator('a[href^="/product/"]')).toHaveCount(0);
+    await expect(page.getByText("CAISN ARCHIVE 03 HOODIE").first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "More products" })).toBeVisible();
+    await expect(page.getByText("New products coming soon.")).toBeVisible();
   });
 
-  test("shop has no product cards and explains the rebuild", async ({ page }) => {
+  test("shop lists both Archive 03 pieces", async ({ page }) => {
     await page.goto("/shop");
-    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(0);
-    await expect(page.getByText("New products incoming.")).toBeVisible();
-    await expect(page.getByText("00", { exact: true })).toBeVisible();
+    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(2);
+    await expect(page.getByText("CAISN ARCHIVE 03 HOODIE")).toBeVisible();
+    await expect(page.getByText("CAISN ARCHIVE 03 WIDE JOGGER")).toBeVisible();
+    await expect(page.getByText("02", { exact: true })).toBeVisible();
+  });
+
+  test("product pages include front and back photography", async ({ page }) => {
+    await page.goto("/product/caisn-archive-03-hoodie");
+    await expect(page.getByRole("heading", { name: "CAISN ARCHIVE 03 HOODIE" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /front/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /back/i })).toBeVisible();
+    await expect(page.getByText("COMPLETE THE LOOK")).toBeVisible();
   });
 
   test("old product routes return not found", async ({ page }) => {
@@ -20,7 +29,7 @@ test.describe("empty catalog baseline", () => {
     expect(response?.status()).toBe(404);
   });
 
-  test("search opens with an empty catalog", async ({ page }) => {
+  test("search opens with the live catalog", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Open search" }).click();
     await expect(page.getByRole("dialog", { name: "Search" })).toBeVisible();
