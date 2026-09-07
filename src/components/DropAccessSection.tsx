@@ -7,9 +7,8 @@ import { Product } from "@/lib/commerce/types";
  * text block promising a signup that doesn't exist. No email backend
  * exists, so this never collects an address or claims exclusivity —
  * it's a compact, honest routing module: browse now, checkout is
- * coming. One real garment crop distinct from the jogger's other
- * homepage appearance (FormaConnection shows the front; this uses the
- * back, for a different storytelling purpose).
+ * coming. When available, it uses an alternate garment angle for a
+ * different storytelling purpose.
  */
 export function DropAccessSection({ product }: { product?: Product }) {
   const images = product?.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:")) ?? [];

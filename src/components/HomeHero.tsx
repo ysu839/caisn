@@ -34,7 +34,7 @@ export function HomeHero({ product }: { product?: Product }) {
             transition={{ delay: 0.15, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="mb-8 flex items-center gap-4 text-[10px] uppercase tracking-[0.2em] text-white/50">
-              <span>01 / The Forma Study</span>
+              <span>01 / Current study</span>
               <span className="h-px w-12 bg-[var(--color-accent)]" />
               <span>Helmond / NL</span>
             </div>
@@ -51,7 +51,7 @@ export function HomeHero({ product }: { product?: Product }) {
                   {displayName(product.name)}
                 </p>
                 <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/65">
-                  Heavyweight form, bone detailing and a silhouette built to keep its structure.
+                  A new CAISN construction built around proportion, material and movement.
                 </p>
               </div>
               <Price value={product.price} className="font-display text-2xl" />

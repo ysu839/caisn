@@ -106,19 +106,17 @@ export function ShopGrid({ products }: { products: Product[] }) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="py-24 text-center">
-          <p className="text-sm text-[var(--color-fg-soft)]">No products in this category yet.</p>
-          <button
-            onClick={() => setCategory("all")}
-            className="mt-4 text-xs tracking-[0.1em] underline underline-offset-2 hover:text-[var(--color-accent)]"
-          >
-            VIEW ALL PRODUCTS
-          </button>
+        <div className="border-y border-[var(--color-line)] py-24 text-center md:py-36">
+          <span className="tnum text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)]">00 / RESET</span>
+          <p className="font-display mt-4 text-4xl font-medium uppercase tracking-[-0.04em] md:text-6xl">New products incoming.</p>
+          <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-[var(--color-fg-soft)]">
+            The previous catalog has been cleared while the next CAISN construction is developed.
+          </p>
         </div>
       ) : (
         <div className={`grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-10 ${lgColsClass}`}>
           {filtered.map((p, i) => {
-            const isBundle = p.slug === "forma-tracksuit";
+            const isBundle = p.category === "Sets";
             const productImages = p.media.filter((m) => m.type === "image" && !m.url.startsWith("plate:"));
             const front = p.cardMedia ?? productImages[0];
             const back = isBundle || p.cardMedia ? undefined : productImages[1];

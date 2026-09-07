@@ -50,8 +50,7 @@ export type Product = {
    * is a placeholder sentinel — ProductVisual falls back to the
    * art-directed ProductPlate graphic for those. Any other `type:
    * "image"` entry is treated as a real, resolvable path under
-   * /public and rendered directly (see ECHO for the first real
-   * example). The interactive 3D viewer/hero is separate — that
+   * /public and rendered directly. The interactive 3D viewer/hero is separate — that
    * reads `model3dUrl` below, not this field.
    */
   media: ProductMedia[];
@@ -64,7 +63,7 @@ export type Product = {
   model3dUrl?: string;
   /**
    * Slug of a separately-sold product designed to pair with this one
-   * (e.g. a set's top + bottom). Purely a cross-link — the two remain
+   * (for example, a set's top + bottom). Purely a cross-link — the two remain
    * distinct, independently purchasable products; this does not imply
    * a bundle/set SKU.
    */

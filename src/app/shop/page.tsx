@@ -26,7 +26,7 @@ export default async function ShopPage() {
           </div>
           <div className="flex items-end justify-between gap-6 md:col-span-4">
             <p className="max-w-xs text-sm leading-relaxed text-[var(--color-fg-soft)]">
-              Drop 01 and current constructions. Designed as individual pieces, built to work together.
+              The catalog is being rebuilt. New constructions will appear here when every detail and image is ready.
             </p>
             <span className="tnum text-3xl font-light">{String(products.length).padStart(2, "0")}</span>
           </div>

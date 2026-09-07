@@ -23,17 +23,8 @@ export function CartDrawer() {
   const { isOpen, close, lines, total, removeItem, setQuantity } = useCart();
   const closeRef = useRef<HTMLButtonElement>(null);
   const [recommended, setRecommended] = useState<Product | null>(null);
-  const [heroProduct, setHeroProduct] = useState<Product | null>(null);
 
-  // Empty-cart state suggests the flagship product instead of sitting
-  // dead — fetched from the catalog rather than hardcoded so it can
-  // never drift from the real name/price.
-  useEffect(() => {
-    getProductBySlug("echo-zip-hoodie").then((p) => setHeroProduct(p ?? null));
-  }, []);
-
-  // Recommend the matching FORMA piece when the cart holds one half of
-  // the pair but not the other — a light nudge, not a hard upsell.
+  // Recommend a matching piece when the cart holds one half of a pair.
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -99,21 +90,7 @@ export function CartDrawer() {
 
             <div className="mt-8 flex-1 space-y-6 overflow-y-auto">
               {lines.length === 0 && (
-                <div className="space-y-6">
-                  <p className="text-sm text-[var(--color-fg-soft)]">Your cart is empty.</p>
-                  {heroProduct && (
-                    <Link
-                      href={`/product/${heroProduct.slug}`}
-                      onClick={close}
-                      className="group block border border-[var(--color-line)] p-4 transition-colors hover:border-[var(--color-fg)]"
-                      style={{ transitionDuration: "var(--dur-snap)" }}
-                    >
-                      <p className="text-[10px] tracking-[0.15em] text-[var(--color-fg-soft)]">START WITH</p>
-                      <p className="font-display mt-1 text-lg font-medium">{displayName(heroProduct.name)}</p>
-                      <Price value={heroProduct.price} className="mt-1 block text-sm text-[var(--color-fg-soft)]" />
-                    </Link>
-                  )}
-                </div>
+                <p className="text-sm text-[var(--color-fg-soft)]">Your cart is empty.</p>
               )}
               {lines.map((l, i) => (
                 <div key={i} className="flex gap-3 border-b border-[var(--color-line)] pb-4 text-sm">
@@ -167,7 +144,7 @@ export function CartDrawer() {
                 >
                   <CartThumb product={recommended} className="h-14 w-12" />
                   <div className="min-w-0">
-                    <p className="text-[10px] tracking-[0.15em] text-[var(--color-accent)]">COMPLETE THE FORMA</p>
+                    <p className="text-[10px] tracking-[0.15em] text-[var(--color-accent)]">COMPLETE THE LOOK</p>
                     <p className="font-display truncate text-sm font-medium">{displayName(recommended.name)}</p>
                   </div>
                 </Link>

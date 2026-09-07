@@ -3,19 +3,43 @@ import { getProducts } from "@/lib/commerce/data";
 import { Navbar } from "@/components/Navbar";
 import { BentoGrid } from "@/components/BentoGrid";
 import { HomeHero } from "@/components/HomeHero";
-import { FormaConnection } from "@/components/FormaConnection";
 import { AboutSection } from "@/components/AboutSection";
 import { DropAccessSection } from "@/components/DropAccessSection";
 import { Footer } from "@/components/Footer";
 
 export default async function Home() {
   const products = await getProducts();
-  // FORMA is the strongest expression of the current visual system and
-  // leads the campaign; the wider catalog remains immediately below.
-  const featured = products.find((p) => p.slug === "forma-zip-up") ?? products[0];
-  const zipUp = products.find((p) => p.slug === "forma-zip-up");
-  const jogger = products.find((p) => p.slug === "forma-jogger");
-  const tracksuit = products.find((p) => p.slug === "forma-tracksuit");
+  if (products.length === 0) {
+    return (
+      <main className="relative">
+        <Navbar />
+        <section className="relative flex min-h-[calc(100svh-4.5rem)] flex-col overflow-hidden bg-[var(--ink)] px-[var(--gutter)] py-10 text-[var(--paper)] md:py-14">
+          <div className="flex justify-between text-[10px] uppercase tracking-[0.2em] text-white/45">
+            <span>CAISN / RESET 001</span>
+            <span>HELMOND / NL</span>
+          </div>
+          <div className="my-auto">
+            <p className="mb-5 text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent-soft)]">
+              New system in development
+            </p>
+            <h1 className="font-display text-[clamp(4.8rem,13vw,14rem)] font-semibold uppercase leading-[0.67] tracking-[-0.09em]">
+              The next<br />
+              <span className="text-transparent [-webkit-text-stroke:1.5px_var(--paper)]">structure.</span>
+            </h1>
+          </div>
+          <div className="grid gap-6 border-t border-white/20 pt-5 text-xs uppercase tracking-[0.14em] text-white/55 md:grid-cols-3">
+            <span>Catalog cleared</span>
+            <span>New products incoming</span>
+            <span className="md:text-right">Built, not printed</span>
+          </div>
+        </section>
+        <AboutSection />
+        <Footer />
+      </main>
+    );
+  }
+
+  const featured = products[0];
 
   return (
     <main className="relative">
@@ -76,13 +100,9 @@ export default async function Home() {
         <BentoGrid products={products} />
       </section>
 
-      {zipUp && jogger && tracksuit && (
-        <FormaConnection zipUp={zipUp} jogger={jogger} tracksuit={tracksuit} />
-      )}
-
       <AboutSection product={featured} />
 
-      <DropAccessSection product={jogger} />
+      <DropAccessSection product={featured} />
 
       <Footer />
     </main>

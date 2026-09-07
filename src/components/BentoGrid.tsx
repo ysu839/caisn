@@ -63,7 +63,7 @@ function BentoPairCard({ a, b, className }: { a: Product; b: Product; className:
         })}
       </div>
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 text-[10px] tracking-[0.15em] text-[var(--ink-soft)]">
-        <span className="font-display text-sm font-semibold tracking-normal text-[var(--ink)]">THE FORMA SET</span>
+        <span className="font-display text-sm font-semibold tracking-normal text-[var(--ink)]">DESIGNED TO PAIR</span>
         <span className="text-[var(--color-accent)]">SOLD SEPARATELY</span>
       </div>
     </div>
@@ -200,17 +200,11 @@ type BentoItem = { kind: "single"; product: Product } | { kind: "pair"; a: Produ
  * this tall than one product with a lot of empty frame around it.
  */
 function groupForBento(products: Product[]): BentoItem[] {
-  // The dedicated tracksuit SKU is the homepage's single FORMA set
-  // presentation. Keep the separately purchasable top and bottom in
-  // /shop, but do not repeat them here as a second split-price set card.
-  const homepageProducts = products.some((p) => p.slug === "forma-tracksuit")
-    ? products.filter((p) => p.slug !== "forma-zip-up" && p.slug !== "forma-jogger")
-    : products;
   const consumed = new Set<string>();
   const items: BentoItem[] = [];
-  for (const p of homepageProducts) {
+  for (const p of products) {
     if (consumed.has(p.id)) continue;
-    const pair = p.pairSlug ? homepageProducts.find((q) => q.slug === p.pairSlug) : undefined;
+    const pair = p.pairSlug ? products.find((q) => q.slug === p.pairSlug) : undefined;
     if (pair) {
       items.push({ kind: "pair", a: p, b: pair });
       consumed.add(p.id);
@@ -236,10 +230,7 @@ export function BentoGrid({ products }: { products: Product[] }) {
   // row, so the closing item also becomes "lg" — a large opening and
   // closing feature bookending the mds in between, which both reads as
   // an intentional composition and always tiles exactly. The first
-  // item is the featured card — ECHO leads the catalog order in
-  // data.ts, so this naturally makes it the large feature per the
-  // brief's "one large ECHO feature, one FORMA pair, one tracksuit"
-  // composition, without hardcoding a slug check here.
+  // item is the featured card, without hardcoding any product identity.
 
   useEffect(() => {
     if (!active) return;
