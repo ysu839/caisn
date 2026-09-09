@@ -43,7 +43,7 @@ export function ProductCardImage({
               priority={priority}
               onLoad={() => setLoaded(true)}
               sizes="(min-width: 1024px) 15vw, (min-width: 640px) 22vw, 45vw"
-              className="object-contain p-4 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity"
+              className="object-cover transition-opacity"
               style={{ opacity: loaded ? 1 : 0, transitionDuration: "220ms" }}
             />
           </div>
@@ -54,7 +54,7 @@ export function ProductCardImage({
               fill
               priority={priority}
               sizes="(min-width: 1024px) 15vw, (min-width: 640px) 22vw, 45vw"
-              className="object-contain p-4 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)]"
+              className="object-cover"
             />
           </div>
         </div>
@@ -78,7 +78,7 @@ export function ProductCardImage({
         priority={priority}
         onLoad={() => setLoaded(true)}
         sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-        className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity"
+        className="object-cover transition-opacity"
         style={{ opacity: loaded ? 1 : 0, transitionDuration: "220ms" }}
       />
       {/* Front/back crossfade on hover — pointer devices only, so touch
@@ -90,7 +90,7 @@ export function ProductCardImage({
           aria-hidden
           fill
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-          className="object-contain p-6 opacity-0 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)] transition-opacity [@media(hover:hover)]:group-hover:opacity-100"
+          className="object-cover opacity-0 transition-opacity [@media(hover:hover)]:group-hover:opacity-100"
           style={{ transitionDuration: "var(--dur-drift)" }}
         />
       )}

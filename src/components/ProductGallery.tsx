@@ -46,7 +46,7 @@ export function ProductGallery({ product }: { product: Product }) {
               transitionDuration: "var(--dur-snap)",
             }}
           >
-            <Image src={img.url} alt="" aria-hidden fill sizes="80px" className="object-contain p-1.5" />
+            <Image src={img.url} alt="" aria-hidden fill sizes="80px" className="object-cover" />
           </span>
           {captionFor(img.alt) && (
             <span
@@ -78,7 +78,7 @@ export function ProductGallery({ product }: { product: Product }) {
           fill
           priority
           sizes="(min-width: 768px) 42vw, 90vw"
-          className="object-contain p-6 drop-shadow-[0_18px_28px_rgba(10,10,10,0.16)]"
+          className="object-cover"
         />
       </div>
     </div>
