@@ -6,6 +6,7 @@ import { HomeHero } from "@/components/HomeHero";
 import { AboutSection } from "@/components/AboutSection";
 import { DropAccessSection } from "@/components/DropAccessSection";
 import { Footer } from "@/components/Footer";
+import { CATEGORIES } from "@/lib/commerce/types";
 
 function MoreProductsSection() {
   return (
@@ -77,13 +78,13 @@ export default async function Home() {
       <section id="collection" className="bg-[var(--paper)] px-[var(--gutter)] py-20 text-[var(--ink)] md:py-32">
         <div className="mb-10 grid grid-cols-1 items-end gap-6 border-b border-[var(--color-line)] pb-6 md:grid-cols-12">
           <div className="md:col-span-8">
-            <span className="tnum text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent)]">02 / Archive 03</span>
+            <span className="tnum text-[10px] uppercase tracking-[0.2em] text-[var(--color-accent)]">02 / {featured.edition}</span>
             <h2 className="font-display mt-4 text-[clamp(4rem,9vw,9rem)] font-semibold uppercase leading-[0.74] tracking-[-0.075em]">
-              Archive<br /><span className="text-transparent [-webkit-text-stroke:1.5px_var(--ink)]">zero three.</span>
+              Current<br /><span className="text-transparent [-webkit-text-stroke:1.5px_var(--ink)]">structure.</span>
             </h2>
           </div>
           <p className="max-w-sm text-sm leading-relaxed text-[var(--color-fg-soft)] md:col-span-4 md:justify-self-end">
-            Archive 03 introduces washed umber fleece, controlled volume and two silhouettes designed to work as one system.
+            The current CAISN collection brings individual garments together as one considered structural system.
           </p>
         </div>
         <nav
@@ -93,21 +94,19 @@ export default async function Home() {
           <span className="tnum text-[10px] uppercase tracking-[0.18em] text-[var(--color-fg-soft)]">
             Shop by category
           </span>
-          <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0">
-            <Link
-              href="/shop?category=Hoodies%20%26%20Zip-Ups"
-              className="flex shrink-0 items-center gap-2 border-b border-transparent px-1 py-2 text-[10px] uppercase tracking-[0.14em] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
-            >
-              <span className="text-[var(--color-accent)]" aria-hidden>01</span>
-              Hoodies &amp; Zip-Ups
-            </Link>
-            <Link
-              href="/shop?category=Bottoms"
-              className="flex shrink-0 items-center gap-2 border-b border-transparent px-1 py-2 text-[10px] uppercase tracking-[0.14em] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
-            >
-              <span className="text-[var(--color-accent)]" aria-hidden>02</span>
-              Bottoms
-            </Link>
+          <div className="flex gap-4 overflow-x-auto pb-1 sm:pb-0">
+            {CATEGORIES.map((category, index) => (
+              <Link
+                key={category}
+                href={`/shop?category=${encodeURIComponent(category)}`}
+                className="flex shrink-0 items-center gap-2 border-b border-transparent px-1 py-2 text-[10px] uppercase tracking-[0.14em] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+              >
+                <span className="text-[var(--color-accent)]" aria-hidden>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {category}
+              </Link>
+            ))}
           </div>
         </nav>
 

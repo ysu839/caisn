@@ -34,7 +34,7 @@ export function HomeHero({ product }: { product?: Product }) {
             transition={{ delay: 0.15, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="mb-8 flex items-center gap-4 text-[10px] uppercase tracking-[0.2em] text-white/50">
-              <span>01 / Archive 03</span>
+              <span>01 / {product.edition}</span>
               <span className="h-px w-12 bg-[var(--color-accent)]" />
               <span>Helmond / NL</span>
             </div>
@@ -69,7 +69,7 @@ export function HomeHero({ product }: { product?: Product }) {
                 href="#collection"
                 className="inline-flex min-h-12 items-center border-b border-transparent px-3 text-[11px] uppercase tracking-[0.15em] text-white/60 transition-colors hover:border-white/50 hover:text-white"
               >
-                Explore Archive 03
+                Explore collection
               </Link>
             </div>
           </motion.div>
@@ -100,7 +100,7 @@ export function HomeHero({ product }: { product?: Product }) {
           <div className="pointer-events-none absolute inset-[7%] border border-[var(--ink)]/15" aria-hidden />
           <div className="pointer-events-none absolute bottom-[7%] left-[7%] right-[7%] h-px bg-[var(--ink)]/15" aria-hidden />
           <span className="absolute left-[9%] top-[9%] text-[9px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
-            Structure / A03
+            Structure / {product.id}
           </span>
           <span className="tnum absolute bottom-[9%] right-[9%] text-[9px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
             Front elevation

@@ -26,7 +26,9 @@ export default async function ShopPage() {
           </div>
           <div className="flex items-end justify-between gap-6 md:col-span-4">
             <p className="max-w-xs text-sm leading-relaxed text-[var(--color-fg-soft)]">
-              Shop the Archive 03 hoodie and wide jogger in Washed Umber. Designed together, sold separately.
+              {products.length === 0
+                ? "The current catalog has been cleared. New CAISN structures are in development."
+                : "Explore the current CAISN collection. Each piece is designed as part of one structural system."}
             </p>
             <span className="tnum text-3xl font-light">{String(products.length).padStart(2, "0")}</span>
           </div>

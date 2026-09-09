@@ -1,32 +1,30 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Archive 03 catalog", () => {
-  test("homepage presents the collection and future-product section", async ({ page }) => {
+test.describe("Structure 01 catalog", () => {
+  test("homepage presents the new collection", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("CAISN ARCHIVE 03 HOODIE").first()).toBeVisible();
+    await expect(page.getByText("CAISN VAULT WASH ZIP").first()).toBeVisible();
     await expect(page.getByRole("heading", { name: "More products" })).toBeVisible();
     await expect(page.getByText("New products coming soon.")).toBeVisible();
   });
 
-  test("shop lists both Archive 03 pieces", async ({ page }) => {
+  test("shop lists all five Structure 01 pieces", async ({ page }) => {
     await page.goto("/shop");
-    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(2);
-    await expect(page.getByText("CAISN ARCHIVE 03 HOODIE")).toBeVisible();
-    await expect(page.getByText("CAISN ARCHIVE 03 WIDE JOGGER")).toBeVisible();
-    await expect(page.getByText("02", { exact: true })).toBeVisible();
+    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(5);
+    await expect(page.getByText("CAISN VAULT WASH ZIP")).toBeVisible();
+    await expect(page.getByText("CAISN ARC FLARED DENIM")).toBeVisible();
+    await expect(page.getByText("05", { exact: true })).toBeVisible();
   });
 
-  test("product pages include front and back photography", async ({ page }) => {
-    await page.goto("/product/caisn-archive-03-hoodie");
-    await expect(page.getByRole("heading", { name: "CAISN ARCHIVE 03 HOODIE" })).toBeVisible();
-    await expect(page.getByRole("button", { name: /front/i })).toBeVisible();
-    await expect(page.getByRole("button", { name: /back/i })).toBeVisible();
-    await expect(page.getByText("COMPLETE THE LOOK")).toBeVisible();
-  });
-
-  test("old product routes return not found", async ({ page }) => {
-    const response = await page.goto("/product/old-product");
+  test("removed Archive 03 routes return not found", async ({ page }) => {
+    const response = await page.goto("/product/caisn-archive-03-hoodie");
     expect(response?.status()).toBe(404);
+  });
+
+  test("new product routes render", async ({ page }) => {
+    await page.goto("/product/caisn-vault-wash-zip");
+    await expect(page.getByRole("heading", { name: "CAISN VAULT WASH ZIP" })).toBeVisible();
+    await expect(page.getByText("COMPLETE THE LOOK")).toBeVisible();
   });
 
   test("search opens with the live catalog", async ({ page }) => {

@@ -29,9 +29,9 @@ export type ProductMedia = {
  * added here and to CATEGORIES below when real products exist for them;
  * nothing in the filter/nav UI needs to change to support that.
  */
-export type Category = "Hoodies & Zip-Ups" | "Bottoms" | "Sets" | "Longsleeves";
+export type Category = "Hoodies & Zip-Ups" | "Bottoms" | "Sets" | "Longsleeves" | "Denim" | "Overshirts";
 
-export const CATEGORIES: Category[] = ["Hoodies & Zip-Ups", "Bottoms"];
+export const CATEGORIES: Category[] = ["Hoodies & Zip-Ups", "Bottoms", "Longsleeves", "Denim", "Overshirts"];
 
 export type Product = {
   id: string;

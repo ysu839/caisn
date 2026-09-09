@@ -29,12 +29,14 @@ export function DropAccessSection({ product }: { product?: Product }) {
           </div>
         )}
         <div className={image ? "md:col-span-6 md:col-start-7" : "md:col-span-12 text-center md:text-left"}>
-          <span className="tnum text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)]">ARCHIVE 03 / COMING SOON</span>
+          <span className="tnum text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)]">
+            {product?.edition ?? "NEXT EDITION"} / COMING SOON
+          </span>
           <p className="font-display mt-3 text-4xl font-medium uppercase leading-[0.9] tracking-[-0.045em] md:text-6xl">
             One system.<br />Two structures.
           </p>
           <p className="mt-5 max-w-md text-sm leading-relaxed text-[var(--color-fg-soft)]">
-            Discover the Archive 03 hoodie and wide jogger before the first release opens.
+            Discover the next CAISN structures before the release opens.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link
@@ -42,7 +44,7 @@ export function DropAccessSection({ product }: { product?: Product }) {
               className="inline-block whitespace-nowrap rounded-[var(--radius)] border border-[var(--color-fg)] bg-[var(--color-fg)] px-6 py-3 text-xs font-medium tracking-[0.15em] text-[var(--color-bg)] transition-colors hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]"
               style={{ transitionDuration: "var(--dur-snap)" }}
             >
-              EXPLORE ARCHIVE 03
+              EXPLORE COLLECTION
             </Link>
             <Link
               href="/shop"
