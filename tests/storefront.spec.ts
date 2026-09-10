@@ -3,9 +3,9 @@ import { test, expect } from "@playwright/test";
 test.describe("Structure 01 catalog", () => {
   test("homepage presents the new collection", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("CAISN VAULT WASH ZIP").first()).toBeVisible();
-    await expect(page.getByRole("heading", { name: "More products" })).toBeVisible();
-    await expect(page.getByText("New products coming soon.")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Form built for motion." })).toBeVisible();
+    await expect(page.getByText("VAULT WASH ZIP")).toBeVisible();
+    await expect(page.getByText("Built, not printed.")).toBeVisible();
   });
 
   test("shop lists all five Structure 01 pieces", async ({ page }) => {
